@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/constants/validators/validator.dart';
 import 'package:healthy/home.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +26,7 @@ class _MySignup2State extends State<MySignup2> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController assurance = TextEditingController();
   TextEditingController gender = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   String? valueChoose;
   List<String> listItem = ["CNSS", "AMO", "CNOPS"];
@@ -59,6 +64,7 @@ class _MySignup2State extends State<MySignup2> {
     });
   }
 
+  final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -120,11 +126,12 @@ class _MySignup2State extends State<MySignup2> {
                               height: size.height * 0.01,
                             ),
                             _buildInputField(
-                                controller: cinController,
-                                hintText: "CIN",
-                                obscureText: false,
-                                prefixIcon: Icons.card_membership_rounded,
-                                enabled: !_isUnderage),
+                              controller: cinController,
+                              hintText: "CIN",
+                              obscureText: false,
+                              prefixIcon: Icons.card_membership_rounded,
+                              enabled: !_isUnderage,
+                            ),
                             SizedBox(
                               height: 20.h,
                             ),
@@ -140,11 +147,12 @@ class _MySignup2State extends State<MySignup2> {
                               height: size.height * 0.01,
                             ),
                             _buildInputField(
-                                controller: adressController,
-                                hintText: "Enter your adress",
-                                obscureText: false,
-                                prefixIcon: Icons.home_outlined,
-                                enabled: !_isUnderage),
+                              controller: adressController,
+                              hintText: "Enter your adress",
+                              obscureText: false,
+                              prefixIcon: Icons.home_outlined,
+                              enabled: !_isUnderage,
+                            ),
                             SizedBox(
                               height: 20.h,
                             ),
@@ -159,19 +167,87 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            buildDropdownWidget(
-                              "Region",
-                              valueChoose3,
-                              regionController,
-                              listItem3,
-                              (newValue) {
-                                setState(() {
-                                  valueChoose3 = newValue;
-                                });
-                              },
-                              Icons.location_on,
-                              !_isUnderage,
+                            Container(
+                              width: 350.w,
+                              height: size.height * 0.06,
+                              decoration: BoxDecoration(
+                                
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: MyColors.borderSideColor),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  
+                                  children: [
+                                    Icon(
+                                      Icons.location_pin, 
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Expanded(
+                                      child: DropdownButton<String>(
+                                        hint: const Padding(
+                                          padding: EdgeInsets.all(18.0),
+                                          child: Text(
+                                            'Region',
+                                            style: TextStyle(
+                                              color: MyColors.hintTextColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        isExpanded: true,
+                                        underline: SizedBox(),
+                                        
+                                        icon: const Icon(
+                                          Icons.arrow_drop_down,
+                                          color: MyColors.primaryColor,
+                                        ),
+                                        value: valueChoose3,
+                                        onChanged: !_isUnderage
+                                            ? (newValue) {
+                                                setState(() {
+                                                  valueChoose3 = newValue!;
+                                                  regionController.text = newValue;
+                                                });
+                                              }
+                                            : null,
+                                        items: listItem3.map((valueItem) {
+                                          return DropdownMenuItem<String>(
+                                            value: valueItem,
+                                            child: Text(valueItem),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Text(
+                              'Phone',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              width: 300.w,
+                              height: size.height * 0.01,
+                            ),
+                            _buildInputField(
+                                controller: phoneController,
+                                hintText: "Enter your phone number",
+                                obscureText: false,
+                                prefixIcon: Icons.phone,
+                                enabled: !_isUnderage),
                             SizedBox(
                               height: 20.h,
                             ),
@@ -208,7 +284,7 @@ class _MySignup2State extends State<MySignup2> {
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1.5,
-                                      color:MyColors.borderSideColor,
+                                      color: MyColors.borderSideColor,
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -278,6 +354,81 @@ class _MySignup2State extends State<MySignup2> {
                               height: 20.h,
                             ),
                             Text(
+                              'Gender',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              width: 300.w,
+                              height: size.height * 0.01,
+                            ),
+                            Container(
+                              width: 350.w,
+                              height: size.height * 0.06,
+                              decoration: BoxDecoration(
+                                
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: MyColors.borderSideColor),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  
+                                  children: [
+                                    Icon(
+                                      Icons.male, 
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Expanded(
+                                      child: DropdownButton<String>(
+                                        hint: Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: const Text(
+                                            'Gender',
+                                            style: TextStyle(
+                                              color: MyColors.hintTextColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        isExpanded: true,
+                                        underline: SizedBox(),
+                                        
+                                        icon: const Icon(
+                                          Icons.arrow_drop_down,
+                                          color: MyColors.primaryColor,
+                                        ),
+                                        value: valueChoose2,
+                                        onChanged: !_isUnderage
+                                            ? (newValue) {
+                                                setState(() {
+                                                  valueChoose2 = newValue!;
+                                                  gender.text = newValue;
+                                                });
+                                              }
+                                            : null,
+                                        items: listItem2.map((valueItem) {
+                                          return DropdownMenuItem<String>(
+                                            value: valueItem,
+                                            child: Text(valueItem),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Text(
                               'Assurance',
                               style: TextStyle(
                                   color: Colors.black,
@@ -288,56 +439,87 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            buildDropdownWidget(
-                              "Assurance",
-                              valueChoose,
-                              assurance,
-                              listItem,
-                              (newValue) {
-                                setState(() {
-                                  valueChoose = newValue;
-                                });
-                              },
-                              Icons.shield,
-                              !_isUnderage,
+                             Container(
+                              width: 350.w,
+                              height: size.height * 0.06,
+                              decoration: BoxDecoration(
+                                
+                                color: Colors.white,
+                                border:
+                                    Border.all(color:MyColors.borderSideColor),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  
+                                  children: [
+                                    Icon(
+                                      Icons.shield, 
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Expanded(
+                                      child: DropdownButton<String>(
+                                        hint: Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: const Text(
+                                            ' Assurance',
+                                            style: TextStyle(
+                                              color: MyColors.hintTextColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        isExpanded: true,
+                                        underline: SizedBox(),
+                                        
+                                        icon: const Icon(
+                                          Icons.arrow_drop_down,
+                                          color: MyColors.primaryColor,
+                                        ),
+                                        value: valueChoose,
+                                        onChanged: !_isUnderage
+                                            ? (newValue) {
+                                                setState(() {
+                                                  valueChoose = newValue!;
+                                                  assurance.text = newValue;
+                                                });
+                                              }
+                                            : null,
+                                        items: listItem.map((valueItem) {
+                                          return DropdownMenuItem<String>(
+                                            value: valueItem,
+                                            child: Text(valueItem),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             SizedBox(
                               height: 20.h,
                             ),
-                            Text(
-                              'Gender',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.sp),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CupertinoSwitch(
+                                    activeColor: MyColors.primaryColor,
+                                    value: _lights,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        _lights = value;
+                                      });
+                                    }),
+                                Text(
+                                  'Do you have kids?',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height:20.h
-                            ),
-                           buildDropdownWidget(
-                              "Gender",
-                              valueChoose2,
-                              regionController,
-                              listItem2,
-                              (newValue) {
-                                setState(() {
-                                  valueChoose2 = newValue;
-                                });
-                              },
-                              Icons.male,
-                              !_isUnderage,
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            CupertinoSwitch(
-                                activeColor: Colors.blue,
-                                value: _lights,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    _lights = value;
-                                  });
-                                }),
                           ],
                         )),
                       ),
@@ -353,32 +535,42 @@ class _MySignup2State extends State<MySignup2> {
                               ),
                             ),
                             onPressed: () async {
-                              if (adressController.text == "" ||
-                                  cinController.text == "" ||
-                                  assurance.text == "" ||
-                                  birthDateController.text == "" ||
-                                  gender.text == "") {
+                              if (phoneController.text.isEmpty ||
+                                  adressController.text.isEmpty ||
+                                  cinController.text.isEmpty ||
+                                  assurance.text.isEmpty ||
+                                  birthDateController.text.isEmpty ||
+                                  gender.text.isEmpty ||
+                                  regionController.text.isEmpty) {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                                    .showSnackBar(const SnackBar(
                                   content: Text('All fields are required'),
                                   backgroundColor: Colors.red,
                                 ));
                               } else {
+                                String downloadUrl = await uploadImage(
+                                    'assets/images/user/user-svgrepo-com.svg');
                                 Map<String, dynamic> dataToSave = {
                                   'name': name,
                                   'lastname': lastname,
                                   "adress": adressController.text,
+                                  "region": regionController.text,
                                   'cin': cinController.text,
                                   'birthday': birthDateController.text,
                                   'assurance': assurance.text,
                                   'gender': gender.text,
+                                  'phone': phoneController.text,
+                                  'imageLink': downloadUrl,
                                 };
 
-                                FirebaseFirestore.instance
+                                await FirebaseFirestore.instance
                                     .collection("users")
-                                    .add(dataToSave);
+                                    .doc(user!.uid)
+                                    .set(dataToSave);
+                                  
+                                  final prefs = await SharedPreferences.getInstance();
+                      prefs.setString("imageLink", downloadUrl);
 
-                                //await FirestoreService().insertUser(name,lastname,adressController.text, cinController.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -498,4 +690,29 @@ Widget buildDropdownWidget(
       ),
     ),
   );
+}
+
+Future<String> uploadImage(String assetPath) async {
+  try {
+    // Load image data from the asset
+    final byteData = await rootBundle.load(assetPath);
+    final imageData = byteData.buffer.asUint8List();
+
+    // Extract the file name from the path
+    final fileName = assetPath.split('/').last;
+
+    // Upload image to Firebase Storage
+    final storageRef =
+        FirebaseStorage.instance.ref().child('ProfileImage/$fileName');
+    final uploadTask = storageRef.putData(imageData);
+
+    // Wait for the upload to complete and get the download URL
+    final snapshot = await uploadTask;
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+
+    return downloadUrl;
+  } catch (e) {
+    print('Error uploading image: $e');
+    return '';
+  }
 }
