@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243307408733",
+    "project_id": "healthytime-3f6b8",
+    "storage_bucket": "healthytime-3f6b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243307408733:android:5a6f691481b6c7aa328cb4",
+        "android_client_info": {
+          "package_name": "com.example.healthy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN6w1N6btf8clyyeGSbyw2BKbNBGAC4Pc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
