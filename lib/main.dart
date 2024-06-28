@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             visualDensity: VisualDensity.adaptivePlatformDensity,
             useMaterial3: true,
             textTheme: GoogleFonts.manropeTextTheme(),

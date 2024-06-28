@@ -41,7 +41,7 @@ class _MySignup1State extends State<MySignup1> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                  "assets/background/c4dd94d01c88c6d1275a8d878bb51b30.jpg"),
+                  "assets/background/back.jpeg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -90,7 +90,7 @@ class _MySignup1State extends State<MySignup1> {
                                   fontSize: 18),
                             ),
                             _buildInputField(
-                                controller: emailController,
+                                controller: nameController,
                                 hintText: "First name",
                                 obscureText: false),
                             const SizedBox(
@@ -162,7 +162,7 @@ class _MySignup1State extends State<MySignup1> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(150, 50),
-                              backgroundColor: const Color(0xff4cbbc5),
+                              backgroundColor: MyColors.primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -238,7 +238,7 @@ class _MySignup1State extends State<MySignup1> {
                                 child: const Text(
                                   "Log in",
                                   style: TextStyle(
-                                      color: Color(0xff4cbbc5),
+                                      color: MyColors.primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15.0),
                                 )),
@@ -266,7 +266,7 @@ Widget _buildInputField({
   
   return SizedBox(
     width: 300.w,
-    height: 60.h,
+    height: 50.h,
     child: TextFormField(
       controller: controller,
       obscureText: obscureText,

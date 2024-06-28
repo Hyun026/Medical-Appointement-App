@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/home.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,7 @@ class MySignup2 extends StatefulWidget {
 class _MySignup2State extends State<MySignup2> {
   TextEditingController cinController = TextEditingController();
   TextEditingController adressController = TextEditingController();
-
+  TextEditingController regionController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController assurance = TextEditingController();
   TextEditingController gender = TextEditingController();
@@ -28,8 +29,26 @@ class _MySignup2State extends State<MySignup2> {
   String? valueChoose2;
   List<String> listItem2 = ["Female", "Male"];
 
+  String? valueChoose3;
+  List<String> listItem3 = [
+    "Tanger-Tétouan-Al Hoceïma",
+    "L'Oriental",
+    "Fès-Meknès",
+    "Rabat-Salé-Kénitra",
+    "Béni Mellal-Khénifra",
+    "Casablanca-Settat",
+    "Marrakech-Safi",
+    "Drâa-Tafilalet",
+    "Souss-Massa",
+    "Guelmim-Oued Noun",
+    "Laâyoune-Sakia El Hamra",
+    "Dakhla-Oued Ed-Dahab"
+  ];
+
   String name = "";
   String lastname = "";
+  bool _isUnderage = false;
+  bool _lights = false;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -48,8 +67,7 @@ class _MySignup2State extends State<MySignup2> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                  "assets/background/c4dd94d01c88c6d1275a8d878bb51b30.jpg"),
+              image: AssetImage("assets/background/back.jpeg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -101,44 +119,12 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            SizedBox(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              child: TextFormField(
+                            _buildInputField(
                                 controller: cinController,
-                                decoration: const InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.card_membership_rounded,
-                                    color: Colors.black,
-                                    size: 25.0,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: ' CIN',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xffafafaf),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
+                                hintText: "CIN",
+                                obscureText: false,
+                                prefixIcon: Icons.card_membership_rounded,
+                                enabled: !_isUnderage),
                             SizedBox(
                               height: 20.h,
                             ),
@@ -153,43 +139,38 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            SizedBox(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              child: TextFormField(
+                            _buildInputField(
                                 controller: adressController,
-                                decoration: const InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.home_outlined,
-                                    color: Colors.black,
-                                    size: 25.0,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: 'Enter your local adress',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xffafafaf),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
+                                hintText: "Enter your adress",
+                                obscureText: false,
+                                prefixIcon: Icons.home_outlined,
+                                enabled: !_isUnderage),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Text(
+                              'Region',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              width: 300.w,
+                              height: size.height * 0.01,
+                            ),
+                            buildDropdownWidget(
+                              "Region",
+                              valueChoose3,
+                              regionController,
+                              listItem3,
+                              (newValue) {
+                                setState(() {
+                                  valueChoose3 = newValue;
+                                });
+                              },
+                              Icons.location_on,
+                              !_isUnderage,
                             ),
                             SizedBox(
                               height: 20.h,
@@ -220,14 +201,14 @@ class _MySignup2State extends State<MySignup2> {
                                   fillColor: Colors.white,
                                   hintText: ' Enter your birthday',
                                   hintStyle: TextStyle(
-                                    color: Color(0xffafafaf),
+                                    color: MyColors.hintTextColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1.5,
-                                      color: Color(0xffCAEBF3),
+                                      color:MyColors.borderSideColor,
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -235,7 +216,7 @@ class _MySignup2State extends State<MySignup2> {
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1.5,
-                                      color: Color(0xffCAEBF3),
+                                      color: MyColors.borderSideColor,
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -247,18 +228,49 @@ class _MySignup2State extends State<MySignup2> {
                                       .requestFocus(FocusNode());
 
                                   date = (await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime(2100)))!;
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2100),
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData.light().copyWith(
+                                            colorScheme:
+                                                const ColorScheme.light()
+                                                    .copyWith(
+                                              primary: MyColors.primaryColor,
+                                              onPrimary: Colors.white,
+                                            ),
+                                            canvasColor: Colors.white),
+                                        child: child!,
+                                      );
+                                    },
+                                  ))!;
 
                                   String dateFormatter = date.toIso8601String();
-
                                   DateTime dt = DateTime.parse(dateFormatter);
-                                  var formatter = DateFormat('dd-mm-yyyy');
-
+                                  var formatter = DateFormat('dd-MM-yyyy');
                                   birthDateController.text =
                                       formatter.format(dt);
+
+                                  DateTime now = DateTime.now();
+                                  int age = now.year - dt.year;
+                                  if (now.month < dt.month ||
+                                      (now.month == dt.month &&
+                                          now.day < dt.day)) {
+                                    age--;
+                                  }
+
+                                  if (age < 18) {
+                                    setState(() {
+                                      _isUnderage = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _isUnderage = false;
+                                    });
+                                  }
                                 },
                               ),
                             ),
@@ -276,51 +288,18 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            Container(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: const Color(0xffCAEBF3)),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: InputDecorator(
-                                decoration: const InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.shield,
-                                    color: Color(0xff4cbbc5),
-                                  ),
-                                ),
-                                child: DropdownButton<String>(
-                                  hint: const Text(
-                                    'Assurance',
-                                    style: TextStyle(
-                                      color: Color(0xffafafaf),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  isExpanded: true,
-                                  underline: const SizedBox(),
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Color(0xff35CBCC),
-                                  ),
-                                  value: valueChoose,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      valueChoose = newValue;
-                                      assurance.text = newValue!;
-                                    });
-                                  },
-                                  items: listItem.map((valueItem) {
-                                    return DropdownMenuItem<String>(
-                                      value: valueItem,
-                                      child: Text(valueItem),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                            buildDropdownWidget(
+                              "Assurance",
+                              valueChoose,
+                              assurance,
+                              listItem,
+                              (newValue) {
+                                setState(() {
+                                  valueChoose = newValue;
+                                });
+                              },
+                              Icons.shield,
+                              !_isUnderage,
                             ),
                             SizedBox(
                               height: 20.h,
@@ -333,58 +312,32 @@ class _MySignup2State extends State<MySignup2> {
                                   fontSize: 20.sp),
                             ),
                             SizedBox(
-                              width: 300.w,
-                              height: size.height * 0.06,
+                              height:20.h
                             ),
-                            Container(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: const Color(0xffCAEBF3)),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: InputDecorator(
-                                decoration: const InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.shield,
-                                    color: Color(0xff4cbbc5),
-                                  ),
-                                ),
-                                child: DropdownButton<String>(
-                                  hint: const Text(
-                                    'Gender',
-                                    style: TextStyle(
-                                      color: Color(0xffafafaf),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  isExpanded: true,
-                                  underline: const SizedBox(),
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Color(0xff35CBCC),
-                                  ),
-                                  value: valueChoose2,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      valueChoose2 = newValue;
-                                      gender.text = newValue!;
-                                    });
-                                  },
-                                  items: listItem2.map((valueItem) {
-                                    return DropdownMenuItem<String>(
-                                      value: valueItem,
-                                      child: Text(valueItem),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                           buildDropdownWidget(
+                              "Gender",
+                              valueChoose2,
+                              regionController,
+                              listItem2,
+                              (newValue) {
+                                setState(() {
+                                  valueChoose2 = newValue;
+                                });
+                              },
+                              Icons.male,
+                              !_isUnderage,
                             ),
                             SizedBox(
                               height: 20.h,
                             ),
+                            CupertinoSwitch(
+                                activeColor: Colors.blue,
+                                value: _lights,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _lights = value;
+                                  });
+                                }),
                           ],
                         )),
                       ),
@@ -401,7 +354,10 @@ class _MySignup2State extends State<MySignup2> {
                             ),
                             onPressed: () async {
                               if (adressController.text == "" ||
-                                  cinController.text == "" || assurance.text == "" || birthDateController.text == "" || gender.text == "") {
+                                  cinController.text == "" ||
+                                  assurance.text == "" ||
+                                  birthDateController.text == "" ||
+                                  gender.text == "") {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text('All fields are required'),
@@ -449,4 +405,97 @@ class _MySignup2State extends State<MySignup2> {
       ),
     );
   }
+}
+
+Widget _buildInputField({
+  required TextEditingController controller,
+  required String hintText,
+  required bool obscureText,
+  required IconData prefixIcon,
+  required bool enabled,
+}) {
+  return SizedBox(
+    width: 350.w,
+    height: 50.h,
+    child: TextFormField(
+      enabled: enabled,
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: Icon(prefixIcon),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: MyColors.hintTextColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1.5.w,
+            color: MyColors.borderSideColor,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1.5.w,
+            color: MyColors.borderSideColor,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildDropdownWidget(
+  String hintText,
+  String? valueChoose,
+  TextEditingController controller,
+  List<String> listItem,
+  Function(String?) onChanged,
+  IconData prefixIcon,
+  bool enabled,
+) {
+  return Container(
+    width: 350.w,
+    height: 50.h,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: MyColors.borderSideColor),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    child: InputDecorator(
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        prefixIcon: Icon(prefixIcon),
+      ),
+      child: DropdownButton<String>(
+        hint: Text(
+          hintText,
+          style: TextStyle(
+            color: MyColors.hintTextColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        isExpanded: true,
+        underline: SizedBox(),
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: MyColors.primaryColor,
+        ),
+        value: valueChoose,
+        onChanged: enabled ? onChanged : null,
+        items: listItem.map((valueItem) {
+          return DropdownMenuItem<String>(
+            value: valueItem,
+            child: Text(valueItem),
+          );
+        }).toList(),
+      ),
+    ),
+  );
 }
