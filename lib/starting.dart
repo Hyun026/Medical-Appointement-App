@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/screens/login/login.dart';
 import 'package:healthy/screens/signup/signup1.dart';
 
@@ -10,12 +11,12 @@ class GetStarted extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xff4cbbc5),
+      backgroundColor: MyColors.backgroundColor,
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/background/c4dd94d01c88c6d1275a8d878bb51b30.jpg"), 
+          image: AssetImage("assets/background/back.jpeg"), 
           fit: BoxFit.cover,
         ),
       ),
@@ -41,7 +42,7 @@ class GetStarted extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(300.w, 50.h),
-                        backgroundColor: const Color(0xff4cbbc5),
+                        backgroundColor:  MyColors.button1,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -74,7 +75,7 @@ class GetStarted extends StatelessWidget {
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: const BorderSide(color: Color(0xff4cbbc5)),
+                          side: const BorderSide(color: MyColors.button1),
                         ),
                       ),
                       child: Text(

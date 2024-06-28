@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy/screens/login/login.dart';
 
@@ -18,6 +19,7 @@ class MyHome extends StatelessWidget {
      body:Column(
       children: [
         ElevatedButton(onPressed: () {
+          FirebaseAuth.instance.signOut();
                 Navigator.push(
                               context,
                               MaterialPageRoute(

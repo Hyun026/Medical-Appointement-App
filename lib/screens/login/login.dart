@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 import 'package:healthy/home.dart';
 import 'package:healthy/screens/signup/signup1.dart';
@@ -32,7 +33,7 @@ class _MyLoginState extends State<MyLogin> {
         child: Container(
              decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/background/c4dd94d01c88c6d1275a8d878bb51b30.jpg"), 
+          image: AssetImage("assets/background/back.jpeg"), 
           fit: BoxFit.cover,
         ),
       ),
@@ -78,39 +79,7 @@ class _MyLoginState extends State<MyLogin> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22.sp),
                             ),
-                            SizedBox(
-                              width: 300.w,
-                              height: size.height * 0.06,
-                              child: TextFormField(
-                                controller: emailController,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: ' Enter you email',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xffafafaf),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            _buildInputField(controller: emailController, hintText: "Entrer your email", obscureText: false),
                             SizedBox(
                               height: 20.h,
                             ),
@@ -118,40 +87,7 @@ class _MyLoginState extends State<MyLogin> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22.sp),),
-                            SizedBox(
-                              width: 300.w,
-                              height: size.height * 0.06,
-                              child: TextFormField(
-                                controller: passwordController,
-                                obscureText: true,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: ' Enter your Password',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xffafafaf),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: Color(0xffCAEBF3),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            _buildInputField(controller: passwordController, hintText: "Enter your password", obscureText: false),
                           ],
                         )),
                       ),
@@ -168,12 +104,12 @@ class _MyLoginState extends State<MyLogin> {
                             );
                           },
                           child: const Text('Forgot your password?',
-                              style: TextStyle(color: Color(0xff4cbbc5)))),
+                              style: TextStyle(color: MyColors.primaryColor))),
                     loading ? CircularProgressIndicator() :  Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(300.w, 50.h),
-                            backgroundColor: const Color(0xff4cbbc5),
+                            backgroundColor: MyColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -219,7 +155,7 @@ class _MyLoginState extends State<MyLogin> {
                               );
                             },
                             child: const Text("Don't you have an account?",
-                                style: TextStyle(color: Color(0xff4cbbc5)))),
+                                style: TextStyle(color: MyColors.primaryColor))),
                       ),
                     ],
                   ),
@@ -232,3 +168,44 @@ class _MyLoginState extends State<MyLogin> {
     );
   }
 }
+
+Widget _buildInputField({
+  required TextEditingController controller,
+  required String hintText,
+  required bool obscureText,
+}) {
+  
+  return SizedBox(
+    width: 300.w,
+    height: 50.h,
+    child: TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: MyColors.hintTextColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1.5.w,
+            color: MyColors.borderSideColor,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1.5.w,
+            color: MyColors.borderSideColor,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    ),
+  );
+}
+

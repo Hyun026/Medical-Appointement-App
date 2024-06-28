@@ -53,9 +53,6 @@ class MyMain extends StatelessWidget {
     return StreamBuilder(
       stream: AuthService().firebaseAuth.authStateChanges(),
       builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
         if (snapshot.hasData) {
           return const MyHome();
         }
