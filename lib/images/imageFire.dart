@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<Uint8List?> pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
@@ -51,6 +52,8 @@ class StoreData {
             'imageLink': imageUrl,
           });
           response = 'success';
+          final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("imageLink", imageUrl);
         } else {
           response = 'No document found for current user.';
         }

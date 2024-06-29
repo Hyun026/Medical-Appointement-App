@@ -63,7 +63,7 @@ class _MySignup2State extends State<MySignup2> {
       lastname = prefs.getString("lastname")!;
     });
   }
-
+ 
   final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -551,6 +551,7 @@ class _MySignup2State extends State<MySignup2> {
                                 String downloadUrl = await uploadImage(
                                     'assets/images/user/user-svgrepo-com.svg');
                                 Map<String, dynamic> dataToSave = {
+                                  'user': user!.uid,
                                   'name': name,
                                   'lastname': lastname,
                                   "adress": adressController.text,
