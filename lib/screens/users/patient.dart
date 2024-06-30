@@ -62,8 +62,6 @@ class _MyPatientState extends State<MyPatient> {
     _updateImageLink();
   }
 
-  
-
   final user = FirebaseAuth.instance.currentUser!;
 //list of document
   List<String> docIDs = [];
@@ -79,7 +77,12 @@ class _MyPatientState extends State<MyPatient> {
           }),
         );
   }
-final Data firestoreService = Data();
+  @override
+  void initState() {
+    getDocId();
+    super.initState();
+  }
+  final Data firestoreService = Data();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -96,69 +99,98 @@ final Data firestoreService = Data();
                 Container(
                   width: size.width,
                   height: size.height * 0.3,
-                  decoration: BoxDecoration(color: MyColors.primaryColor),
-                  child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-               GestureDetector(
-                    onTap: selectImage,
-                    child: Container(
-                      width: 100.w,
-                      height: 100.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: image != null
-                            ? DecorationImage(
-                                image: MemoryImage(image!),
-                                fit: BoxFit.cover,
-                              )
-                            : image1.isNotEmpty
-                                ? DecorationImage(
-                                    image: NetworkImage(image1),
-                                    fit: BoxFit.cover,
-                                  )
+                  decoration: const BoxDecoration(color:MyColors.primaryColor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Row(
+                      
+                      
+                      children: [
+                        GestureDetector(
+                          onTap: selectImage,
+                          child: Container(
+                            width: 100.w,
+                            height: 100.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(60),
+                              image: image != null
+                                  ? DecorationImage(
+                                      image: MemoryImage(image!),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : image1.isNotEmpty
+                                      ? DecorationImage(
+                                          image: NetworkImage(image1),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                              border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2), 
+                            ),
+                            child: image == null && image1.isEmpty
+                                ? const Center(child: Icon(Icons.person, size: 50))
                                 : null,
-                        border: Border.all(color: Colors.grey, width: 2), // Optional: Add border
-                      ),
-                      child: image == null && image1.isEmpty
-                          ? Center(child: Icon(Icons.person, size: 50))
-                          : null,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                          FutureBuilder<String>(
+                            future: Data().getMessage(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return Text(
+                                  snapshot.data ?? 'No message retrieved',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22.sp,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }
+                            },
+                          ),
+                          SizedBox(width: 10.w,),
+                          FutureBuilder<String>(
+                            future: Data().getMessage2(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return Text(
+                                  snapshot.data ?? 'No message retrieved',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22.sp,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }
+                            },
+                          ),
+                              
+                                ],
+                              ),
+                               ElevatedButton(onPressed: () {}, child: Text("Are you a Doctor?")),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                    SizedBox(width: 20.w,),
-                      FutureBuilder<String>(
-                    future: Data().getMessage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.bold),
-                        );
-                      }
-                    },
-                  ),
-
-                   FutureBuilder<String>(
-                    future: Data().getMessage2(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.bold),
-                        );
-                      }
-                    },
-                  ),
-                    ],
                   ),
                 ),
                 Expanded(
@@ -166,7 +198,7 @@ final Data firestoreService = Data();
                     width: size.width,
                     child: Column(
                       children: [
-                        SegmentedTabControl(
+                        const SegmentedTabControl(
                           tabs: [
                             SegmentTab(
                                 label: "Data", color: MyColors.primaryColor),
@@ -220,19 +252,23 @@ final Data firestoreService = Data();
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         //row1
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -243,22 +279,32 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                   Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyGeneral(),
-                                ),
-                              );
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const MyGeneral(),
+                                                    ),
+                                                  );
                                                 },
-                                                child: Center(child: Text('generale', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('generale',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
-                                             Container(
+                                            Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -269,21 +315,31 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Pediatricians', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Pediatricians',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
                                           ],
                                         ),
                                         //row 2
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -294,15 +350,24 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Cardiologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Cardiologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
-                                             Container(
+                                            Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -313,21 +378,32 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Endocrinologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text(
+                                                        'Endocrinologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        //row 3 
+                                        //row 3
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -338,15 +414,24 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Nephrologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Nephrologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
-                                             Container(
+                                            Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -357,21 +442,31 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Neurologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Neurologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
                                           ],
                                         ),
                                         //row 4
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -382,15 +477,25 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Dermatologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text(
+                                                        'Dermatologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
-                                             Container(
+                                            Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -401,21 +506,32 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Ophthalmologists', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text(
+                                                        'Ophthalmologists',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
                                           ],
                                         ),
                                         //row 5
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -426,15 +542,24 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Pneumologie', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Pneumologie',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
-                                             Container(
+                                            Container(
                                               height: size.height * 0.1,
                                               width: size.width * 0.45,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                gradient: LinearGradient(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                gradient: const LinearGradient(
                                                   colors: [
                                                     Colors.white,
                                                     MyColors.gradient
@@ -445,7 +570,15 @@ final Data firestoreService = Data();
                                               ),
                                               child: GestureDetector(
                                                 onTap: () {},
-                                                child: Center(child: Text('Orthipedy', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
+                                                child: Center(
+                                                    child: Text('Orthipedy',
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .primaryColor,
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))),
                                               ),
                                             ),
                                           ],

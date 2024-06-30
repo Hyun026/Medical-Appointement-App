@@ -27,6 +27,9 @@ class _MyGeneralState extends State<MyGeneral> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Your Medical File"),
+      ),
       body: _buildUI(),
       floatingActionButton: QuickActionMenu(
         onTap: () {},
@@ -75,34 +78,42 @@ class _MyGeneralState extends State<MyGeneral> {
         child: Text('no Files  Uploaded'),
       );
     }
-    return ListView.builder(
-        itemCount: uploadedFiles.length,
-        itemBuilder: (context, index) {
-          Reference ref = uploadedFiles[index];
-          return FutureBuilder(
-              future: ref.getDownloadURL(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              FullScreenImage(imageUrl: snapshot.data!),
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: ListView.builder(
+          itemCount: uploadedFiles.length,
+          itemBuilder: (context, index) {
+            Reference ref = uploadedFiles[index];
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: FutureBuilder(
+                  future: ref.getDownloadURL(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FullScreenImage(imageUrl: snapshot.data!),
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          leading: Image.network(snapshot.data!),
                         ),
                       );
-                    },
-                    child: ListTile(
-                      leading: Image.network(snapshot.data!),
-                    ),
-                  );
-                }
-                return Container(
-                  child: Text('Something is wrong'),
-                );
-              });
-        });
+                    }
+                    return Container(
+                      child: Text('Something is wrong'),
+                    );
+                  }),
+            );
+          }),
+    );
   }
 
   void getUploadedFiles() async {

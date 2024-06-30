@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/firebasecontrol/update/editProfile.dart';
 
 
 class GetUser extends StatelessWidget {
@@ -23,79 +25,55 @@ class GetUser extends StatelessWidget {
           if (snapshot.hasData && snapshot.data!.exists) {
             Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                    SizedBox(height: 20.h,),
                  Text('CIN' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
-                 
+                 SizedBox(height: 12.h,),
                    _costumField( text : '${data['cin']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+                
                   SizedBox(height: 20.h,),
                   Text('Gender' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                     _costumField( text : '${data['gender']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+               
                   SizedBox(height: 20.h,),
                   Text('Birthday' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                     _costumField( text : '${data['birthday']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+               
                   SizedBox(height: 20.h,),
                   Text('Phone Number' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                     _costumField( text : '${data['phone']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+              
                   SizedBox(height: 20.h,),
                   Text('Adress' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                    _costumField( text : '${data['adress']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+               
                   SizedBox(height: 20.h,),
                   Text('Region' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                    _costumField( text : '${data['region']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+                
                   SizedBox(height: 20.h,),
                   Text('Assurance' , style: TextStyle(color: MyColors.hintTextColor,fontSize: 15.sp),),
+                  SizedBox(height: 12.h,),
                     _costumField( text : '${data['assurance']}'),
-                Container(
-                    //line
-                    height: 1.0.h,
-                     width: size.width*1,
-                    color: MyColors.primaryColor,
-                  ),
+                
                   SizedBox(height: 20.h,),
                    
-                   ElevatedButton(onPressed: () {},
+                   ElevatedButton(onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => EditUserForm(userData: data, documentId: documentId),
+                      );
+                   },
                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(300.w, 50.h),
+                        minimumSize: Size(100.w, 50.h),
                         backgroundColor:  MyColors.button1,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -128,6 +106,25 @@ class GetUser extends StatelessWidget {
 }
 
 Widget _costumField({required String text}) {
-    return Text(text);
-  }
-
+  
+  return Container(
+    width: 300.w,
+    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+    decoration: BoxDecoration(
+      
+      borderRadius: BorderRadius.circular(50.0),
+      border: Border.all(
+        color: MyColors.primaryColor,
+        width: 2.0,
+      ),
+    ),
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 18.sp,
+      
+        color: Colors.black,
+      ),
+    ),
+  );
+}

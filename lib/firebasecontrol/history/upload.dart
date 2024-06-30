@@ -78,6 +78,6 @@ Future<List<Reference>?> getUsersUploadedFiles() async {
     return uploads.items;
   } catch (e) {
     print('Error fetching uploaded files: $e');
-    return null; // Handle error gracefully in your UI
+    return null; 
   }
 }
