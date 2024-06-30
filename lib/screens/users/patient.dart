@@ -9,6 +9,7 @@ import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/firestore/fileget.dart';
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
 import 'package:healthy/images/imageFire.dart';
+import 'package:healthy/screens/medecins/general.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -241,7 +242,14 @@ final Data firestoreService = Data();
                                                 ),
                                               ),
                                               child: GestureDetector(
-                                                onTap: () {},
+                                                onTap: () {
+                                                   Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyGeneral(),
+                                ),
+                              );
+                                                },
                                                 child: Center(child: Text('generale', style:TextStyle(color: MyColors.primaryColor, fontSize: 17.sp, fontWeight: FontWeight.bold))),
                                               ),
                                             ),

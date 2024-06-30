@@ -32,6 +32,9 @@ dependencies:
   firebase_database: ^11.0.2
   image_picker: ^1.1.2
   animated_segmented_tab_control: ^2.0.0
+  file_picker: ^8.0.5
+  easy_pdf_viewer: ^1.0.8
+  quick_actions: ^1.0.7
 
 dev_dependencies:
   flutter_test:
