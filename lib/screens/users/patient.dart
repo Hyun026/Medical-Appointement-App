@@ -10,6 +10,7 @@ import 'package:healthy/firebasecontrol/firestore/fileget.dart';
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
 import 'package:healthy/images/imageFire.dart';
 import 'package:healthy/screens/medecins/general.dart';
+import 'package:healthy/screens/signup/doctor/dsignup.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,11 +78,7 @@ class _MyPatientState extends State<MyPatient> {
           }),
         );
   }
-  @override
-  void initState() {
-    getDocId();
-    super.initState();
-  }
+ 
   final Data firestoreService = Data();
   @override
   Widget build(BuildContext context) {
@@ -185,7 +182,14 @@ class _MyPatientState extends State<MyPatient> {
                               
                                 ],
                               ),
-                               ElevatedButton(onPressed: () {}, child: Text("Are you a Doctor?")),
+                               ElevatedButton(onPressed: () {
+                                 Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DoctorCreate(),
+                                ),
+                              );
+                               }, child: Text("Are you a Doctor?")),
                             ],
                           ),
                         ),
@@ -195,7 +199,7 @@ class _MyPatientState extends State<MyPatient> {
                 ),
                 Expanded(
                   child: Container(
-                    width: size.width,
+                    width: size.width*1,
                     child: Column(
                       children: [
                         const SegmentedTabControl(
