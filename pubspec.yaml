@@ -38,6 +38,8 @@ dependencies:
   gallery_picker: ^0.5.1
   photo_view: ^0.15.0
   table_calendar: ^3.1.2
+  firebase_messaging: ^15.0.2
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

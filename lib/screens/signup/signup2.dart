@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/constants/validators/validator.dart';
+import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/home.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -550,6 +551,7 @@ class _MySignup2State extends State<MySignup2> {
                               } else {
                                 String downloadUrl = await uploadImage(
                                     'assets/images/user/user-svgrepo-com.svg');
+                                     String? fcmToken = await FirebaseApi().getFCMToken();
                                 Map<String, dynamic> dataToSave = {
                                   'user': user!.uid,
                                   'name': name,
@@ -562,6 +564,7 @@ class _MySignup2State extends State<MySignup2> {
                                   'gender': gender.text,
                                   'phone': phoneController.text,
                                   'imageLink': downloadUrl,
+                                  'fMCToken':fcmToken,
                                 };
 
                                 await FirebaseFirestore.instance

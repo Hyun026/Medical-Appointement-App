@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/docHome.dart';
+import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/screens/signup/signup2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -191,6 +192,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
                               );
                             } else {
                               String downloadUrl = await uploadImage('assets/images/user/user-svgrepo-com.svg');
+                              String? fcmToken = await FirebaseApi().getFCMToken();
                               Map<String, dynamic> dataToSave = {
                                 'user': user!.uid,
                                 'name': nameController.text,
@@ -198,6 +200,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
                                 'address': cabinetController.text,
                                 'field': fieldController.text,
                                 'imageLink': downloadUrl,
+                                'fMCToken':fcmToken,
                               };
 
                               await FirebaseFirestore.instance.collection("doctors").doc(user!.uid).set(dataToSave);

@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/connectivity/check.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
+import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/home.dart';
 
 import 'starting.dart';
+
 
 Future<void> main() async {
   SystemChrome.setPreferredOrientations([
@@ -16,6 +18,7 @@ Future<void> main() async {
   ]);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseApi().initNotifications();
   
   runApp(const MyApp());
 }

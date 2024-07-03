@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,17 +54,76 @@ class _MyResultState extends State<MyResult> {
     });
   }
 
+ Future<void> _bookAppointment() async {
+    if (_dateController.text == null || _timeController.text == null) {
+      // Handle the case when date or time is not selected
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Appointment Not Booked'),
+          content: Text('Please select both date and time to book an appointment.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    final appointment = {
+      'userId': user!.uid,
+      'doctorId': widget.doctorDetails['doctorId'],
+      'date': _dateController.text,
+      'time': _timeController.text,
+      
+    };
+
+    await FirebaseFirestore.instance.collection('appointments').add(appointment);
+
+    // Send notification
+    await _sendNotification(appointment);
+  }
+
+ Future<void> _sendNotification(Map<String, dynamic> appointment) async {
+  try {
+    final response = await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'appointment': appointment,
+        'doctorToken': widget.doctorDetails['fMCToken'], 
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Notification sent successfully');
+    } else {
+      print('Failed to send notification: ${response.body}');
+    }
+  } catch (e) {
+    print('Error sending notification: $e');
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.doctorDetails['name']),
+       
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+        
           children: [
             Center(
               child: CircleAvatar(
@@ -71,21 +133,55 @@ class _MyResultState extends State<MyResult> {
               ),
             ),
             SizedBox(height: 20.sp),
-            Text(
-              widget.doctorDetails['name'],
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Dr.',style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),),
+                  SizedBox(width: size.width*0.01,),
+                  Text(
+                    widget.doctorDetails['name'],
+                    style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: size.width*0.03,),
+                  Text(
+                    widget.doctorDetails['lastname'],
+                    style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+                  ),
+                  
+                ],
+              ),
             ),
             SizedBox(height: 10.sp),
-            Text(
-              widget.doctorDetails['field'],
-              style: TextStyle(fontSize: 18.sp),
+            Center(
+              child: Text(
+                widget.doctorDetails['field'],
+                style: TextStyle(fontSize: 18.sp),
+              ),
             ),
             SizedBox(height: 10.sp),
-            Text(
-              widget.doctorDetails['bio'] ?? "No bio available",
-              style: TextStyle(fontSize: 16.sp),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  Icon(Icons.location_pin,color: MyColors.primaryColor,),
+                  Text(
+                    widget.doctorDetails['address'] ?? "No address",
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
+                ],
+              ),
             ),
-            ElevatedButton(
+            
+           
+          ],
+        ),
+      ),
+   bottomNavigationBar:BottomAppBar(
+    color: Colors.white,
+    child: 
+      ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -216,6 +312,7 @@ class _MyResultState extends State<MyResult> {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
+                                           _bookAppointment();
                                           Navigator.pop(context);
                                         },
                                         child: const Text('Book'),
@@ -247,9 +344,8 @@ class _MyResultState extends State<MyResult> {
                         fontWeight: FontWeight.bold),
                   ),
                 )),
-          ],
-        ),
-      ),
+   ),
+    
     );
   }
 }
