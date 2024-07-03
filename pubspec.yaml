@@ -37,6 +37,7 @@ dependencies:
   quick_actions: ^1.0.7
   gallery_picker: ^0.5.1
   photo_view: ^0.15.0
+  table_calendar: ^3.1.2
 
 dev_dependencies:
   flutter_test:

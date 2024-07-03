@@ -31,7 +31,7 @@ class _MySearchBarState extends State<MySearchBar> {
    }
 
    searchResultList(){
-    var showResults = [];
+    List<Map<String, dynamic>> showResults = [];
     if (searchController.text != ""){
        for (var clientSnapShot in allResults){
         var name = clientSnapShot['name'].toString().toLowerCase();
@@ -49,9 +49,10 @@ class _MySearchBarState extends State<MySearchBar> {
 
   getDoctorList() async {
     var data = await FirebaseFirestore.instance.collection("doctors").orderBy('name').get();
+    List<Map<String, dynamic>> docs = data.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
 
     setState(() {
-      allResults = data.docs;
+      allResults = docs;
     });
 
     searchResultList();
@@ -93,7 +94,7 @@ class _MySearchBarState extends State<MySearchBar> {
                   Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MyResult(),
+                                  builder: (context) => MyResult(doctorDetails: resultList[index],),
                                 ),
                               );
                },
