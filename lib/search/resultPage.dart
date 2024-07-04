@@ -53,7 +53,7 @@ class _MyResultState extends State<MyResult> {
           .split(' ')[0]; 
     });
   }
-
+/*
  Future<void> _bookAppointment() async {
     if (_dateController.text == null || _timeController.text == null) {
       // Handle the case when date or time is not selected
@@ -110,8 +110,17 @@ class _MyResultState extends State<MyResult> {
   } catch (e) {
     print('Error sending notification: $e');
   }
+}*/
+ Future<String> getCurrentUserName() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    if (userDoc.exists) {
+      return userDoc['name'] ?? 'Unknown User'; 
+    }
+  }
+  return 'Unknown User';
 }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -311,9 +320,48 @@ class _MyResultState extends State<MyResult> {
                                         child: const Text('Close'),
                                       ),
                                       ElevatedButton(
-                                        onPressed: () {
-                                           _bookAppointment();
+                                        onPressed: () async{
+                                          if (_timeController.text.isEmpty ||
+                                _dateController.text.isEmpty ) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('All fields are required'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }else{
+     
+                             String userName = await getCurrentUserName();
+                               Map<String, dynamic> dataToSave = {
+                                'user': user!.uid,
+                                'date': _dateController.text,
+                                'time': _timeController.text,
+                                'name': userName,
+                                 'Doctor':widget.doctorDetails['user'],
+                                 'Dname':widget.doctorDetails['name'],
+                                 'Dlastname':widget.doctorDetails['lastname'],
+                                 'Dfield':widget.doctorDetails['field'],
+                                 'imageLink':widget.doctorDetails['imageLink'],
+                                 
+                              };
+
+                             await FirebaseFirestore.instance.collection("appointments").add(dataToSave);
+
+                           
+                               Map<String, dynamic> dataToSave2 = {
+                                'user': user!.uid,
+                                'name': userName,
+                               'created_at': FieldValue.serverTimestamp(),
+                                'message': 'has booked an Appointement'
+                                 
+                              };
+
+                              await FirebaseFirestore.instance.collection("notifications").add(dataToSave2);
+ 
+
+                            
                                           Navigator.pop(context);
+                            }
                                         },
                                         child: const Text('Book'),
                                       ),

@@ -1,7 +1,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy/rendezVous/rendezVous.dart';
 import 'package:healthy/screens/login/login.dart';
+import 'package:healthy/screens/users/doctor.dart';
 import 'package:healthy/screens/users/patient.dart';
 import 'package:healthy/search/searchList.dart';
 
@@ -55,7 +57,15 @@ class _MyHomeState extends State<MyHome> {
         ),
       ),
     ),
-         
+        
+           ElevatedButton(onPressed: () {
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyRendezVous(),
+                                ),
+                              );
+          }, child: Text('rendez')),
           ElevatedButton(onPressed: () {
                   Navigator.push(
                                 context,

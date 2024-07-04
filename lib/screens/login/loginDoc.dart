@@ -1,24 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/docHome.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
-import 'package:healthy/home.dart';
-import 'package:healthy/screens/login/loginDoc.dart';
-import 'package:healthy/screens/signup/signup1.dart';
+import 'package:healthy/screens/login/login.dart';
+import 'package:healthy/screens/signup/doctor/dsignup.dart';
+import 'package:healthy/screens/verification/email.dart';
 
-import '../verification/email.dart';
-
-class MyLogin extends StatefulWidget {
-  const MyLogin({super.key});
+class MyLogindoc extends StatefulWidget {
+  const MyLogindoc({super.key});
 
   @override
-  State<MyLogin> createState() => _MyLoginState();
+  State<MyLogindoc> createState() => _MyLogindocState();
 }
 
-class _MyLoginState extends State<MyLogin> {
+class _MyLogindocState extends State<MyLogindoc> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
@@ -59,15 +56,15 @@ class _MyLoginState extends State<MyLogin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       
+                     
                       Row(
                         children: [
-                          GestureDetector(
+                           GestureDetector(
                         onTap: () {
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MyLogindoc(),
+                                      builder: (context) => MyLogin(),
                                     ),
                                   );
                         },
@@ -150,7 +147,7 @@ class _MyLoginState extends State<MyLogin> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  MyHome(),
+                                builder: (context) =>  MyHomeDoc(),
                               ),
                             );
                             }
@@ -174,7 +171,7 @@ class _MyLoginState extends State<MyLogin> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MySignup1(),
+                                  builder: (context) => DoctorCreate(),
                                 ),
                               );
                             },

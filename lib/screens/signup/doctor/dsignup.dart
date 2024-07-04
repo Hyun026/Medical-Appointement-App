@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/docHome.dart';
+import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/screens/signup/signup2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +23,11 @@ class _DoctorCreateState extends State<DoctorCreate> {
   TextEditingController lastnameController = TextEditingController();
   TextEditingController fieldController = TextEditingController();
   TextEditingController cabinetController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confPasswordController = TextEditingController();
+   TextEditingController phoneController = TextEditingController();
+
 
   String? valueChoose;
   List<String> listItem = ["General", "Pediatrician", "Cardiologist", "Endocrinologist", "Nephrologist","Neurologist","Dermatologist","Ophthalmologist","Pneumologie", "Orthipedy"];
@@ -98,6 +105,20 @@ class _DoctorCreateState extends State<DoctorCreate> {
                                 hintText: "Last name",
                                 obscureText: false,
                               ),
+                               const SizedBox(height: 20),
+                              const Text(
+                                'Phone',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              _buildInputField(
+                                controller: phoneController,
+                                hintText: "Enter Your Phone Number",
+                                obscureText: false,
+                              ),
                               const SizedBox(height: 20),
                               const Text(
                                 'Field',
@@ -166,6 +187,48 @@ class _DoctorCreateState extends State<DoctorCreate> {
                                 obscureText: false,
                               ),
                               const SizedBox(height: 20),
+                              const Text(
+                                'Email',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                               _buildInputField(
+                                controller: emailController,
+                                hintText: "email",
+                                obscureText: false,
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                'Password',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                               _buildInputField(
+                                controller: passwordController,
+                                hintText: "Enter your password",
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                'Confirm password',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                               _buildInputField(
+                                controller: confPasswordController,
+                                hintText: "Confirm your password",
+                                obscureText: true,
+                              ),
+
                             ],
                           ),
                         ),
@@ -180,40 +243,59 @@ class _DoctorCreateState extends State<DoctorCreate> {
                             ),
                           ),
                           onPressed: () async {
-                            if (nameController.text.isEmpty ||
-                                lastnameController.text.isEmpty ||
-                                fieldController.text.isEmpty ||
-                                cabinetController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('All fields are required'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            } else {
-                              String downloadUrl = await uploadImage('assets/images/user/user-svgrepo-com.svg');
-                              String? fcmToken = await FirebaseApi().getFCMToken();
-                              Map<String, dynamic> dataToSave = {
-                                'user': user!.uid,
-                                'name': nameController.text,
-                                'lastname': lastnameController.text,
-                                'address': cabinetController.text,
-                                'field': fieldController.text,
-                                'imageLink': downloadUrl,
-                                'fMCToken':fcmToken,
-                              };
+  if (nameController.text.isEmpty ||
+      lastnameController.text.isEmpty ||
+      fieldController.text.isEmpty ||
+      cabinetController.text.isEmpty ||
+      emailController.text.isEmpty ||
+      passwordController.text.isEmpty ||phoneController.text.isEmpty ||
+      confPasswordController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('All fields are required'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else if (passwordController.text != confPasswordController.text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Passwords do not match'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else {
+    User? result = await AuthService().register(
+      emailController.text,
+      passwordController.text,
+      context,
+    );
+    
+    if (result != null) {
+      String downloadUrl = await uploadImage('assets/images/user/user-svgrepo-com.svg');
+      String? fcmToken = await FirebaseApi().getFCMToken();
+      Map<String, dynamic> dataToSave = {
+        'user': result.uid,
+        'name': nameController.text,
+        'lastname': lastnameController.text,
+        'address': cabinetController.text,
+        'field': fieldController.text,
+        'imageLink': downloadUrl,
+        'phone': phoneController.text,
+        'fMCToken': fcmToken,
+      };
 
-                              await FirebaseFirestore.instance.collection("doctors").doc(user!.uid).set(dataToSave);
+      await FirebaseFirestore.instance.collection("doctors").doc(result.uid).set(dataToSave);
 
-                              final prefs = await SharedPreferences.getInstance();
-                              prefs.setString("imageLink", downloadUrl);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString("imageLink", downloadUrl);
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => MyHomeDoc()),
-                              );
-                            }
-                          },
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomeDoc()),
+      );
+    }
+  }
+},
                           child: const Text(
                             'Add',
                             style: TextStyle(color: Colors.white, fontSize: 20),

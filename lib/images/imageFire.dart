@@ -67,4 +67,38 @@ class StoreData {
 
     return response;
   }
+
+  Future<String> saveData2({required Uint8List file}) async {
+    String response = "Some Error Occurred";
+
+    try {
+      // Upload the image and get its URL
+      String imageUrl = await uploadImageToStorage('ProfileImage', file);
+
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        DocumentReference userDocRef = _firestore.collection('doctors').doc(user.uid);
+        DocumentSnapshot userDocSnapshot = await userDocRef.get();
+
+        if (userDocSnapshot.exists) {
+          await userDocRef.update({
+            'imageLink': imageUrl,
+          });
+          response = 'success';
+          final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("imageLink", imageUrl);
+        } else {
+          response = 'No document found for current user.';
+        }
+      } else {
+        response = 'User not authenticated.';
+      }
+    } catch (err) {
+      print('Error: $err');
+      response = 'Failed to save data: $err';
+    }
+
+    return response;
+  }
 }
