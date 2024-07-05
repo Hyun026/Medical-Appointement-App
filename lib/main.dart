@@ -2,9 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/connectivity/check.dart';
+import 'package:healthy/constants/theme/theme.dart';
+import 'package:healthy/docHome.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/home.dart';
@@ -35,12 +36,9 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            useMaterial3: true,
-            textTheme: GoogleFonts.manropeTextTheme(),
-          ),
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+      themeMode: ThemeMode.system,
           home: const connectCheck(),
         );
       },
@@ -57,7 +55,7 @@ class MyMain extends StatelessWidget {
       stream: AuthService().firebaseAuth.authStateChanges(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return const MyHome();
+          return const MyHomeDoc();
         }
         return const GetStarted();
       },

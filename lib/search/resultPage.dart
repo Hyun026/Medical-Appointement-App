@@ -53,64 +53,7 @@ class _MyResultState extends State<MyResult> {
           .split(' ')[0]; 
     });
   }
-/*
- Future<void> _bookAppointment() async {
-    if (_dateController.text == null || _timeController.text == null) {
-      // Handle the case when date or time is not selected
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Appointment Not Booked'),
-          content: Text('Please select both date and time to book an appointment.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      );
-      return;
-    }
 
-    final appointment = {
-      'userId': user!.uid,
-      'doctorId': widget.doctorDetails['doctorId'],
-      'date': _dateController.text,
-      'time': _timeController.text,
-      
-    };
-
-    await FirebaseFirestore.instance.collection('appointments').add(appointment);
-
-    // Send notification
-    await _sendNotification(appointment);
-  }
-
- Future<void> _sendNotification(Map<String, dynamic> appointment) async {
-  try {
-    final response = await http.post(
-      Uri.parse('https://fcm.googleapis.com/fcm/send'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'appointment': appointment,
-        'doctorToken': widget.doctorDetails['fMCToken'], 
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print('Notification sent successfully');
-    } else {
-      print('Failed to send notification: ${response.body}');
-    }
-  } catch (e) {
-    print('Error sending notification: $e');
-  }
-}*/
  Future<String> getCurrentUserName() async {
   User? user = FirebaseAuth.instance.currentUser;
   if (user != null) {
@@ -121,6 +64,19 @@ class _MyResultState extends State<MyResult> {
   }
   return 'Unknown User';
 }
+
+Future<String> getCurrentImage() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    if (userDoc.exists) {
+      return userDoc['imageLink'] ?? 'Unknown User'; 
+    }
+  }
+  return 'Unknown User';
+}
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -332,6 +288,8 @@ class _MyResultState extends State<MyResult> {
                             }else{
      
                              String userName = await getCurrentUserName();
+                             String userImage = await getCurrentImage();
+                             // get users im
                                Map<String, dynamic> dataToSave = {
                                 'user': user!.uid,
                                 'date': _dateController.text,
@@ -342,6 +300,7 @@ class _MyResultState extends State<MyResult> {
                                  'Dlastname':widget.doctorDetails['lastname'],
                                  'Dfield':widget.doctorDetails['field'],
                                  'imageLink':widget.doctorDetails['imageLink'],
+                                 'userImage':userImage,
                                  
                               };
 

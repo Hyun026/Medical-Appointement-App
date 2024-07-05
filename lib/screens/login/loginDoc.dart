@@ -144,12 +144,20 @@ class _MyLogindocState extends State<MyLogindoc> {
                             } else{
                             User? result =  await AuthService().login(emailController.text, passwordController.text, context);
                             if(result != null){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  MyHomeDoc(),
-                              ),
-                            );
+                               bool isDoctor = await AuthService().isDoctor(result);
+                            if (isDoctor) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomeDoc(), 
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Access denied: Not a doctor'),
+                        backgroundColor: Colors.red,
+                      ));
+                    }
                             }
                             }
                             setState(() {

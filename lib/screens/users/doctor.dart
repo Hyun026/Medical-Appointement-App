@@ -182,7 +182,7 @@ class _MyDocProfileState extends State<MyDocProfile> {
                               ),
                                                 SizedBox(height: 20.h,),
                    
-                   ElevatedButton(onPressed: () {
+                /*   ElevatedButton(onPressed: () {
                     showDialog(
                         context: context,
                         builder: (context) => EditDocForm(userData: data, documentId: documentId),
@@ -205,7 +205,7 @@ class _MyDocProfileState extends State<MyDocProfile> {
                           Icon(Icons.edit, color: Colors.white,),
                         ],
                       ),
-                    ) ),
+                    ) ),*/
                     ],
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,5 +35,14 @@ class AuthService{
     return null;
     }
 
+  }
+   Future<bool> isDoctor(User user) async {
+    DocumentSnapshot doctorDoc = await FirebaseFirestore.instance.collection('doctors').doc(user.uid).get();
+    return doctorDoc.exists;
+  }
+
+   Future<bool> isUser(User user) async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    return userDoc.exists;
   }
 }

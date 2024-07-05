@@ -147,12 +147,20 @@ class _MyLoginState extends State<MyLogin> {
                             } else{
                             User? result =  await AuthService().login(emailController.text, passwordController.text, context);
                             if(result != null){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  MyHome(),
-                              ),
-                            );
+                               bool isUser = await AuthService().isUser(result);
+                             if (isUser) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHome(), 
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Access denied: Not a User'),
+                        backgroundColor: Colors.red,
+                      ));
+                    }
                             }
                             }
                             setState(() {

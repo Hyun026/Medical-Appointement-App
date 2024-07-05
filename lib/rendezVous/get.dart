@@ -48,7 +48,7 @@ class GetMyAppoint extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            data['name'], 
+                            data['Dname'], 
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
