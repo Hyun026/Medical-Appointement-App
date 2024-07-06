@@ -39,6 +39,7 @@ dependencies:
   photo_view: ^0.15.0
   table_calendar: ^3.1.2
   firebase_messaging: ^15.0.2
+  awesome_notifications: ^0.9.3+1
  
 
 dev_dependencies:

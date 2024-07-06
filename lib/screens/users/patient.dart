@@ -38,7 +38,7 @@ class _MyPatientState extends State<MyPatient> {
       print('No image selected');
       return;
     }
-    String resp = await StoreData().saveData(file: image!);
+    String resp = await StoreData().saveData(file: image!, fileName: '');
     if (resp == 'success') {
       print('Profile updated successfully');
       await _updateImageLink();
@@ -62,6 +62,17 @@ class _MyPatientState extends State<MyPatient> {
     super.didChangeDependencies();
     _updateImageLink();
   }
+  //image retrieve 
+  Future<String> getCurrentUserImage() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    if (userDoc.exists) {
+      return userDoc['imageLink'] ?? 'Unknown User'; 
+    }
+  }
+  return 'Unknown User';
+}
 
   final user = FirebaseAuth.instance.currentUser!;
 //list of document
@@ -103,93 +114,90 @@ class _MyPatientState extends State<MyPatient> {
                       
                       
                       children: [
-                        GestureDetector(
-                          onTap: selectImage,
-                          child: Container(
-                            width: 100.w,
-                            height: 100.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              image: image != null
-                                  ? DecorationImage(
-                                      image: MemoryImage(image!),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : image1.isNotEmpty
-                                      ? DecorationImage(
-                                          image: NetworkImage(image1),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null,
-                              border: Border.all(
-                                  color: Colors.grey,
-                                  width: 2), 
-                            ),
-                            child: image == null && image1.isEmpty
-                                ? const Center(child: Icon(Icons.person, size: 50))
-                                : null,
-                          ),
-                        ),
+                        Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder<String>(
+                    future: getCurrentUserImage(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircleAvatar(
+                          radius: 60,
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        String userImage = snapshot.data ?? '';
+              
+                        if (userImage.isEmpty) {
+                          return CircleAvatar(
+                            radius: 80,
+                            child: const Icon(Icons.person, size: 50),
+                          );
+                        } else {
+                          return CircleAvatar(
+                            radius: 80,
+                            backgroundImage: NetworkImage(userImage),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                 
+                  GestureDetector(
+                    onTap: selectImage,
+                    child: Icon(
+                      Icons.add_a_photo, 
+                      size: 30, 
+                    ),
+                  ),
+                ],
+              ),
                         SizedBox(
                           width: 20.w,
                         ),
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Row(
-                                children: [
-                          FutureBuilder<String>(
-                            future: Data().getMessage(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                return Text(
-                                  snapshot.data ?? 'No message retrieved',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 22.sp,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              }
-                            },
-                          ),
-                          SizedBox(width: 10.w,),
-                          FutureBuilder<String>(
-                            future: Data().getMessage2(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                return Text(
-                                  snapshot.data ?? 'No message retrieved',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 22.sp,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              }
-                            },
-                          ),
-                              
-                                ],
-                              ),
-                               ElevatedButton(onPressed: () {
-                                 Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DoctorCreate(),
-                                ),
-                              );
-                               }, child: Text("Are you a Doctor?")),
+                                                    FutureBuilder<String>(
+                                                      future: Data().getMessage(),
+                                                      builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return Text(
+                              snapshot.data ?? 'No message retrieved',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold),
+                            );
+                          }
+                                                      },
+                                                    ),
+                                                    SizedBox(width: 10.w,),
+                                                    FutureBuilder<String>(
+                                                      future: Data().getMessage2(),
+                                                      builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return Text(
+                              snapshot.data ?? 'No message retrieved',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold),
+                            );
+                          }
+                                                      },
+                                                    ),
+                          
                             ],
                           ),
                         ),

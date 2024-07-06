@@ -1,7 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/constants/colors/colors.dart';
 
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -94,53 +96,65 @@ class MyAppointHom extends StatefulWidget {
 }
 
 class _MyAppointHomState extends State<MyAppointHom> {
-
   //for update
   Future<String> getCurrentUserName() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('doctors').doc(user.uid).get();
-    if (userDoc.exists) {
-      return userDoc['name'] ?? 'Unknown User'; 
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        return userDoc['name'] ?? 'Unknown User';
+      }
     }
+    return 'Unknown User';
   }
-  return 'Unknown User';
-}
 
-Future<String> getCurrentUserLastName() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('doctors').doc(user.uid).get();
-    if (userDoc.exists) {
-      return userDoc['lastname'] ?? 'Unknown User'; 
+  Future<String> getCurrentUserLastName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        return userDoc['lastname'] ?? 'Unknown User';
+      }
     }
+    return 'Unknown User';
   }
-  return 'Unknown User';
-}
 
-Future<String> getCurrentUserImage() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('doctors').doc(user.uid).get();
-    if (userDoc.exists) {
-      return userDoc['imageLink'] ?? 'Unknown User'; 
+  Future<String> getCurrentUserImage() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        return userDoc['imageLink'] ?? 'Unknown User';
+      }
     }
+    return 'Unknown User';
   }
-  return 'Unknown User';
-}
 
-Future<String> getCurrentPatienID() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('appointments').doc(user.uid).get();
-    if (userDoc.exists) {
-      return userDoc['user'] ?? 'Unknown User'; 
+  Future<String> getCurrentPatienID() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('appointments')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        return userDoc['user'] ?? 'Unknown User';
+      }
     }
+    return 'Unknown User';
   }
-  return 'Unknown User';
-}
+
 //for update
- String? valueChoose;
+  String? valueChoose;
   List<String> listItem = [
     "9:00-10:00",
     "10:00-11:00",
@@ -169,67 +183,131 @@ Future<String> getCurrentPatienID() async {
     setState(() {
       _selectedDay = selectedDay;
       _focusedDay = focusedDay;
-      _dateController.text = selectedDay
-          .toLocal()
-          .toString()
-          .split(' ')[0]; 
+      _dateController.text = selectedDay.toLocal().toString().split(' ')[0];
     });
   }
 
-Future<void> updateAppointment() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    try {
-      QuerySnapshot appointmentQuery = await FirebaseFirestore.instance
-          .collection('appointments')
-          .where('Doctor', isEqualTo: user.uid)
-          .get();
-
-      if (appointmentQuery.docs.isNotEmpty) {
-        // Assuming there is only one appointment per doctor (you might need to adjust this logic)
-        DocumentSnapshot appointmentDoc = appointmentQuery.docs.first;
-
-        await FirebaseFirestore.instance
+  Future<void> updateAppointment() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        QuerySnapshot appointmentQuery = await FirebaseFirestore.instance
             .collection('appointments')
-            .doc(appointmentDoc.id)
-            .update({
-          'date': _dateController.text,
-          'time': _timeController.text,
-        });
+            .where('Doctor', isEqualTo: user.uid)
+            .get();
 
+        if (appointmentQuery.docs.isNotEmpty) {
+          DocumentSnapshot appointmentDoc = appointmentQuery.docs.first;
+
+          await FirebaseFirestore.instance
+              .collection('appointments')
+              .doc(appointmentDoc.id)
+              .update({
+            'date': _dateController.text,
+            'time': _timeController.text,
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Appointment updated successfully'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No appointment found for the doctor'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Appointment updated successfully'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('No appointment found for the doctor'),
+            content: Text('Error updating appointment: $e'),
             backgroundColor: Colors.red,
           ),
         );
       }
-    } catch (e) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error updating appointment: $e'),
+          content: Text('User not authenticated'),
           backgroundColor: Colors.red,
         ),
       );
     }
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('User not authenticated'),
-        backgroundColor: Colors.red,
+  }
+
+//for notification
+  triggerNotification() async {
+    String docName = await getCurrentUserName();
+    String docLastName = await getCurrentUserLastName();
+    String docImage = await getCurrentUserImage();
+    String userID = await getCurrentPatienID();
+
+    // Prepare data to save
+    Map<String, dynamic> dataToSave2 = {
+      'nameD': docName,
+      'lastNameD': docLastName,
+      'ImageD': docImage,
+      'userID': userID,
+      'created_at': FieldValue.serverTimestamp(),
+      'message': 'Has accepted Your Appointment Booking'
+    };
+
+    // Save to Firestore
+    await FirebaseFirestore.instance
+        .collection("notificationsforUser")
+        .add(dataToSave2);
+
+    // Trigger the notification
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: 'Healthy',
+        title: 'Appointment Updated',
+        body: 'Dr. $docName $docLastName has Updated your appointment booking.',
+        bigPicture: docImage,
+        notificationLayout: NotificationLayout.BigPicture,
       ),
     );
   }
-}
 
+  triggerNotificationAccept() async {
+    String docName = await getCurrentUserName();
+    String docLastName = await getCurrentUserLastName();
+    String docImage = await getCurrentUserImage();
+    String userID = await getCurrentPatienID();
 
+    // Prepare data to save
+    Map<String, dynamic> dataToSave2 = {
+      'nameD': docName,
+      'lastNameD': docLastName,
+      'ImageD': docImage,
+      'userID': userID,
+      'created_at': FieldValue.serverTimestamp(),
+      'message': 'Has accepted Your Appointment Booking'
+    };
+
+    // Save to Firestore
+    await FirebaseFirestore.instance
+        .collection("notificationsforUserAccept")
+        .add(dataToSave2);
+
+    // Trigger the notification
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 2,
+        channelKey: 'Healthy',
+        title: 'Appointment Accepted',
+        body:
+            'Dr. $docName $docLastName has Accepted your appointment booking.',
+        bigPicture: docImage,
+        notificationLayout: NotificationLayout.BigPicture,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -288,209 +366,272 @@ Future<void> updateAppointment() async {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                               children: [
-                                ElevatedButton(onPressed: ()async {
-                                      String docName = await getCurrentUserName();
-                                      String docLastName = await getCurrentUserLastName();
-                                      String docImage = await getCurrentUserImage();
-                                      String userID = await getCurrentPatienID();
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                     await triggerNotificationAccept();
+      Navigator.pop(context);
+                                      },
+                                      child: Text('accept')),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setModalState) {
+                                              return SingleChildScrollView(
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        'Select Date',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      SizedBox(height: 20.sp),
+                                                      TableCalendar(
+                                                        calendarStyle: CalendarStyle(
+                                                            selectedDecoration:
+                                                                BoxDecoration(
+                                                                    color:
+                                                                        MyColors
+                                                                            .primaryColor,
+                                                                    shape:
+                                                                        BoxShape
+                                                                            .circle),
+                                                            todayDecoration: BoxDecoration(
+                                                                color: MyColors
+                                                                    .primaryColor
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                shape: BoxShape
+                                                                    .circle)),
+                                                        locale: 'en_US',
+                                                        headerStyle:
+                                                            const HeaderStyle(
+                                                          formatButtonVisible:
+                                                              false,
+                                                          titleCentered: true,
+                                                        ),
+                                                        focusedDay: _focusedDay,
+                                                        onDaySelected:
+                                                            (selectedDay,
+                                                                focusedDay) {
+                                                          setModalState(() {
+                                                            _selectedDay =
+                                                                selectedDay;
+                                                            _focusedDay =
+                                                                focusedDay;
+                                                            _dateController
+                                                                .text = DateFormat(
+                                                                    'yyyy-MM-dd')
+                                                                .format(
+                                                                    selectedDay);
+                                                          });
+                                                        },
+                                                        availableGestures:
+                                                            AvailableGestures
+                                                                .all,
+                                                        selectedDayPredicate:
+                                                            (day) => isSameDay(
+                                                                _selectedDay,
+                                                                day),
+                                                        firstDay:
+                                                            DateTime.now(),
+                                                        lastDay: DateTime(
+                                                          DateTime.now().year +
+                                                              1,
+                                                          DateTime.now().month,
+                                                          DateTime.now().day,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 20.sp),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        height: 70.sp,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: TextField(
+                                                            controller:
+                                                                _dateController,
+                                                            readOnly: true,
+                                                            decoration:
+                                                                const InputDecoration(
+                                                              labelText:
+                                                                  'Selected Date',
+                                                              border:
+                                                                  OutlineInputBorder(),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 20.sp),
+                                                      const Text(
+                                                        'Select Time',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      SizedBox(height: 10.sp),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        height: 60.sp,
+                                                        child: DecoratedBox(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .grey),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        16.0),
+                                                            child:
+                                                                DropdownButton<
+                                                                    String>(
+                                                              hint: Align(
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: Text(
+                                                                  'Time',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize:
+                                                                        14.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              isExpanded: true,
+                                                              underline:
+                                                                  const SizedBox(),
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .arrow_drop_down,
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                              ),
+                                                              value:
+                                                                  valueChoose,
+                                                              onChanged:
+                                                                  (newValue) {
+                                                                setModalState(
+                                                                    () {
+                                                                  valueChoose =
+                                                                      newValue!;
+                                                                  _timeController
+                                                                          .text =
+                                                                      newValue;
+                                                                });
+                                                              },
+                                                              items: listItem.map(
+                                                                  (valueItem) {
+                                                                return DropdownMenuItem<
+                                                                    String>(
+                                                                  value:
+                                                                      valueItem,
+                                                                  child: Text(
+                                                                      valueItem),
+                                                                );
+                                                              }).toList(),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                'Close'),
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (_timeController
+                                                                      .text
+                                                                      .isEmpty ||
+                                                                  _dateController
+                                                                      .text
+                                                                      .isEmpty) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content: Text(
+                                                                        'All fields are required'),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red,
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                await updateAppointment();
+                                                                //send new notification to user
+                                                                triggerNotification();
 
-                                      Map<String, dynamic> dataToSave2 = {
-                                
-                                'nameD': docName,
-                                'lastNameD':docLastName,
-                                'ImageD':docImage,
-                                'userID':userID,
-                               'created_at': FieldValue.serverTimestamp(),
-                                'message': 'Has accepted Your Appointement Booking'
-                                 
-                              };
-
-                              await FirebaseFirestore.instance.collection("notificationsforUser").add(dataToSave2);
- 
-
-                            
-                                          Navigator.pop(context);
-                                }, child: Text('accept')),
-                             ElevatedButton(
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setModalState) {
-                return SingleChildScrollView(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Select Date',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 20.sp),
-                        TableCalendar(
-                          locale: 'en_US',
-                          headerStyle: const HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true,
-                          ),
-                          focusedDay: _focusedDay,
-                          onDaySelected: (selectedDay, focusedDay) {
-                            setModalState(() {
-                              _selectedDay = selectedDay;
-                              _focusedDay = focusedDay;
-                              _dateController.text =
-                                  DateFormat('yyyy-MM-dd').format(selectedDay);
-                            });
-                          },
-                          availableGestures: AvailableGestures.all,
-                          selectedDayPredicate: (day) =>
-                              isSameDay(_selectedDay, day),
-                          firstDay: DateTime.now(),
-                          lastDay: DateTime(
-                            DateTime.now().year + 1,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                          ),
-                        ),
-                        SizedBox(height: 20.sp),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 70.sp,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              controller: _dateController,
-                              readOnly: true,
-                              decoration: const InputDecoration(
-                                labelText: 'Selected Date',
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20.sp),
-                        const Text(
-                          'Select Time',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10.sp),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 60.sp,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: DropdownButton<String>(
-                                hint: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Time',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                                'Book'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: const Text('Update'),
                                   ),
-                                ),
-                                isExpanded: true,
-                                underline: const SizedBox(),
-                                icon: const Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.blue,
-                                ),
-                                value: valueChoose,
-                                onChanged: (newValue) {
-                                  setModalState(() {
-                                    valueChoose = newValue!;
-                                    _timeController.text = newValue;
-                                  });
-                                },
-                                items: listItem.map((valueItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: valueItem,
-                                    child: Text(valueItem),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Close'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (_timeController.text.isEmpty || _dateController.text.isEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('All fields are required'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                } else {
-                                  await updateAppointment();
-                                  //send new notification to user
-                                  String docName = await getCurrentUserName();
-                                      String docLastName = await getCurrentUserLastName();
-                                      String docImage = await getCurrentUserImage();
-                                      String userID = await getCurrentPatienID();
-
-                                      Map<String, dynamic> dataToSave2 = {
-                                
-                                'nameD': docName,
-                                'lastNameD':docLastName,
-                                'ImageD':docImage,
-                                'userID':userID,
-                               'created_at': FieldValue.serverTimestamp(),
-                                'message': 'Has Updated Your Appointement Booking'
-                                 
-                              };
-
-                              await FirebaseFirestore.instance.collection("notificationsforUser2").add(dataToSave2);
- 
-
-                            
-
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: const Text('Book'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-      child: const Text('Update'),
-    ),
-                               ],
+                                ],
                               )
                             ],
                           ),
-                          
                         ],
                       ),
                     ),
@@ -505,4 +646,3 @@ Future<void> updateAppointment() async {
         });
   }
 }
-

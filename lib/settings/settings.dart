@@ -1,9 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy/delete/deleteAccount.dart';
 import 'package:healthy/screens/login/login.dart';
 import 'package:healthy/screens/users/doctor.dart';
 import 'package:healthy/screens/users/patient.dart';
+import 'package:healthy/screens/verification/email.dart';
+import 'package:healthy/settings/helpSupport.dart';
+import 'package:healthy/settings/info.dart';
+import 'package:healthy/settings/privacy.dart';
 
 class SettingsPage extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -51,32 +58,64 @@ class SettingsPage extends StatelessWidget {
           },
             ),
             ListTile(
-              leading: const Icon(Icons.notifications),
-              title: const Text('Notifications'),
+              leading: const Icon(Icons.password),
+              title: const Text('Password Change'),
               onTap: () {
-                // Navigate to notification settings
+                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyEmail(),
+                                ),
+                              );
               },
             ),
             ListTile(
               leading: const Icon(Icons.lock),
               title: const Text('Privacy'),
               onTap: () {
-                // Navigate to privacy settings
+               Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>  PrivacyPage(),
+                                ),
+                              );
               },
             ),
             ListTile(
               leading: const Icon(Icons.help),
               title: const Text('Help & Support'),
               onTap: () {
-                // Navigate to help & support
+                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>  const HelpPage(),
+                                ),
+                              );
               },
             ),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
               onTap: () {
-                // Navigate to about page
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>  const AboutPage(),
+                                ),
+                              );
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Delete Account'),
+               onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const DeleteAccountDialog();
+          },
+        );
+      },
             ),
             ListTile(
               leading: const Icon(Icons.logout),

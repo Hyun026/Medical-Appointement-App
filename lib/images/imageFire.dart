@@ -21,84 +21,122 @@ class StoreData {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> uploadImageToStorage(String childName, Uint8List file) async {
-    try {
-      Reference ref = _storage.ref().child(childName).child(DateTime.now().toString());
-      UploadTask uploadTask = ref.putData(file);
+ Future<String> uploadImageToStorage(String userId, String fileName, Uint8List file) async {
+  try {
+    final String timestamp = DateTime.now().toString();
+    final Reference ref = _storage.ref().child("$userId/ProfilePicture/$timestamp-$fileName");
+    final UploadTask uploadTask = ref.putData(file);
 
-      TaskSnapshot snapshot = await uploadTask;
-      String downloadUrl = await snapshot.ref.getDownloadURL();
-      return downloadUrl;
-    } catch (e) {
-      throw Exception('Failed to upload image: $e');
+    final TaskSnapshot snapshot = await uploadTask;
+    final String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  } catch (e) {
+    throw Exception('Failed to upload image: $e');
+  }
+}
+
+
+ Future<String> saveData({required Uint8List file, required String fileName}) async {
+  String response = "Some Error Occurred";
+
+  try {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+    
+      String imageUrl = await uploadImageToStorage(user.uid, fileName, file);
+      print('Image uploaded. URL: $imageUrl');
+
+      DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
+      DocumentSnapshot userDocSnapshot = await userDocRef.get();
+
+      if (userDocSnapshot.exists) {
+    
+        await userDocRef.update({
+          'imageLink': imageUrl,
+        });
+
+        
+        QuerySnapshot appointmentsSnapshot = await _firestore
+            .collection('appointments')
+            .where('user', isEqualTo: user.uid)
+            .get();
+
+        
+        for (var doc in appointmentsSnapshot.docs) {
+          await doc.reference.update({
+            'userImage': imageUrl,
+          });
+        }
+
+        response = 'success';
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("imageLink", imageUrl);
+        print('SharedPreferences updated.');
+      } else {
+        response = 'No document found for current user.';
+        print(response);
+      }
+    } else {
+      response = 'User not authenticated.';
+      print(response);
     }
+  } catch (err) {
+    print('Error: $err');
+    response = 'Failed to save data: $err';
   }
 
-  Future<String> saveData({required Uint8List file}) async {
-    String response = "Some Error Occurred";
+  return response;
+}
 
-    try {
+
+
+  Future<String> saveData2({required Uint8List file, required String fileName}) async {
+  String response = "Some Error Occurred";
+
+  try {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
       // Upload the image and get its URL
-      String imageUrl = await uploadImageToStorage('ProfileImage', file);
+      String imageUrl = await uploadImageToStorage(user.uid, fileName, file);
 
-      User? user = _auth.currentUser;
+      DocumentReference userDocRef = _firestore.collection('doctors').doc(user.uid);
+      DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
-      if (user != null) {
-        DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
-        DocumentSnapshot userDocSnapshot = await userDocRef.get();
+      if (userDocSnapshot.exists) {
+       
+        await userDocRef.update({
+          'imageLink': imageUrl,
+        });
 
-        if (userDocSnapshot.exists) {
-          await userDocRef.update({
+        
+        QuerySnapshot appointmentsSnapshot = await _firestore
+            .collection('appointments')
+            .where('Doctor', isEqualTo: user.uid)
+            .get();
+
+        
+        for (var doc in appointmentsSnapshot.docs) {
+          await doc.reference.update({
             'imageLink': imageUrl,
           });
-          response = 'success';
-          final prefs = await SharedPreferences.getInstance();
-        await prefs.setString("imageLink", imageUrl);
-        } else {
-          response = 'No document found for current user.';
         }
-      } else {
-        response = 'User not authenticated.';
-      }
-    } catch (err) {
-      print('Error: $err');
-      response = 'Failed to save data: $err';
-    }
 
-    return response;
+        response = 'success';
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("imageLink", imageUrl);
+      } else {
+        response = 'No document found for current user.';
+      }
+    } else {
+      response = 'User not authenticated.';
+    }
+  } catch (err) {
+    print('Error: $err');
+    response = 'Failed to save data: $err';
   }
 
-  Future<String> saveData2({required Uint8List file}) async {
-    String response = "Some Error Occurred";
-
-    try {
-      // Upload the image and get its URL
-      String imageUrl = await uploadImageToStorage('ProfileImage', file);
-
-      User? user = _auth.currentUser;
-
-      if (user != null) {
-        DocumentReference userDocRef = _firestore.collection('doctors').doc(user.uid);
-        DocumentSnapshot userDocSnapshot = await userDocRef.get();
-
-        if (userDocSnapshot.exists) {
-          await userDocRef.update({
-            'imageLink': imageUrl,
-          });
-          response = 'success';
-          final prefs = await SharedPreferences.getInstance();
-        await prefs.setString("imageLink", imageUrl);
-        } else {
-          response = 'No document found for current user.';
-        }
-      } else {
-        response = 'User not authenticated.';
-      }
-    } catch (err) {
-      print('Error: $err');
-      response = 'Failed to save data: $err';
-    }
-
-    return response;
-  }
+  return response;
+}
 }

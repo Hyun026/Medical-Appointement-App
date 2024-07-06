@@ -1,50 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 
+
+
 class EditDocForm extends StatefulWidget {
-  final Map<String, dynamic> userData;
-  final String documentId;
-
-  EditDocForm({required this.userData, required this.documentId});
-
   @override
-  _EditDocFormState createState() => _EditDocFormState();
+  State<EditDocForm> createState() => _EditDocFormState();
 }
 
 class _EditDocFormState extends State<EditDocForm> {
-  final _formKey = GlobalKey<FormState>();
-  
-  late TextEditingController _cabinetController;
-  late TextEditingController _phoneController;
-
-
-
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+  
 
-    _phoneController = TextEditingController(text: widget.userData['phone']);
-    _cabinetController = TextEditingController(text: widget.userData['adress']);
-   
 
-  }
+    final _formKey = GlobalKey<FormState>();
+    TextEditingController addressController = TextEditingController();
+    TextEditingController phoneNumberController = TextEditingController();
+
+
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _cabinetController.dispose();
+   phoneNumberController.dispose();
+    addressController.dispose();
    
     super.dispose();
   }
 
   Future<void> _updateUser() async {
     if (_formKey.currentState!.validate()) {
-      await FirebaseFirestore.instance.collection('doctors').doc(widget.documentId).update({
+       User? user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection('doctors').doc(user!.uid).update({
 
-        'phone': _phoneController.text,
-        'adress': _cabinetController.text,
+        'phone': phoneNumberController.text,
+        'address': addressController.text,
        
 
       });
@@ -52,65 +45,43 @@ class _EditDocFormState extends State<EditDocForm> {
       Navigator.pop(context);  
     }
   }
-
-String? valueChoose3;
-  List<String> listItem3 = [
-    "Tanger-Tétouan-Al Hoceïma",
-    "L'Oriental",
-    "Fès-Meknès",
-    "Rabat-Salé-Kénitra",
-    "Béni Mellal-Khénifra",
-    "Casablanca-Settat",
-    "Marrakech-Safi",
-    "Drâa-Tafilalet",
-    "Souss-Massa",
-    "Guelmim-Oued Noun",
-    "Laâyoune-Sakia El Hamra",
-    "Dakhla-Oued Ed-Dahab"
-  ];
-  @override
-  Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Edit Personal Info'),
-      content: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
+      title: Text('Edit Your Data'),
+      content: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+             Text('address:'),
+              SizedBox(height: 10.sp,),
+             _buildInputField(controller: addressController, hintText: 'Address',),
+              SizedBox(height: 20.sp,),
               Text('Phone Number'),
-              SizedBox(height: 12.h,),
-              _buildInputField(controller: _phoneController, hintText: 'Phone Number'),
-              SizedBox(height: 12.h,),
-              Text('Cabinet'),
-              SizedBox(height: 12.h,),
-              _buildInputField(controller: _cabinetController, hintText: 'Address'),
-              SizedBox(height: 12.h,),
+              SizedBox(height: 10.sp,),
+              _buildInputField(controller: phoneNumberController, hintText: 'Phone Number'),
               
             ],
           ),
         ),
       ),
       actions: [
-        ElevatedButton(
-          style:ElevatedButton.styleFrom(
-            backgroundColor: MyColors.button1
-          ),
-          onPressed: _updateUser,
-          child: Text('Save'),
-        ),
-        ElevatedButton(
-          
+        TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop(); 
           },
           child: Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed:_updateUser,
+          child: Text('Save'),
         ),
       ],
     );
   }
-  
 }
+
 Widget _buildInputField({
   required TextEditingController controller,
   required String hintText,
@@ -122,7 +93,7 @@ Widget _buildInputField({
     height: 50.h,
     child: TextFormField(
       controller: controller,
-     
+      
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -150,4 +121,3 @@ Widget _buildInputField({
     ),
   );
 }
-
