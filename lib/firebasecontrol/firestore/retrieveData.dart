@@ -54,6 +54,179 @@ class Data {
     }
   }
 
+//for users cin
+  Future<String> getMessageCin() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['cin'] ?? 'No cin found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+// for users gender
+  Future<String> getMessageGender() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['gender'] ?? 'No gender found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+//for users birthday
+  Future<String> getMessagebirth() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['birthday'] ?? 'No birthday found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+// for users phone number 
+
+  Future<String> getMessagePhone() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['phone'] ?? 'No phone found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+//for users address 
+  Future<String> getMessageAddress() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['address'] ?? 'No address found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+// for users region 
+  Future<String> getMessageRegion() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['region'] ?? 'No region found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+// for users assurance 
+  Future<String> getMessageAssur() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['assurance'] ?? 'No assurance found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
 
 
   //retrieve data for doctors
@@ -122,7 +295,7 @@ class Data {
           .get();
 
       if (snapshot.docs.isNotEmpty) {
-       String message = snapshot.docs.first.data()['field'] ?? 'No name found';
+       String message = snapshot.docs.first.data()['field'] ?? 'No field found';
         return '$message';
       } else {
         return 'Document does not exist';
@@ -147,7 +320,7 @@ class Data {
           .get();
 
       if (snapshot.docs.isNotEmpty) {
-       String message = snapshot.docs.first.data()['address'] ?? 'No name found';
+       String message = snapshot.docs.first.data()['address'] ?? 'No address found';
         return '$message';
       } else {
         return 'Document does not exist';
@@ -173,7 +346,7 @@ Future<String> getMessage7() async {
           .get();
 
       if (snapshot.docs.isNotEmpty) {
-       String message = snapshot.docs.first.data()['phone'] ?? 'No name found';
+       String message = snapshot.docs.first.data()['phone'] ?? 'No phone found';
         return '$message';
       } else {
         return 'Document does not exist';

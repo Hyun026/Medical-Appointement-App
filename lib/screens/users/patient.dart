@@ -5,12 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/connectivity/refreshing.dart';
 import 'package:healthy/constants/colors/colors.dart';
-import 'package:healthy/firebasecontrol/firestore/fileget.dart';
+
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
 import 'package:healthy/images/imageFire.dart';
+import 'package:healthy/screens/medecins/cardiology.dart';
+import 'package:healthy/screens/medecins/dermatology.dart';
+import 'package:healthy/screens/medecins/endocrinology.dart';
 import 'package:healthy/screens/medecins/general.dart';
-import 'package:healthy/screens/signup/doctor/dsignup.dart';
+import 'package:healthy/screens/medecins/neurology.dart';
+import 'package:healthy/screens/medecins/ophtalmology.dart';
+import 'package:healthy/screens/medecins/orthopedy.dart';
+import 'package:healthy/screens/medecins/pediatrics.dart';
+import 'package:healthy/screens/medecins/pneumology.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,20 +84,8 @@ class _MyPatientState extends State<MyPatient> {
 }
 
   final user = FirebaseAuth.instance.currentUser!;
-//list of document
-  List<String> docIDs = [];
-  Future getDocId() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .where('user', isEqualTo: user.uid)
-        .get()
-        .then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            print(document.reference);
-            docIDs.add(document.reference.id);
-          }),
-        );
-  }
+
+
  
   final Data firestoreService = Data();
   @override
@@ -96,518 +93,799 @@ class _MyPatientState extends State<MyPatient> {
     Size size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        backgroundColor: MyColors.backgroundColor,
-        body: SafeArea(
-          bottom: false,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: size.width,
-                  height: size.height * 0.3,
-                  decoration: const BoxDecoration(color:MyColors.primaryColor),
-                  child: Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Row(
-                      
-                      
-                      children: [
-                        Row(
+      child: RefreshIndicator(
+        onRefresh: () =>  Refreshing(context).refreshPageHomeDoc(),
+        child: Scaffold(
+          backgroundColor: MyColors.backgroundColor,
+          body: SafeArea(
+            bottom: false,
+            child: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FutureBuilder<String>(
-                    future: getCurrentUserImage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircleAvatar(
-                          radius: 60,
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        String userImage = snapshot.data ?? '';
-              
-                        if (userImage.isEmpty) {
+                  Container(
+                    width: size.width,
+                    height: size.height * 0.3,
+                    decoration: const BoxDecoration(color:MyColors.primaryColor),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Row(
+                        
+                        
+                        children: [
+                          Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FutureBuilder<String>(
+                      future: getCurrentUserImage(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircleAvatar(
-                            radius: 80,
-                            child: const Icon(Icons.person, size: 50),
+                            radius: 60,
+                            child: CircularProgressIndicator(),
                           );
                         } else {
-                          return CircleAvatar(
-                            radius: 80,
-                            backgroundImage: NetworkImage(userImage),
-                          );
+                          String userImage = snapshot.data ?? '';
+                
+                          if (userImage.isEmpty) {
+                            return CircleAvatar(
+                              radius: 80,
+                              child: const Icon(Icons.person, size: 50),
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 80,
+                              backgroundImage: NetworkImage(userImage),
+                            );
+                          }
                         }
-                      }
-                    },
+                      },
+                    ),
+                   
+                    GestureDetector(
+                      onTap: selectImage,
+                      child: Icon(
+                        Icons.add_a_photo, 
+                        size: 30, 
+                      ),
+                    ),
+                  ],
+                ),
+                          SizedBox(
+                            width: 20.w,
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                                      FutureBuilder<String>(
+                                                        future: Data().getMessage(),
+                                                        builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Text(
+                                snapshot.data ?? 'No message retrieved',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            }
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 10.w,),
+                                                      FutureBuilder<String>(
+                                                        future: Data().getMessage2(),
+                                                        builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Text(
+                                snapshot.data ?? 'No message retrieved',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            }
+                                                        },
+                                                      ),
+                            
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                 
-                  GestureDetector(
-                    onTap: selectImage,
-                    child: Icon(
-                      Icons.add_a_photo, 
-                      size: 30, 
+                  Expanded(
+                    child: Container(
+                      width: size.width*1,
+                      child: Column(
+                        children: [
+                          const SegmentedTabControl(
+                            tabs: [
+                              SegmentTab(
+                                  label: "Data", color: MyColors.primaryColor),
+                              SegmentTab(
+                                  label: "Files", color: MyColors.primaryColor),
+                            ],
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              children: [
+                                Container(
+                                  width: size.width,
+                                  height: size.height * 0.5,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                    ),
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                         mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                        
+                                                    Text(
+                                                      'CIN:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageCin(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                    
+                                                    Text(
+                                                      'Gender:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageGender(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                     
+                                                    Text(
+                                                      'Birthday:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessagebirth(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                     
+                                                    Text(
+                                                      'Phone Number:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessagePhone(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                     
+                                                    Text(
+                                                      'Address:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageAddress(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                   
+                                                    Text(
+                                                      'Region:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageRegion(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                    
+                                                    Text(
+                                                      'Assurance:',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageAssur(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                      ],),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  width: size.width,
+                                  height: size.height * 0.5,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            //row1
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyGeneral(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('generale',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyPediatricy(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Pediatrics',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20.sp,),
+                                            //row 2
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyCardiology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Cardiology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                   color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyEndocrinology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text(
+                                                            'Endocrinology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          SizedBox(height: 20.sp,),
+                                            //row 3
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyNeurology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Nephrology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyNeurology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Neurology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20.sp,),
+                                            //row 4
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyDermatology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text(
+                                                            'Dermatology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyOphtal(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text(
+                                                            'Ophthalmology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20.sp,),
+                                            //row 5
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyPneu(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Pneumology',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                   color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyOrthopedy(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Orthopedy',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-                        SizedBox(
-                          width: 20.w,
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                                                    FutureBuilder<String>(
-                                                      future: Data().getMessage(),
-                                                      builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return Text(
-                              snapshot.data ?? 'No message retrieved',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold),
-                            );
-                          }
-                                                      },
-                                                    ),
-                                                    SizedBox(width: 10.w,),
-                                                    FutureBuilder<String>(
-                                                      future: Data().getMessage2(),
-                                                      builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return Text(
-                              snapshot.data ?? 'No message retrieved',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold),
-                            );
-                          }
-                                                      },
-                                                    ),
-                          
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: size.width*1,
-                    child: Column(
-                      children: [
-                        const SegmentedTabControl(
-                          tabs: [
-                            SegmentTab(
-                                label: "Data", color: MyColors.primaryColor),
-                            SegmentTab(
-                                label: "Files", color: MyColors.primaryColor),
-                          ],
-                        ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [
-                              Container(
-                                width: size.width,
-                                height: size.height * 0.5,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(75.0),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: FutureBuilder(
-                                        future: getDocId(),
-                                        builder: (context, snapshot) {
-                                          return ListView.builder(
-                                            itemCount: docIDs.length,
-                                            itemBuilder: (context, index) {
-                                              return ListTile(
-                                                title: GetUser(
-                                                    documentId: docIDs[index]),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: size.width,
-                                height: size.height * 0.5,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(75.0),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        //row1
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const MyGeneral(),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Center(
-                                                    child: Text('generale',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Pediatricians',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //row 2
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Cardiologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text(
-                                                        'Endocrinologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //row 3
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Nephrologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Neurologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //row 4
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text(
-                                                        'Dermatologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text(
-                                                        'Ophthalmologists',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //row 5
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Pneumologie',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: size.height * 0.1,
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                gradient: const LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    MyColors.gradient
-                                                  ],
-                                                  begin: Alignment.bottomRight,
-                                                  end: Alignment.topLeft,
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: Center(
-                                                    child: Text('Orthipedy',
-                                                        style: TextStyle(
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                            fontSize: 17.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ),

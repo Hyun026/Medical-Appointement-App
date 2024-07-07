@@ -1,12 +1,13 @@
+// for user
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:healthy/docHome.dart';
+import 'package:healthy/home.dart';
 
-// for doctor side
-class Refresh {
+class Refreshing {
   final BuildContext context;
 
-  Refresh(this.context);
+  Refreshing(this.context);
 
   Future<void> refreshPageHomeDoc() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -24,7 +25,7 @@ class Refresh {
  
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const MyHomeDoc()),
+      MaterialPageRoute(builder: (context) => const MyHome()),
     );
   }
 }

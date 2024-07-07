@@ -18,6 +18,7 @@ class MyAppointHome extends StatelessWidget {
     CollectionReference appoint =
         FirebaseFirestore.instance.collection('appointments');
     Size size = MediaQuery.of(context).size;
+     DateTime now = DateTime.now();
     return FutureBuilder<DocumentSnapshot>(
         future: appoint.doc(documentId).get(),
         builder: (context, snapshot) {

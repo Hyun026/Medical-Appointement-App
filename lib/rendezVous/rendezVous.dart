@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy/connectivity/refreshing.dart';
 import 'package:healthy/rendezVous/get.dart';
 
 //here to read containers full of rendez vous
@@ -29,23 +30,26 @@ class _MyRendezVousState extends State<MyRendezVous> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Rendez-vous'),
-      ),
-      body: Expanded(
-        child: FutureBuilder(
-          future: getDocId(),
-          builder: (context, snapshot) {
-            return ListView.builder(
-              itemCount: docIDs.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: GetMyAppoint(documentId: docIDs[index]),
-                );
-              },
-            );
-          },
+    return RefreshIndicator(
+      onRefresh:   () => Refreshing(context).refreshPageHomeDoc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Your Rendez-vous'),
+        ),
+        body: Expanded(
+          child: FutureBuilder(
+            future: getDocId(),
+            builder: (context, snapshot) {
+              return ListView.builder(
+                itemCount: docIDs.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: GetMyAppoint(documentId: docIDs[index]),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

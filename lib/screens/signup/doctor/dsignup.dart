@@ -8,6 +8,8 @@ import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/docHome.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 import 'package:healthy/firebasecontrol/notifications/messaging.dart';
+import 'package:healthy/screens/login/loginDoc.dart';
+import 'package:healthy/screens/signup/signup1.dart';
 import 'package:healthy/screens/signup/signup2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +40,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/background/back.jpeg"),
               fit: BoxFit.cover,
@@ -50,7 +52,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.6),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(40.0),
                     topRight: Radius.circular(40.0),
                   ),
@@ -61,10 +63,10 @@ class _DoctorCreateState extends State<DoctorCreate> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
+                      const Padding(
+                        padding: EdgeInsets.all(18.0),
                         child: Text(
-                          'Create Your Profile',
+                          'Create Your Profile Doctor',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -150,7 +152,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
                      ),
                    ),
                    isExpanded: true,
-                   underline: SizedBox(),
+                   underline: const SizedBox(),
                    
                    icon: const Icon(
                      Icons.arrow_drop_down,
@@ -197,7 +199,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
                               ),
                                _buildInputField(
                                 controller: emailController,
-                                hintText: "email",
+                                hintText: "Email",
                                 obscureText: false,
                               ),
                               const SizedBox(height: 20),
@@ -228,7 +230,26 @@ class _DoctorCreateState extends State<DoctorCreate> {
                                 hintText: "Confirm your password",
                                 obscureText: true,
                               ),
-
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 16),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MySignup1(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Are you a Patient?",
+                                  style: TextStyle(
+                                      color: MyColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                )),
+                           
                             ],
                           ),
                         ),
@@ -236,7 +257,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
                       Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(150, 50),
+                            minimumSize: const Size(150, 50),
                             backgroundColor: MyColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -251,14 +272,14 @@ class _DoctorCreateState extends State<DoctorCreate> {
       passwordController.text.isEmpty ||phoneController.text.isEmpty ||
       confPasswordController.text.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('All fields are required'),
         backgroundColor: Colors.red,
       ),
     );
   } else if (passwordController.text != confPasswordController.text) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Passwords do not match'),
         backgroundColor: Colors.red,
       ),
@@ -291,7 +312,7 @@ class _DoctorCreateState extends State<DoctorCreate> {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MyHomeDoc()),
+        MaterialPageRoute(builder: (context) => const MyHomeDoc()),
       );
     }
   }
@@ -302,7 +323,36 @@ class _DoctorCreateState extends State<DoctorCreate> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 50.h,)
+                      SizedBox(height: 10.h,),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Do you have an account?",
+                                style: TextStyle(color: Colors.black)),
+                            TextButton(
+                                style: TextButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 16),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MyLogindoc(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Log in",
+                                  style: TextStyle(
+                                      color: MyColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 50.h,),
                     ],
                   ),
                 ),

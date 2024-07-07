@@ -65,28 +65,11 @@ class _MySignup1State extends State<MySignup1> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                            Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DoctorCreate(),
-                                    ),
-                                  );
-                        },
-                       child:  Container(
-                        height: 50.sp,
-                        width: 50.sp,
-                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                         ),
-                         child: Icon(Icons.person),
-                        ),
-                      ),
+                     
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: const Text(
-                          'Sign in Patient',
+                          'Create Your Profile  Patient',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -168,6 +151,25 @@ class _MySignup1State extends State<MySignup1> {
                                 controller: confirmPasswordController,
                                 hintText: "Confirm your password",
                                 obscureText: true),
+                                TextButton(
+                                style: TextButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 16),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DoctorCreate(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Are you a Doctor?",
+                                  style: TextStyle(
+                                      color: MyColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                )),
                             const SizedBox(
                               height: 20,
                             ),

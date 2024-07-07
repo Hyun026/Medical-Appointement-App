@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthy/connectivity/refresh.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
 import 'package:healthy/firebasecontrol/notifications/notification.dart';
@@ -95,326 +96,329 @@ Future<String> getCurrentUserImage() async {
   @override
   Widget build(BuildContext context) {
      Size size = MediaQuery.of(context).size;
-    return Scaffold(
-         backgroundColor: MyColors.backgroundColor,
-         appBar: AppBar( actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-               showDialog(
-      context: context,
-      builder: (BuildContext context) => MyNotifications(),
-    );
-            },
-          ),
-        ],),
-         body: Stack(
-           children: [
-            Align(
-  alignment: Alignment.bottomCenter,
-  child: Container(
-    height: size.height * 0.74,
-    width: size.width * 1,
-    decoration: const BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(30.0),
-        topRight: Radius.circular(30.0),
-      ),
-      color: Colors.white,
-    ),
-    child: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: size.height * 0.15),
-            Text(
-              'Name:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<String>(
-                future: Data().getMessage4(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Container(
-                      height: size.height * 0.07,
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: MyColors.Container,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(
-                            color: MyColors.hintTextColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: 20.sp),
-            Text(
-              'Last Name:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<String>(
-                future: Data().getMessage3(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Container(
-                      height: size.height * 0.07,
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: MyColors.Container,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(
-                            color: MyColors.hintTextColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: 20.sp),
-            Text(
-              'Field:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<String>(
-                future: Data().getMessage5(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Container(
-                      height: size.height * 0.07,
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: MyColors.Container,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(
-                            color: MyColors.hintTextColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: 20.sp),
-            Text(
-              'Address:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<String>(
-                future: Data().getMessage6(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Container(
-                      height: size.height * 0.07,
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: MyColors.Container,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(
-                            color: MyColors.hintTextColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: 20.sp),
-            Text(
-              'Phone Number:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<String>(
-                future: Data().getMessage7(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Container(
-                      height: size.height * 0.07,
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: MyColors.Container,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          snapshot.data ?? 'No message retrieved',
-                          style: TextStyle(
-                            color: MyColors.hintTextColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-            SizedBox(height: 20.sp),
-            ElevatedButton(
+    return RefreshIndicator(
+      onRefresh: () => Refresh(context).refreshPageHomeDoc(),
+      child: Scaffold(
+           backgroundColor: MyColors.backgroundColor,
+           appBar: AppBar( actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => EditDocForm(),
-                );
+                 showDialog(
+        context: context,
+        builder: (BuildContext context) => const MyNotifications(),
+      );
               },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(100.w, 50.h),
-                backgroundColor: MyColors.button1,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: size.width * 0.01),
-                    Icon(Icons.edit, color: Colors.white),
-                  ],
-                ),
-              ),
             ),
-          ],
+          ],),
+           body: Stack(
+             children: [
+              Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+      height: size.height * 0.74,
+      width: size.width * 1,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
         ),
+        color: Colors.white,
       ),
-    ),
-  ),
-),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: size.height * 0.15),
+              Text(
+                'Name:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage4(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              Text(
+                'Last Name:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage3(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              Text(
+                'Field:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage5(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              Text(
+                'Address:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage6(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              Text(
+                'Phone Number:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage7(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => EditDocForm(),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(100.w, 50.h),
+                  backgroundColor: MyColors.button1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      FutureBuilder<String>(
-                        future: getCurrentUserImage(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircleAvatar(
-                              radius: 60,
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            String userImage = snapshot.data ?? '';
-                  
-                            if (userImage.isEmpty) {
-                              return CircleAvatar(
-                                radius: 80,
-                                child: const Icon(Icons.person, size: 50),
-                              );
-                            } else {
-                              return CircleAvatar(
-                                radius: 80,
-                                backgroundImage: NetworkImage(userImage),
-                              );
-                            }
-                          }
-                        },
-                      ),
-                     
-                      GestureDetector(
-                        onTap: selectImage,
-                        child: Icon(
-                          Icons.add_a_photo, 
-                          size: 30, 
+                      Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(width: size.width * 0.01),
+                      Icon(Icons.edit, color: Colors.white),
                     ],
                   ),
-                ],
+                ),
               ),
-           ],
-         ),
+            ],
+          ),
+        ),
+      ),
+        ),
+      ),
+      
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      
+                      children: [
+                        FutureBuilder<String>(
+                          future: getCurrentUserImage(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircleAvatar(
+                                radius: 60,
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              String userImage = snapshot.data ?? '';
+                    
+                              if (userImage.isEmpty) {
+                                return CircleAvatar(
+                                  radius: 80,
+                                  child: const Icon(Icons.person, size: 50),
+                                );
+                              } else {
+                                return CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: NetworkImage(userImage),
+                                );
+                              }
+                            }
+                          },
+                        ),
+                       
+                        GestureDetector(
+                          onTap: selectImage,
+                          child: Icon(
+                            Icons.add_a_photo, 
+                            size: 30, 
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+             ],
+           ),
+      ),
     );
   }
 }

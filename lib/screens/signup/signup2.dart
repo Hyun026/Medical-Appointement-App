@@ -556,7 +556,7 @@ class _MySignup2State extends State<MySignup2> {
                                   'user': user!.uid,
                                   'name': name,
                                   'lastname': lastname,
-                                  "adress": adressController.text,
+                                  "address": adressController.text,
                                   "region": regionController.text,
                                   'cin': cinController.text,
                                   'birthday': birthDateController.text,

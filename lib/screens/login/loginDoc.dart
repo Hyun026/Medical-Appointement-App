@@ -58,32 +58,35 @@ class _MyLogindocState extends State<MyLogindoc> {
                     children: [
                      
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           GestureDetector(
-                        onTap: () {
-                            Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MyLogin(),
-                                    ),
-                                  );
-                        },
-                       child:  Container(
-                        height: 50.sp,
-                        width: 50.sp,
-                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                         ),
-                         child: Icon(Icons.person),
-                        ),
-                      ),
+                          
                           Text(
-                            'Log in',
+                            'Log in Doctor',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22.sp),
                           ),
+                          TextButton(
+                                style: TextButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 16),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyLogin(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Patient?",
+                                  style: TextStyle(
+                                      color: MyColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                )),
                         ],
                       ),
                       SizedBox(height: 30.h,),
