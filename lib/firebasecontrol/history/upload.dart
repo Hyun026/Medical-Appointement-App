@@ -35,6 +35,9 @@ Future<File?> getImageFromCamera(BuildContext context) async {
   }
 }
 
+// general
+
+
 // upload to firestorage
 Future<bool> uploadFile(File file) async {
   try {
@@ -81,3 +84,159 @@ Future<List<Reference>?> getUsersUploadedFiles() async {
     return null; 
   }
 }
+
+
+//cardiology
+
+// upload to firestorage
+Future<bool> uploadFileCar(File file) async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final fileName = file.path.split("/").last;
+    final timestamp = DateTime.now().microsecondsSinceEpoch;
+    final uploadRef = storageRef.child("$userId/medFiles/cardiology/$timestamp-$fileName");
+    final metadata = SettableMetadata(
+      customMetadata: {
+        'uploadDate': DateTime.now().toIso8601String(),
+      },
+    );
+     
+   await uploadRef.putFile(file, metadata);
+  
+    return true;
+  } catch (e) {
+    print('Error uploading file: $e');
+    return false;
+  }
+}
+
+
+//retrieve from firestorage
+Future<List<Reference>?> getUsersUploadedFilesCar() async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final uploadsRefs = storageRef.child("$userId/medFiles/cardiology/");
+    final uploads = await uploadsRefs.listAll();
+
+    return uploads.items;
+  } catch (e) {
+    print('Error fetching uploaded files: $e');
+    return null; 
+  }
+}
+
+
+
+//dentist 
+
+// upload to firestorage
+Future<bool> uploadFileDe(File file) async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final fileName = file.path.split("/").last;
+    final timestamp = DateTime.now().microsecondsSinceEpoch;
+    final uploadRef = storageRef.child("$userId/medFiles/dentist/$timestamp-$fileName");
+    final metadata = SettableMetadata(
+      customMetadata: {
+        'uploadDate': DateTime.now().toIso8601String(),
+      },
+    );
+     
+   await uploadRef.putFile(file, metadata);
+  
+    return true;
+  } catch (e) {
+    print('Error uploading file: $e');
+    return false;
+  }
+}
+
+
+//retrieve from firestorage
+Future<List<Reference>?> getUsersUploadedFilesDe() async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final uploadsRefs = storageRef.child("$userId/medFiles/dentist/");
+    final uploads = await uploadsRefs.listAll();
+
+    return uploads.items;
+  } catch (e) {
+    print('Error fetching uploaded files: $e');
+    return null; 
+  }
+}
+
+
+
+
+//dermatology 
+
+// upload to firestorage
+Future<bool> uploadFileDer(File file) async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final fileName = file.path.split("/").last;
+    final timestamp = DateTime.now().microsecondsSinceEpoch;
+    final uploadRef = storageRef.child("$userId/medFiles/dermatology/$timestamp-$fileName");
+    final metadata = SettableMetadata(
+      customMetadata: {
+        'uploadDate': DateTime.now().toIso8601String(),
+      },
+    );
+     
+   await uploadRef.putFile(file, metadata);
+  
+    return true;
+  } catch (e) {
+    print('Error uploading file: $e');
+    return false;
+  }
+}
+
+
+//retrieve from firestorage
+Future<List<Reference>?> getUsersUploadedFilesDer() async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception('User not authenticated or user ID not available.');
+    }
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final uploadsRefs = storageRef.child("$userId/medFiles/dermatology/");
+    final uploads = await uploadsRefs.listAll();
+
+    return uploads.items;
+  } catch (e) {
+    print('Error fetching uploaded files: $e');
+    return null; 
+  }
+}
+
+
+

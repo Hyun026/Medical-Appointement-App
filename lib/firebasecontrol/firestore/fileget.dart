@@ -64,7 +64,7 @@ class GetUser extends StatelessWidget {
                   _costumField(text: '${data['assurance']}'),
                   
                   SizedBox(height: 20.h),
-                  ElevatedButton(
+               /*   ElevatedButton(
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -89,7 +89,7 @@ class GetUser extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             );

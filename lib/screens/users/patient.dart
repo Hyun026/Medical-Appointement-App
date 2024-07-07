@@ -9,8 +9,10 @@ import 'package:healthy/connectivity/refreshing.dart';
 import 'package:healthy/constants/colors/colors.dart';
 
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
+import 'package:healthy/firebasecontrol/update/editProfile.dart';
 import 'package:healthy/images/imageFire.dart';
 import 'package:healthy/screens/medecins/cardiology.dart';
+import 'package:healthy/screens/medecins/dentist.dart';
 import 'package:healthy/screens/medecins/dermatology.dart';
 import 'package:healthy/screens/medecins/endocrinology.dart';
 import 'package:healthy/screens/medecins/general.dart';
@@ -113,15 +115,15 @@ class _MyPatientState extends State<MyPatient> {
                         
                         
                         children: [
-                          Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                          Stack(
+                
                   children: [
                     FutureBuilder<String>(
                       future: getCurrentUserImage(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircleAvatar(
-                            radius: 60,
+                            radius: 50,
                             child: CircularProgressIndicator(),
                           );
                         } else {
@@ -129,12 +131,12 @@ class _MyPatientState extends State<MyPatient> {
                 
                           if (userImage.isEmpty) {
                             return CircleAvatar(
-                              radius: 80,
+                              radius: 50,
                               child: const Icon(Icons.person, size: 50),
                             );
                           } else {
                             return CircleAvatar(
-                              radius: 80,
+                              radius: 50,
                               backgroundImage: NetworkImage(userImage),
                             );
                           }
@@ -147,6 +149,7 @@ class _MyPatientState extends State<MyPatient> {
                       child: Icon(
                         Icons.add_a_photo, 
                         size: 30, 
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -169,7 +172,7 @@ class _MyPatientState extends State<MyPatient> {
                               return Text(
                                 snapshot.data ?? 'No message retrieved',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: 22.sp,
                                     fontWeight: FontWeight.bold),
                               );
@@ -189,7 +192,7 @@ class _MyPatientState extends State<MyPatient> {
                               return Text(
                                 snapshot.data ?? 'No message retrieved',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: 22.sp,
                                     fontWeight: FontWeight.bold),
                               );
@@ -516,6 +519,32 @@ class _MyPatientState extends State<MyPatient> {
                                                         },
                                                       ),
                                                     ),
+                                                     ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => EditUserForm(),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(100.w, 50.h),
+                      backgroundColor: MyColors.button1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Edit', style: TextStyle(color: Colors.white, fontSize: 17.sp, fontWeight: FontWeight.bold)),
+                          SizedBox(width: size.width * 0.01),
+                          Icon(Icons.edit, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
                                       ],),
                                     ),
                                   )
@@ -653,13 +682,13 @@ class _MyPatientState extends State<MyPatient> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyEndocrinology(),
+                                                              const Dentist(),
                                                         ),
                                                       );
                                                     },
                                                     child: Center(
                                                         child: Text(
-                                                            'Endocrinology',
+                                                            'Dentist',
                                                             style: TextStyle(
                                                                 color: MyColors
                                                                     .primaryColor,

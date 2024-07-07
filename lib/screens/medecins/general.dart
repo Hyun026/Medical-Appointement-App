@@ -78,42 +78,61 @@ class _MyGeneralState extends State<MyGeneral> {
         child: Text('no Files  Uploaded'),
       );
     }
-    return Padding(
-      padding: EdgeInsets.all(20),
-      child: ListView.builder(
-          itemCount: uploadedFiles.length,
-          itemBuilder: (context, index) {
-            Reference ref = uploadedFiles[index];
-            return Container(
+   return Padding(
+  padding: EdgeInsets.all(20),
+  child: ListView.builder(
+    itemCount: uploadedFiles.length,
+    itemBuilder: (context, index) {
+      Reference ref = uploadedFiles[index];
+      DateTime fileDateTime = DateTime.now(); 
+      return Column(
+        children: [
+          IntrinsicHeight(
+            child: Container(
               decoration: BoxDecoration(
+                color: MyColors.Container,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: FutureBuilder(
-                  future: ref.getDownloadURL(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  FullScreenImage(imageUrl: snapshot.data!),
-                            ),
-                          );
-                        },
-                        child: ListTile(
-                          leading: Image.network(snapshot.data!),
-                        ),
-                      );
-                    }
-                    return Container(
-                      child: Text('Something is wrong'),
+                future: ref.getDownloadURL(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FullScreenImage(imageUrl: snapshot.data!),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Image.network(snapshot.data!),
+                      title: Text(ref.name),
+                      ),
                     );
-                  }),
-            );
-          }),
-    );
+                  }
+                  return Container(
+                    child: Text('Something is wrong'),
+                  );
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Uploaded on: ${fileDateTime.toLocal()}',
+            style: TextStyle(color: Colors.grey),
+          ),
+          SizedBox(height: 20),
+        ],
+      );
+    },
+  ),
+);
+
+
   }
 
   void getUploadedFiles() async {

@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 
 class EditUserForm extends StatefulWidget {
-  final Map<String, dynamic> userData;
-  final String documentId;
-
-  EditUserForm({required this.userData, required this.documentId});
-
+ 
   @override
   _EditUserFormState createState() => _EditUserFormState();
 }
@@ -16,20 +13,12 @@ class EditUserForm extends StatefulWidget {
 class _EditUserFormState extends State<EditUserForm> {
   final _formKey = GlobalKey<FormState>();
   
-  late TextEditingController _phoneController;
-  late TextEditingController _addressController;
-  late TextEditingController _regionController;
+   TextEditingController _phoneController = TextEditingController();
+   TextEditingController _addressController = TextEditingController();
+   TextEditingController _regionController = TextEditingController();
 
 
-  @override
-  void initState() {
-    super.initState();
-
-    _phoneController = TextEditingController(text: widget.userData['phone']);
-    _addressController = TextEditingController(text: widget.userData['adress']);
-    _regionController = TextEditingController(text: widget.userData['region']);
-
-  }
+  
 
   @override
   void dispose() {
@@ -41,7 +30,8 @@ class _EditUserFormState extends State<EditUserForm> {
 
   Future<void> _updateUser() async {
     if (_formKey.currentState!.validate()) {
-      await FirebaseFirestore.instance.collection('users').doc(widget.documentId).update({
+       User? user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
 
         'phone': _phoneController.text,
         'adress': _addressController.text,
