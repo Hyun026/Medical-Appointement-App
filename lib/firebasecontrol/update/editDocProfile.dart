@@ -15,6 +15,27 @@ class _EditDocFormState extends State<EditDocForm> {
   @override
   Widget build(BuildContext context) {
   
+  String ? valueChoose4;
+  List<String> listItem4 =[
+    "Tanger","Tetouan","Casablanca","Rabat","Hoceima","Oujda","Agadir","Fes","Marrakech"
+  ];
+
+  String? valueChoose3;
+  List<String> listItem3 = [
+    "Tanger-Tétouan-Al Hoceïma",
+    "L'Oriental",
+    "Fès-Meknès",
+    "Rabat-Salé-Kénitra",
+    "Béni Mellal-Khénifra",
+    "Casablanca-Settat",
+    "Marrakech-Safi",
+    "Drâa-Tafilalet",
+    "Souss-Massa",
+    "Guelmim-Oued Noun",
+    "Laâyoune-Sakia El Hamra",
+    "Dakhla-Oued Ed-Dahab"
+  ];
+
 
 
     final _formKey = GlobalKey<FormState>();
@@ -30,7 +51,7 @@ class _EditDocFormState extends State<EditDocForm> {
    phoneNumberController.dispose();
     addressController.dispose();
     cityController.dispose();
-    
+    regionController.dispose();
    
     super.dispose();
   }
@@ -43,6 +64,7 @@ class _EditDocFormState extends State<EditDocForm> {
         'phone': phoneNumberController.text,
         'address': addressController.text,
         'city':cityController.text,
+        'region':regionController.text,
        
 
       });
@@ -61,14 +83,108 @@ class _EditDocFormState extends State<EditDocForm> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               Text('Address:', style: TextStyle(fontSize: 18),),
+               Text('Address :', style: TextStyle(fontSize: 18),),
                 SizedBox(height: 10.sp,),
                _buildInputField(controller: addressController, hintText: 'Address',),
                 SizedBox(height: 20.sp,),
-                Text('Phone Number',  style: TextStyle(fontSize: 18),),
+                Text('Phone Number :',  style: TextStyle(fontSize: 18),),
                 SizedBox(height: 10.sp,),
                 _buildInputField(controller: phoneNumberController, hintText: 'Phone Number'),
+                SizedBox(height: 20.sp,),
+                Text('City :',  style: TextStyle(fontSize: 18),),
+                 Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+              border: Border.all(color: MyColors.primaryColor, width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+                 child: DropdownButton<String>(
+                   hint: const Padding(
+                     padding: EdgeInsets.all(8.0),
+                     child: Align(
+                       alignment: Alignment.centerLeft,
+                       child: Text(
+                         'Region',
+                         style: TextStyle(
+                           color: MyColors.hintTextColor,
+                           fontSize: 14,
+                           fontWeight: FontWeight.w600,
+                         ),
+                       ),
+                     ),
+                   ),
+                   isExpanded: true,
+                   underline: SizedBox(),
+                   
+                   icon: const Icon(
+                     Icons.arrow_drop_down,
+                     color: MyColors.primaryColor,
+                   ),
+                   value: valueChoose4,
+                   onChanged:(newValue) {
+                           setState(() {
+                             valueChoose4 = newValue!;
+                             cityController.text = newValue;
+                           });
+                         },
+                       
+                   items: listItem4.map((valueItem) {
+                     return DropdownMenuItem<String>(
+                       value: valueItem,
+                       child: Text(valueItem),
+                     );
+                   }).toList(),
+                 ),
+               ),
 
+
+                SizedBox(height: 20.sp,),
+                Text('Region :',  style: TextStyle(fontSize: 18),),
+                 Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+              border: Border.all(color: MyColors.primaryColor, width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+                 child: DropdownButton<String>(
+                   hint: const Padding(
+                     padding: EdgeInsets.all(8.0),
+                     child: Align(
+                       alignment: Alignment.centerLeft,
+                       child: Text(
+                         'Region',
+                         style: TextStyle(
+                           color: MyColors.hintTextColor,
+                           fontSize: 14,
+                           fontWeight: FontWeight.w600,
+                         ),
+                       ),
+                     ),
+                   ),
+                   isExpanded: true,
+                   underline: SizedBox(),
+                   
+                   icon: const Icon(
+                     Icons.arrow_drop_down,
+                     color: MyColors.primaryColor,
+                   ),
+                   value: valueChoose3,
+                   onChanged:(newValue) {
+                           setState(() {
+                             valueChoose3 = newValue!;
+                             regionController.text = newValue;
+                           });
+                         },
+                       
+                   items: listItem3.map((valueItem) {
+                     return DropdownMenuItem<String>(
+                       value: valueItem,
+                       child: Text(valueItem),
+                     );
+                   }).toList(),
+                 ),
+               ),
+                
                 
               ],
             ),

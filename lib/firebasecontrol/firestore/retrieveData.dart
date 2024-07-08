@@ -227,7 +227,56 @@ class Data {
     }
   }
 
+// users city
 
+  Future<String> getMessageR() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['region'] ?? 'No region found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+// for users assurance 
+  Future<String> getMessageCity() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('users')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['city'] ?? 'No city found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
 
   //retrieve data for doctors
   
@@ -356,4 +405,60 @@ Future<String> getMessage7() async {
       return 'Failed to fetch message';
     }
   }
+
+
+//get doctors city 
+
+Future<String> getMessage8() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('doctors')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['city'] ?? 'No city found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+
+//get doctors region
+
+Future<String> getMessage9() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return 'User not authenticated';
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+          .collection('doctors')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+       String message = snapshot.docs.first.data()['region'] ?? 'No region found';
+        return '$message';
+      } else {
+        return 'Document does not exist';
+      }
+    } catch (e) {
+      print('Error fetching message: $e');
+      return 'Failed to fetch message';
+    }
+  }
+
+
 }

@@ -16,6 +16,7 @@ class _EditUserFormState extends State<EditUserForm> {
    TextEditingController _phoneController = TextEditingController();
    TextEditingController _addressController = TextEditingController();
    TextEditingController _regionController = TextEditingController();
+   TextEditingController _cityController = TextEditingController();
 
 
   
@@ -25,6 +26,7 @@ class _EditUserFormState extends State<EditUserForm> {
     _phoneController.dispose();
     _addressController.dispose();
     _regionController.dispose();
+    _cityController.dispose();
     super.dispose();
   }
 
@@ -36,6 +38,7 @@ class _EditUserFormState extends State<EditUserForm> {
         'phone': _phoneController.text,
         'address': _addressController.text,
         'region': _regionController.text,
+        'city':_cityController.text,
 
       });
 
@@ -58,6 +61,11 @@ String? valueChoose3;
     "Laâyoune-Sakia El Hamra",
     "Dakhla-Oued Ed-Dahab"
   ];
+
+  String ? valueChoose4;
+  List<String> listItem4 =[
+    "Tanger","Tetouan","Casablanca","Rabat","Hoceima","Oujda","Agadir","Fes","Marrakech"
+  ];
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -68,15 +76,15 @@ String? valueChoose3;
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Phone Number'),
+              Text('Phone Number :'),
               SizedBox(height: 12.h,),
               _buildInputField(controller: _phoneController, hintText: 'Phone Number'),
               SizedBox(height: 12.h,),
-              Text('Address'),
+              Text('Address :'),
               SizedBox(height: 12.h,),
               _buildInputField(controller: _addressController, hintText: 'Address'),
               SizedBox(height: 12.h,),
-              Text('Region'),
+              Text('Region :'),
               SizedBox(height: 12.h,),
                Container(
                 decoration: BoxDecoration(
@@ -115,6 +123,53 @@ String? valueChoose3;
                          },
                        
                    items: listItem3.map((valueItem) {
+                     return DropdownMenuItem<String>(
+                       value: valueItem,
+                       child: Text(valueItem),
+                     );
+                   }).toList(),
+                 ),
+               ),
+               SizedBox(height: 12.h,),
+              Text('City :'),
+               SizedBox(height: 12.h,),
+               Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+              border: Border.all(color: MyColors.primaryColor, width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+                 child: DropdownButton<String>(
+                   hint: const Padding(
+                     padding: EdgeInsets.all(8.0),
+                     child: Align(
+                       alignment: Alignment.centerLeft,
+                       child: Text(
+                         'City',
+                         style: TextStyle(
+                           color: MyColors.hintTextColor,
+                           fontSize: 14,
+                           fontWeight: FontWeight.w600,
+                         ),
+                       ),
+                     ),
+                   ),
+                   isExpanded: true,
+                   underline: SizedBox(),
+                   
+                   icon: const Icon(
+                     Icons.arrow_drop_down,
+                     color: MyColors.primaryColor,
+                   ),
+                   value: valueChoose4,
+                   onChanged:(newValue) {
+                           setState(() {
+                             valueChoose4 = newValue!;
+                             _cityController.text = newValue;
+                           });
+                         },
+                       
+                   items: listItem4.map((valueItem) {
                      return DropdownMenuItem<String>(
                        value: valueItem,
                        child: Text(valueItem),

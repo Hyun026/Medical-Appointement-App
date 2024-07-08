@@ -440,6 +440,46 @@ class _MyPatientState extends State<MyPatient> {
                                                         },
                                                       ),
                                                     ),
+                                                      Text(
+                                                      'City :',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: FutureBuilder<String>(
+                                                        future: Data().getMessageCity(),
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasError) {
+                                                            return Text('Error: ${snapshot.error}');
+                                                          } else {
+                                                            return Container(
+                                                              height: size.height * 0.07,
+                                                              width: size.width * 0.8,
+                                                              decoration: BoxDecoration(
+                                                                color: MyColors.Container,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  snapshot.data ?? 'No message retrieved',
+                                                                  style: TextStyle(
+                                                                    color: MyColors.hintTextColor,
+                                                                    fontSize: 22.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                     
                                                    
                                                     Text(
                                                       'Region:',

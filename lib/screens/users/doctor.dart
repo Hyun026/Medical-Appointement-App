@@ -292,6 +292,86 @@ Future<String> getCurrentUserImage() async {
                   },
                 ),
               ),
+               SizedBox(height: 20.sp),
+               Text(
+                'City :',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+               SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage8(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: const BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.sp),
+               Text(
+                'Region :',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+               SizedBox(height: 10.sp),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                  future: Data().getMessage9(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.8,
+                        decoration: const BoxDecoration(
+                          color: MyColors.Container,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            snapshot.data ?? 'No message retrieved',
+                            style: TextStyle(
+                              color: MyColors.hintTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
               SizedBox(height: 20.sp),
               Text(
                 'Phone Number:',
