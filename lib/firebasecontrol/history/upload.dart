@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,25 @@ Future<File?> getImageFromCamera(BuildContext context) async {
     }
   } catch (e) {
     print(e);
+    return null;
+  }
+}
+
+//select a pdf file 
+Future<File?> getPdfFile() async {
+  try {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      return File(result.files.single.path!);
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print('Error picking PDF file: $e');
     return null;
   }
 }

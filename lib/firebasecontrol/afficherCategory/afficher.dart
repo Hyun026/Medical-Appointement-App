@@ -1,53 +1,25 @@
+//for general
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GetMyAppoint extends StatefulWidget {
+class GeneralRead extends StatelessWidget {
   final String documentId;
-  const GetMyAppoint({required this.documentId});
 
-  @override
-  State<GetMyAppoint> createState() => _GetMyAppointState();
-}
-
-class _GetMyAppointState extends State<GetMyAppoint> {
-   final user = FirebaseAuth.instance.currentUser!;
-
-  Future<void> deleteAppointment(String docId) async {
-    try {
-      await FirebaseFirestore.instance.collection('appointments').doc(docId).delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: const Text('Appointment deleted successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      
-      setState(() {}); 
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error deleting appointment: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      print('Error deleting document: $e');
-    }
-  }
+  const GeneralRead({Key? key, required this.documentId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference appoint = FirebaseFirestore.instance.collection('appointments');
+    CollectionReference appoint = FirebaseFirestore.instance.collection('doctors');
     Size size = MediaQuery.of(context).size;
 
     return FutureBuilder<DocumentSnapshot>(
-      future: appoint.doc(widget.documentId).get(),
-      builder: (context, snapshot) {
+      future: appoint.doc(documentId).get(),
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData && snapshot.data!.exists) {
             Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            String imageLink = data['imageLink'];
+            String imageLink = data['imageLink'] ?? '';
 
             return Padding(
               padding: const EdgeInsets.all(20.0),
@@ -81,27 +53,20 @@ class _GetMyAppointState extends State<GetMyAppoint> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data['Dname'],
+                                data['name'] ?? '',
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                '${data['date']} || ${data['time']}',
+                                '${data['lastname']} || ${data['phone']}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey,
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              ElevatedButton(
-                                onPressed: () {
-                                  deleteAppointment(widget.documentId);
-                                  //add a snackbar 
-                                },
-                                child: const Text('Delete'),
-                              ),
                             ],
                           ),
                         ],
@@ -114,8 +79,11 @@ class _GetMyAppointState extends State<GetMyAppoint> {
           } else {
             return const Text('Document does not exist');
           }
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return const Text('Failed to load data');
         }
-        return const Text('loading...');
       },
     );
   }

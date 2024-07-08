@@ -12,6 +12,17 @@ import 'package:healthy/recommended/getRecommendation.dart';
 
 import 'package:healthy/rendezVous/getforHome.dart';
 import 'package:healthy/rendezVous/rendezVous.dart';
+import 'package:healthy/screens/category/cardio.dart';
+import 'package:healthy/screens/category/dentisty.dart';
+import 'package:healthy/screens/category/derma.dart';
+import 'package:healthy/screens/category/endocri.dart';
+import 'package:healthy/screens/category/general.dart';
+import 'package:healthy/screens/category/nephro.dart';
+import 'package:healthy/screens/category/neuro.dart';
+import 'package:healthy/screens/category/ophta.dart';
+import 'package:healthy/screens/category/ortho.dart';
+import 'package:healthy/screens/category/pedia.dart';
+import 'package:healthy/screens/category/pneu.dart';
 
 import 'package:healthy/screens/users/patient.dart';
 import 'package:healthy/search/searchList.dart';
@@ -146,7 +157,7 @@ class _MyHomeState extends State<MyHome> {
 
 class HomeContent extends StatelessWidget {
   final Map<String, IconData> categoryIcons = {
-    'general': Icons.local_hospital,
+    'General': Icons.local_hospital,
     'Cardiology': Icons.favorite,
     'Dermatology': Icons.face,
     'Neurology': Icons.psychology,
@@ -218,14 +229,14 @@ class HomeContent extends StatelessWidget {
             const SizedBox(height: 30.0),
             const MyWidget(),
             const SizedBox(height: 30.0),
-            const Text(
-              'Latest Appointment',
+          /*   Text(
+              'Latest Appointment',style: TextStyle(fontSize: 20.sp),
          
             ),
             const AppointmentCard(),
-            const SizedBox(height: 20.0),
-            const Text(
-              'Suggested Doctors',
+            const SizedBox(height: 20.0),*/
+             Text(
+              'Suggested Doctors',style: TextStyle(fontSize: 20.sp),
         
             ),
       
@@ -245,25 +256,101 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: MyColors.primaryColor,
-            child: Icon(
-              categoryIcon,
-              color: Colors.white,
-              size: 20.0,
+    return GestureDetector(
+      onTap: () {
+        
+        switch (categoryName) {
+          case 'General':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => General()),
+            );
+            break;
+          case 'Cardiology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Cardiolo()),
+            );
+            break;
+          case 'Dermatology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Dermato()),
+            );
+            break;
+          case 'Neurology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Neurolo()),
+            );
+            break;
+          case 'Pediatrics':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Pediatri()),
+            );
+            break;
+          case 'Dentist':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Dentiste()),
+            );
+            break;
+          case 'Endocrinology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Endocrino()),
+            );
+            break;
+          case 'Nephrology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Nephrolo()),
+            );
+            break;
+          case 'Orthopedy':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Orthope()),
+            );
+            break;
+          case 'Pneumology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Pneumo()),
+            );
+            break;
+          case 'Ophthalmology':
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Ophtalmo()),
+            );
+            break;
+          default:
+          
+            break;
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundColor: MyColors.primaryColor,
+              child: Icon(
+                categoryIcon,
+                color: Colors.white,
+                size: 20.0,
+              ),
             ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            categoryName,
-       
-          ),
-        ],
+            const SizedBox(height: 8.0),
+            Text(
+              categoryName,
+              // Add styling or other configurations as needed
+            ),
+          ],
+        ),
       ),
     );
   }

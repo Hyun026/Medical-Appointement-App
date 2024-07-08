@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +129,7 @@ Future<String> getCurrentImage() async {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   
-                  Icon(Icons.location_pin,color: MyColors.primaryColor,),
+                  const Icon(Icons.location_pin,color: MyColors.primaryColor,),
                   Text(
                     widget.doctorDetails['address'] ?? "No address",
                     style: TextStyle(fontSize: 16.sp),
@@ -169,6 +168,22 @@ Future<String> getCurrentImage() async {
                                   ),
                                   SizedBox(height: 20.sp),
                                   TableCalendar(
+                                    calendarStyle: CalendarStyle(
+                                                            selectedDecoration:
+                                                                const BoxDecoration(
+                                                                    color:
+                                                                        MyColors
+                                                                            .primaryColor,
+                                                                    shape:
+                                                                        BoxShape
+                                                                            .circle),
+                                                            todayDecoration: BoxDecoration(
+                                                                color: MyColors
+                                                                    .primaryColor
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                shape: BoxShape
+                                                                    .circle)),
                                     locale: 'en_US',
                                     headerStyle: const HeaderStyle(
                                       formatButtonVisible: false,
@@ -280,7 +295,7 @@ Future<String> getCurrentImage() async {
                                           if (_timeController.text.isEmpty ||
                                 _dateController.text.isEmpty ) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text('All fields are required'),
                                   backgroundColor: Colors.red,
                                 ),
