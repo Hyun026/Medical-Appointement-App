@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy/constants/colors/colors.dart';
 
 
 class PdfViewerPage extends StatelessWidget {
@@ -28,6 +29,8 @@ class PdfViewerPage extends StatelessWidget {
             return PDFViewer(
               document: snapshot.data!,
               zoomSteps: 1,
+              pickerIconColor: Colors.white,
+              pickerButtonColor: MyColors.primaryColor,
             );
           } else {
             return Center(child: Text('Unknown error occurred'));

@@ -10,14 +10,14 @@ import 'package:healthy/firebasecontrol/history/fullImage.dart';
 import 'package:healthy/firebasecontrol/history/upload.dart';
 import 'package:healthy/images/pdf/pdf.dart';
 
-class MyNeurology extends StatefulWidget {
-  const MyNeurology({super.key});
+class MyPathology extends StatefulWidget {
+  const MyPathology({super.key});
 
   @override
-  State<MyNeurology> createState() => _MyNeurologyState();
+  State<MyPathology> createState() => _MyPathologyState();
 }
 
-class _MyNeurologyState extends State<MyNeurology> {
+class _MyPathologyState extends State<MyPathology> {
    List<Reference> uploadedFiles = [];
 
   @override
@@ -44,7 +44,7 @@ class _MyNeurologyState extends State<MyNeurology> {
             onTap: () async {
               File? selectedImage1 = await getImageFromCamera(context);
               if (selectedImage1 != null) {
-                bool success = await uploadFileNeu(selectedImage1);
+                bool success = await uploadFilePath(selectedImage1);
                 if (success) {
                   await getUploadedFiles();
                 }
@@ -56,7 +56,7 @@ class _MyNeurologyState extends State<MyNeurology> {
             onTap: () async {
               File? selectedImage = await getImageFromGallery(context);
               if (selectedImage != null) {
-                bool success = await uploadFileNeu(selectedImage);
+                bool success = await uploadFilePath(selectedImage);
                 if (success) {
                   await getUploadedFiles();
                 }
@@ -68,7 +68,7 @@ class _MyNeurologyState extends State<MyNeurology> {
             onTap: () async {
               File? pickedFile = await getPdfFile();
               if (pickedFile != null) {
-                bool uploadSuccess = await uploadFileNeu(pickedFile);
+                bool uploadSuccess = await uploadFilePath(pickedFile);
                 if (uploadSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('File uploaded successfully!')),
@@ -178,7 +178,7 @@ class _MyNeurologyState extends State<MyNeurology> {
   }
 
   Future<void> getUploadedFiles() async {
-    List<Reference>? result = await getUsersUploadedFilesNeu();
+    List<Reference>? result = await getUsersUploadedFilesPath();
     if (result != null) {
       setState(() {
         uploadedFiles = result;
