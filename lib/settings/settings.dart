@@ -51,7 +51,7 @@ class SettingsPage extends StatelessWidget {
               
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyDocProfile()),
+                  MaterialPageRoute(builder: (context) => const MyDocProfile()),
                 );
               }
             }

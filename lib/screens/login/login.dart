@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
@@ -32,7 +32,7 @@ class _MyLoginState extends State<MyLogin> {
       backgroundColor: const Color(0xff4cbbc5),
       body: SingleChildScrollView(
         child: Container(
-             decoration: BoxDecoration(
+             decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/background/back.jpeg"), 
           fit: BoxFit.cover,
@@ -79,7 +79,7 @@ class _MyLoginState extends State<MyLogin> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MyLogindoc(),
+                                      builder: (context) => const MyLogindoc(),
                                     ),
                                   );
                                 },
@@ -127,13 +127,13 @@ class _MyLoginState extends State<MyLogin> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyEmail(),
+                                builder: (context) => const MyEmail(),
                               ),
                             );
                           },
                           child: const Text('Forgot your password?',
                               style: TextStyle(color: MyColors.primaryColor))),
-                    loading ? CircularProgressIndicator() :  Center(
+                    loading ? const CircularProgressIndicator() :  Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(300.w, 50.h),
@@ -147,7 +147,7 @@ class _MyLoginState extends State<MyLogin> {
                               loading= true;
                             });
                              if(emailController.text == "" || passwordController.text == ""){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All fields are required'),backgroundColor: Colors.red,));
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('All fields are required'),backgroundColor: Colors.red,));
                             } else{
                             User? result =  await AuthService().login(emailController.text, passwordController.text, context);
                             if(result != null){
@@ -156,11 +156,11 @@ class _MyLoginState extends State<MyLogin> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyHome(), 
+                          builder: (context) => const MyHome(), 
                         ),
                       );
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Access denied: Not a User'),
                         backgroundColor: Colors.red,
                       ));
@@ -186,7 +186,7 @@ class _MyLoginState extends State<MyLogin> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MySignup1(),
+                                  builder: (context) => const MySignup1(),
                                 ),
                               );
                             },

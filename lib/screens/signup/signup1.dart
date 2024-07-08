@@ -1,15 +1,13 @@
 
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/screens/signup/doctor/dsignup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter/widgets.dart';
+
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 
 import 'package:healthy/screens/login/login.dart';
@@ -39,7 +37,7 @@ class _MySignup1State extends State<MySignup1> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
                   "assets/background/back.jpeg"),
@@ -66,9 +64,9 @@ class _MySignup1State extends State<MySignup1> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                      
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: const Text(
+                      const Padding(
+                        padding: EdgeInsets.all(18.0),
+                        child: Text(
                           'Create Your Profile  Patient',
                           style: TextStyle(
                               color: Colors.black,
@@ -85,12 +83,13 @@ class _MySignup1State extends State<MySignup1> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Name',
+                              'Name :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
+                            SizedBox(height: 10.sp,),
                             _buildInputField(
                                 controller: nameController,
                                 hintText: "First name",
@@ -99,12 +98,13 @@ class _MySignup1State extends State<MySignup1> {
                               height: 20,
                             ),
                             const Text(
-                              'Lastname',
+                              'Lastname :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
+                              SizedBox(height: 10.sp,),
                             _buildInputField(
                                 controller: lastnameController,
                                 hintText: "Last name",
@@ -113,12 +113,13 @@ class _MySignup1State extends State<MySignup1> {
                               height: 20,
                             ),
                             const Text(
-                              'Email',
+                              'Email :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
+                              SizedBox(height: 10.sp,),
                             _buildInputField(
                                 controller: emailController,
                                 hintText: "Enter your email",
@@ -127,12 +128,13 @@ class _MySignup1State extends State<MySignup1> {
                               height: 20,
                             ),
                             const Text(
-                              'Password',
+                              'Password :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
+                              SizedBox(height: 10.sp,),
                             _buildInputField(
                                 controller: passwordController,
                                 hintText: "Enter your password",
@@ -141,35 +143,18 @@ class _MySignup1State extends State<MySignup1> {
                               height: 20,
                             ),
                             const Text(
-                              'Confirm password',
+                              'Confirm password :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
+                              SizedBox(height: 10.sp,),
                             _buildInputField(
                                 controller: confirmPasswordController,
                                 hintText: "Confirm your password",
                                 obscureText: true),
-                                TextButton(
-                                style: TextButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 16),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DoctorCreate(),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  "Are you a Doctor?",
-                                  style: TextStyle(
-                                      color: MyColors.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.0),
-                                )),
+                                
                             const SizedBox(
                               height: 20,
                             ),
@@ -177,12 +162,12 @@ class _MySignup1State extends State<MySignup1> {
                         )),
                       ),
                       if (loading)
-                        CircularProgressIndicator()
+                        const CircularProgressIndicator()
                       else
                         Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(150, 50),
+                              minimumSize: const Size(150, 50),
                               backgroundColor: MyColors.primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -197,14 +182,14 @@ class _MySignup1State extends State<MySignup1> {
                                   emailController.text == "" ||
                                   passwordController.text == "") {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                                    .showSnackBar(const SnackBar(
                                   content: Text('All fields are required'),
                                   backgroundColor: Colors.red,
                                 ));
                               } else if (passwordController.text !=
                                   confirmPasswordController.text) {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                                    .showSnackBar(const SnackBar(
                                   content: Text('Passwords do not match'),
                                   backgroundColor: Colors.red,
                                 ));
@@ -222,7 +207,7 @@ class _MySignup1State extends State<MySignup1> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MySignup2(),
+                                      builder: (context) => const MySignup2(),
                                     ),
                                   );
                                 }

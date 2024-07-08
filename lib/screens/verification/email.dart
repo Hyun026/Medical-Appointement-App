@@ -24,7 +24,7 @@ class MyEmail extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
                   "assets/background/c4dd94d01c88c6d1275a8d878bb51b30.jpg"),
@@ -39,9 +39,9 @@ class MyEmail extends StatelessWidget {
               Container(
                 width: size.width * 1,
                 height: size.height * 0.9,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40.0),
                     topRight: Radius.circular(40.0),
                   ),

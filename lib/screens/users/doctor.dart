@@ -127,7 +127,7 @@ Future<String> getCurrentUserImage() async {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ Future<String> getCurrentUserImage() async {
                       return Container(
                         height: size.height * 0.07,
                         width: size.width * 0.8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: MyColors.Container,
                         ),
                         child: Padding(
@@ -193,7 +193,7 @@ Future<String> getCurrentUserImage() async {
                       return Container(
                         height: size.height * 0.07,
                         width: size.width * 0.8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: MyColors.Container,
                         ),
                         child: Padding(
@@ -233,7 +233,7 @@ Future<String> getCurrentUserImage() async {
                       return Container(
                         height: size.height * 0.07,
                         width: size.width * 0.8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: MyColors.Container,
                         ),
                         child: Padding(
@@ -273,7 +273,7 @@ Future<String> getCurrentUserImage() async {
                       return Container(
                         height: size.height * 0.07,
                         width: size.width * 0.8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: MyColors.Container,
                         ),
                         child: Padding(
@@ -313,7 +313,7 @@ Future<String> getCurrentUserImage() async {
                       return Container(
                         height: size.height * 0.07,
                         width: size.width * 0.8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: MyColors.Container,
                         ),
                         child: Padding(
@@ -361,7 +361,7 @@ Future<String> getCurrentUserImage() async {
                         ),
                       ),
                       SizedBox(width: size.width * 0.01),
-                      Icon(Icons.edit, color: Colors.white),
+                      const Icon(Icons.edit, color: Colors.white),
                     ],
                   ),
                 ),
@@ -375,41 +375,53 @@ Future<String> getCurrentUserImage() async {
       
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  
                   children: [
                     Stack(
                       
                       children: [
-                        FutureBuilder<String>(
-                          future: getCurrentUserImage(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircleAvatar(
-                                radius: 60,
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              String userImage = snapshot.data ?? '';
-                    
-                              if (userImage.isEmpty) {
-                                return CircleAvatar(
-                                  radius: 80,
-                                  child: const Icon(Icons.person, size: 50),
+                        Container(
+                          height: 150.h,
+                          width: 150.h,
+                          child: FutureBuilder<String>(
+                            future: getCurrentUserImage(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const CircleAvatar(
+                                  radius: 60,
+                                  child: CircularProgressIndicator(),
                                 );
                               } else {
-                                return CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage: NetworkImage(userImage),
-                                );
+                                String userImage = snapshot.data ?? '';
+                                              
+                                if (userImage.isEmpty) {
+                                  return const CircleAvatar(
+                                    radius: 80,
+                                    child: Icon(Icons.person, size: 50),
+                                  );
+                                } else {
+                                  return CircleAvatar(
+                                    radius: 80,
+                                    backgroundImage: NetworkImage(userImage),
+                                  );
+                                }
                               }
-                            }
-                          },
+                            },
+                          ),
                         ),
                        
                         GestureDetector(
                           onTap: selectImage,
-                          child: Icon(
-                            Icons.add_a_photo, 
-                            size: 30, 
+                          child: Container(
+                            height: 30.h,
+                            width: 30.h,
+                            decoration: BoxDecoration(color: Colors.white,
+                            borderRadius: BorderRadius.circular(50.0)),
+                            child: const Icon(
+                              Icons.add_a_photo,
+                              color: Color.fromARGB(255, 71, 170, 179), 
+                              size: 30, 
+                            ),
                           ),
                         ),
                       ],

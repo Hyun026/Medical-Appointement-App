@@ -11,6 +11,7 @@ import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
 import 'package:healthy/firebasecontrol/update/editProfile.dart';
 import 'package:healthy/images/imageFire.dart';
+import 'package:healthy/screens/medecins/Pathology.dart';
 import 'package:healthy/screens/medecins/cardiology.dart';
 import 'package:healthy/screens/medecins/dentist.dart';
 import 'package:healthy/screens/medecins/dermatology.dart';
@@ -889,6 +890,72 @@ class _MyPatientState extends State<MyPatient> {
                                                     },
                                                     child: Center(
                                                         child: Text('Orthopedy',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20.h,),
+                                            //row 6 
+                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyPathology(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Pathalogy',
+                                                            style: TextStyle(
+                                                                color: MyColors
+                                                                    .primaryColor,
+                                                                fontSize: 17.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.1,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    color: MyColors.Container
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                       Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Dentist(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Center(
+                                                        child: Text('Dentists',
                                                             style: TextStyle(
                                                                 color: MyColors
                                                                     .primaryColor,

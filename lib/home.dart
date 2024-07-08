@@ -8,6 +8,7 @@ import 'package:healthy/connectivity/refreshing.dart';
 
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/firebasecontrol/firestore/retrieveData.dart';
+import 'package:healthy/firebasecontrol/notifications/ui/patientNoti.dart';
 import 'package:healthy/recommended/getRecommendation.dart';
 
 import 'package:healthy/rendezVous/getforHome.dart';
@@ -117,7 +118,14 @@ class _MyHomeState extends State<MyHome> {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
-            onPressed: () {},
+            onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyNotiPatient(),
+      ),
+    );
+  },
           ),
         ],
       ) : null,

@@ -28,6 +28,7 @@ class _MySignup2State extends State<MySignup2> {
   TextEditingController assurance = TextEditingController();
   TextEditingController gender = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
 
   String? valueChoose;
   List<String> listItem = ["CNSS", "AMO", "CNOPS"];
@@ -49,6 +50,11 @@ class _MySignup2State extends State<MySignup2> {
     "Guelmim-Oued Noun",
     "Laâyoune-Sakia El Hamra",
     "Dakhla-Oued Ed-Dahab"
+  ];
+
+  String ? valueChoose4;
+  List<String> listItem4 =[
+    "Tanger","Tetouan","Casablanca","Rabat","Hoceima","Oujda","Agadir","Fes","Marrakech"
   ];
 
   String name = "";
@@ -116,7 +122,7 @@ class _MySignup2State extends State<MySignup2> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'CIN',
+                              'CIN :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -137,7 +143,7 @@ class _MySignup2State extends State<MySignup2> {
                               height: 20.h,
                             ),
                             Text(
-                              'Address',
+                              'Address :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -154,11 +160,11 @@ class _MySignup2State extends State<MySignup2> {
                               prefixIcon: Icons.home_outlined,
                               enabled: !_isUnderage,
                             ),
-                            SizedBox(
+                             SizedBox(
                               height: 20.h,
                             ),
                             Text(
-                              'Region',
+                              'City :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -168,72 +174,138 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            Container(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              decoration: BoxDecoration(
-                                
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: MyColors.borderSideColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  
-                                  children: [
-                                    Icon(
-                                      Icons.location_pin, 
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(width: 10.w,),
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        hint: const Padding(
-                                          padding: EdgeInsets.all(18.0),
-                                          child: Text(
-                                            'Region',
-                                            style: TextStyle(
-                                              color: MyColors.hintTextColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        isExpanded: true,
-                                        underline: SizedBox(),
-                                        
-                                        icon: const Icon(
-                                          Icons.arrow_drop_down,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                        value: valueChoose3,
-                                        onChanged: !_isUnderage
-                                            ? (newValue) {
-                                                setState(() {
-                                                  valueChoose3 = newValue!;
-                                                  regionController.text = newValue;
-                                                });
-                                              }
-                                            : null,
-                                        items: listItem3.map((valueItem) {
-                                          return DropdownMenuItem<String>(
-                                            value: valueItem,
-                                            child: Text(valueItem),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                           Container(
+  width: MediaQuery.of(context).size.width * 0.9, 
+  height: MediaQuery.of(context).size.height * 0.06,
+  decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(color: MyColors.borderSideColor),
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Icon(
+          Icons.location_pin, 
+          color: Colors.black,
+        ),
+        SizedBox(width: 10.0),
+        Expanded(
+          child: SizedBox( 
+            width: double.infinity, 
+            child: DropdownButton<String>(
+              hint: Text(
+                'City',
+                style: TextStyle(
+                  color: MyColors.hintTextColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              isExpanded: true,
+              underline: SizedBox(),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: MyColors.primaryColor,
+              ),
+              value: valueChoose4,
+              onChanged: !_isUnderage
+                  ? (newValue) {
+                      setState(() {
+                        valueChoose4 = newValue!;
+                        cityController.text = newValue;
+                      });
+                    }
+                  : null,
+              items: listItem4.map((valueItem) {
+                return DropdownMenuItem<String>(
+                  value: valueItem,
+                  child: Text(valueItem),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                             SizedBox(
                               height: 20.h,
                             ),
                             Text(
-                              'Phone',
+                              'Region :',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              width: 300.w,
+                              height: size.height * 0.01,
+                            ),
+                           Container(
+  width: MediaQuery.of(context).size.width * 0.9, 
+  height: MediaQuery.of(context).size.height * 0.06,
+  decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(color: MyColors.borderSideColor),
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Icon(
+          Icons.location_pin, 
+          color: Colors.black,
+        ),
+        SizedBox(width: 10.0),
+        Expanded(
+          child: DropdownButton<String>(
+            hint: Text(
+              'Region',
+              style: TextStyle(
+                color: MyColors.hintTextColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            isExpanded: true,
+            underline: SizedBox(),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: MyColors.primaryColor,
+            ),
+            value: valueChoose3,
+            onChanged: !_isUnderage
+                ? (newValue) {
+                    setState(() {
+                      valueChoose3 = newValue!;
+                      regionController.text = newValue;
+                    });
+                  }
+                : null,
+            items: listItem3.map((valueItem) {
+              return DropdownMenuItem<String>(
+                value: valueItem,
+                child: Text(valueItem),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Text(
+                              'Phone :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -253,7 +325,7 @@ class _MySignup2State extends State<MySignup2> {
                               height: 20.h,
                             ),
                             Text(
-                              'Birthday',
+                              'Birthday :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -355,7 +427,7 @@ class _MySignup2State extends State<MySignup2> {
                               height: 20.h,
                             ),
                             Text(
-                              'Gender',
+                              'Gender :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -365,72 +437,66 @@ class _MySignup2State extends State<MySignup2> {
                               width: 300.w,
                               height: size.height * 0.01,
                             ),
-                            Container(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              decoration: BoxDecoration(
-                                
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: MyColors.borderSideColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  
-                                  children: [
-                                    Icon(
-                                      Icons.male, 
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(width: 10.w,),
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        hint: Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: const Text(
-                                            'Gender',
-                                            style: TextStyle(
-                                              color: MyColors.hintTextColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        isExpanded: true,
-                                        underline: SizedBox(),
-                                        
-                                        icon: const Icon(
-                                          Icons.arrow_drop_down,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                        value: valueChoose2,
-                                        onChanged: !_isUnderage
-                                            ? (newValue) {
-                                                setState(() {
-                                                  valueChoose2 = newValue!;
-                                                  gender.text = newValue;
-                                                });
-                                              }
-                                            : null,
-                                        items: listItem2.map((valueItem) {
-                                          return DropdownMenuItem<String>(
-                                            value: valueItem,
-                                            child: Text(valueItem),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                           Container(
+  width: MediaQuery.of(context).size.width * 0.9,
+  height: MediaQuery.of(context).size.height * 0.06,
+  decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(color: MyColors.borderSideColor),
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Icon(
+          Icons.male, 
+          color: Colors.black,
+        ),
+        SizedBox(width: 10.0),
+        Expanded(
+          child: DropdownButton<String>(
+            hint: Text(
+              'Gender',
+              style: TextStyle(
+                color: MyColors.hintTextColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            isExpanded: true,
+            underline: SizedBox(),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: MyColors.primaryColor,
+            ),
+            value: valueChoose2,
+            onChanged: !_isUnderage
+                ? (newValue) {
+                    setState(() {
+                      valueChoose2 = newValue!;
+                      gender.text = newValue;
+                    });
+                  }
+                : null,
+            items: listItem2.map((valueItem) {
+              return DropdownMenuItem<String>(
+                value: valueItem,
+                child: Text(valueItem),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                             SizedBox(
                               height: 20.h,
                             ),
                             Text(
-                              'Assurance',
+                              'Assurance :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -441,86 +507,64 @@ class _MySignup2State extends State<MySignup2> {
                               height: size.height * 0.01,
                             ),
                              Container(
-                              width: 350.w,
-                              height: size.height * 0.06,
-                              decoration: BoxDecoration(
-                                
-                                color: Colors.white,
-                                border:
-                                    Border.all(color:MyColors.borderSideColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  
-                                  children: [
-                                    Icon(
-                                      Icons.shield, 
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(width: 10.w,),
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        hint: Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: const Text(
-                                            ' Assurance',
-                                            style: TextStyle(
-                                              color: MyColors.hintTextColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        isExpanded: true,
-                                        underline: SizedBox(),
-                                        
-                                        icon: const Icon(
-                                          Icons.arrow_drop_down,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                        value: valueChoose,
-                                        onChanged: !_isUnderage
-                                            ? (newValue) {
-                                                setState(() {
-                                                  valueChoose = newValue!;
-                                                  assurance.text = newValue;
-                                                });
-                                              }
-                                            : null,
-                                        items: listItem.map((valueItem) {
-                                          return DropdownMenuItem<String>(
-                                            value: valueItem,
-                                            child: Text(valueItem),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+  width: MediaQuery.of(context).size.width * 0.9,
+  height: MediaQuery.of(context).size.height * 0.06,
+  decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(color: MyColors.borderSideColor),
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Icon(
+          Icons.shield, 
+          color: Colors.black,
+        ),
+        SizedBox(width: 10.0),
+        Expanded(
+          child: DropdownButton<String>(
+            hint: Text(
+              'Assurance',
+              style: TextStyle(
+                color: MyColors.hintTextColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            isExpanded: true,
+            underline: SizedBox(),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: MyColors.primaryColor,
+            ),
+            value: valueChoose,
+            onChanged: !_isUnderage
+                ? (newValue) {
+                    setState(() {
+                      valueChoose = newValue!;
+                      assurance.text = newValue;
+                    });
+                  }
+                : null,
+            items: listItem.map((valueItem) {
+              return DropdownMenuItem<String>(
+                value: valueItem,
+                child: Text(valueItem),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                             SizedBox(
                               height: 20.h,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CupertinoSwitch(
-                                    activeColor: MyColors.primaryColor,
-                                    value: _lights,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        _lights = value;
-                                      });
-                                    }),
-                                Text(
-                                  'Do you have kids?',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
+                           
                           ],
                         )),
                       ),
@@ -541,7 +585,7 @@ class _MySignup2State extends State<MySignup2> {
                                   cinController.text.isEmpty ||
                                   assurance.text.isEmpty ||
                                   birthDateController.text.isEmpty ||
-                                  gender.text.isEmpty ||
+                                  gender.text.isEmpty ||/* cityController.text.isEmpty||*/
                                   regionController.text.isEmpty) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
@@ -565,6 +609,7 @@ class _MySignup2State extends State<MySignup2> {
                                   'phone': phoneController.text,
                                   'imageLink': downloadUrl,
                                   'fMCToken':fcmToken,
+                                  'city': cityController.text,
                                 };
 
                                 await FirebaseFirestore.instance

@@ -40,7 +40,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
   final List<Widget> _pages = [
     HomeContent(),
     
-    MyDocProfile(),
+    const MyDocProfile(),
     SettingsPage(),
   ];
 
@@ -60,18 +60,18 @@ class _MyHomeDocState extends State<MyHomeDoc> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Welcome back',
+            const Text(
+              'Welcome back !',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               children: [
-                Text(
+                const Text(
                   'Dr.',
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
                 ),
-                
+                SizedBox(width: 5.sp,),
                 FutureBuilder<String>(
                   future: Data().getMessage4(), 
                   builder: (context, snapshot) {
@@ -84,7 +84,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
                     else {
                       return Text(
                         snapshot.data ?? 'No message retrieved',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16.0, fontWeight: FontWeight.w300
                         ),
@@ -92,7 +92,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
                     }
                   },
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 FutureBuilder<String>(
                   future: Data().getMessage3(), 
                   builder: (context, snapshot) {
@@ -103,7 +103,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
                     else {
                       return Text(
                         snapshot.data ?? 'No message retrieved',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16.0, fontWeight: FontWeight.w300
                         ),
@@ -121,7 +121,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
             onPressed: () {
                showDialog(
       context: context,
-      builder: (BuildContext context) => MyNotifications(),
+      builder: (BuildContext context) => const MyNotifications(),
     );
             },
           ),
@@ -200,7 +200,7 @@ class HomeContent extends StatelessWidget {
              
               SizedBox(height: 30.h),
             Text(
-              'Your Appointments',
+              'Your Appointments :',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             

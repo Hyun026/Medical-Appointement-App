@@ -29,7 +29,7 @@ class _MyLogindocState extends State<MyLogindoc> {
       backgroundColor: const Color(0xff4cbbc5),
       body: SingleChildScrollView(
         child: Container(
-             decoration: BoxDecoration(
+             decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/background/back.jpeg"), 
           fit: BoxFit.cover,
@@ -76,7 +76,7 @@ class _MyLogindocState extends State<MyLogindoc> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MyLogin(),
+                                      builder: (context) => const MyLogin(),
                                     ),
                                   );
                                 },
@@ -123,13 +123,13 @@ class _MyLogindocState extends State<MyLogindoc> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyEmail(),
+                                builder: (context) => const MyEmail(),
                               ),
                             );
                           },
                           child: const Text('Forgot your password?',
                               style: TextStyle(color: MyColors.primaryColor))),
-                    loading ? CircularProgressIndicator() :  Center(
+                    loading ? const CircularProgressIndicator() :  Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(300.w, 50.h),
@@ -143,7 +143,7 @@ class _MyLogindocState extends State<MyLogindoc> {
                               loading= true;
                             });
                              if(emailController.text == "" || passwordController.text == ""){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All fields are required'),backgroundColor: Colors.red,));
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('All fields are required'),backgroundColor: Colors.red,));
                             } else{
                             User? result =  await AuthService().login(emailController.text, passwordController.text, context);
                             if(result != null){
@@ -152,11 +152,11 @@ class _MyLogindocState extends State<MyLogindoc> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyHomeDoc(), 
+                          builder: (context) => const MyHomeDoc(), 
                         ),
                       );
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Access denied: Not a doctor'),
                         backgroundColor: Colors.red,
                       ));
@@ -182,7 +182,7 @@ class _MyLogindocState extends State<MyLogindoc> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DoctorCreate(),
+                                  builder: (context) => const DoctorCreate(),
                                 ),
                               );
                             },

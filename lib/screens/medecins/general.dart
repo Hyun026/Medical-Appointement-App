@@ -31,7 +31,7 @@ class _MyGeneralState extends State<MyGeneral> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Your Medical File"),
+        title: const Text("Your Medical File"),
       ),
       body: _buildUI(),
       floatingActionButton: QuickActionMenu(
@@ -72,17 +72,17 @@ class _MyGeneralState extends State<MyGeneral> {
                 bool uploadSuccess = await uploadFile(pickedFile);
                 if (uploadSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('File uploaded successfully!')),
+                    const SnackBar(content: Text('File uploaded successfully!')),
                   );
                   await getUploadedFiles();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to upload file.')),
+                    const SnackBar(content: Text('Failed to upload file.')),
                   );
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('No file selected.')),
+                  const SnackBar(content: Text('No file selected.')),
                 );
               }
             },
@@ -99,7 +99,7 @@ class _MyGeneralState extends State<MyGeneral> {
       );
     }
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: ListView.builder(
         itemCount: uploadedFiles.length,
         itemBuilder: (context, index) {
@@ -117,7 +117,7 @@ class _MyGeneralState extends State<MyGeneral> {
                     future: ref.getDownloadURL(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
                         return Container(
                           child: Text('Error: ${snapshot.error}'),
@@ -145,19 +145,19 @@ class _MyGeneralState extends State<MyGeneral> {
                           },
                           child: ListTile(
                             leading: isPdf
-                                ? Icon(Icons.picture_as_pdf, size: 50, color: Colors.red)
+                                ? const Icon(Icons.picture_as_pdf, size: 50, color: Colors.red)
                                 : Image.network(downloadUrl, width: 50, height: 50, fit: BoxFit.cover),
                             title: Text(ref.name),
                             trailing: GestureDetector(
                               onTap: () {
                                 _showDeleteDialog(context, ref);
                               },
-                              child: Icon(Icons.delete, color: MyColors.primaryColor),
+                              child: const Icon(Icons.delete, color: MyColors.primaryColor),
                             ),
                           ),
                         );
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -165,12 +165,12 @@ class _MyGeneralState extends State<MyGeneral> {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 'Uploaded on: ${fileDateTime.toLocal()}',
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           );
         },
@@ -192,17 +192,17 @@ class _MyGeneralState extends State<MyGeneral> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete this file?'),
+          title: const Text('Confirm Delete'),
+          content: const Text('Are you sure you want to delete this file?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Delete'),
+              child: const Text('Delete'),
               onPressed: () async {
                 await _deleteFile(context, ref, uploadedFiles, () {
                   setState(() {});
@@ -235,7 +235,7 @@ class _MyGeneralState extends State<MyGeneral> {
       updateUI();
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('File deleted successfully'),
         ),
       );

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/search/resultPage.dart';
@@ -100,16 +99,16 @@ class _MySearchBarState extends State<MySearchBar> {
         backgroundColor:MyColors.primaryColor,
         title: TextField(
           controller: searchController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search by name',
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
           ),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.filter_alt),
+            icon: const Icon(Icons.filter_alt),
             onPressed: () {
               showFilterDialog(context);
             },
@@ -144,14 +143,14 @@ class _MySearchBarState extends State<MySearchBar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Filter by:'),
+          title: const Text('Filter by:'),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   DropdownButton<String>(
-                    hint: Text('Select Address'),
+                    hint: const Text('Select Address'),
                     value: selectedAddress,
                     onChanged: (String? newValue) {
                       setState(() {
@@ -169,7 +168,7 @@ class _MySearchBarState extends State<MySearchBar> {
                     }).toList(),
                   ),
                   DropdownButton<String>(
-                    hint: Text('Select Field'),
+                    hint: const Text('Select Field'),
                     value: selectedField,
                     onChanged: (String? newValue) {
                       setState(() {

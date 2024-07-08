@@ -34,7 +34,7 @@ class _EditUserFormState extends State<EditUserForm> {
       await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
 
         'phone': _phoneController.text,
-        'adress': _addressController.text,
+        'address': _addressController.text,
         'region': _regionController.text,
 
       });

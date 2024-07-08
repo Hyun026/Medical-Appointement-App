@@ -25,17 +25,17 @@ class _PneumoState extends State<Pneumo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pneumologie'),
+        title: const Text('Pneumologie'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _getPediatricians(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No Pneumologie found'));
+            return const Center(child: Text('No Pneumologie found'));
           } else {
             List<Map<String, dynamic>> doctors = snapshot.data!;
             return ListView.builder(
@@ -43,8 +43,8 @@ class _PneumoState extends State<Pneumo> {
               itemBuilder: (context, index) {
                 Map<String, dynamic> doctor = doctors[index];
                 return Container(
-                  margin: EdgeInsets.all(8.0),
-                  padding: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -53,14 +53,14 @@ class _PneumoState extends State<Pneumo> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
                   child: ListTile(
                     leading: doctor['imageLink'] != null
                         ? Image.network(doctor['imageLink'], width: 50, height: 50, fit: BoxFit.cover)
-                        : Icon(Icons.person, size: 50),
+                        : const Icon(Icons.person, size: 50),
                     title: Text(doctor['name']),
                     subtitle: Text(doctor['field']),
                     onTap: () {

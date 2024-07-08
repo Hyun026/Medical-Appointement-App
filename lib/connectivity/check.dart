@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:healthy/connectivity/notConnected.dart';
 import 'package:healthy/main.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:flutter/material.dart';
+
 /*
 enum InternetStatus { connected, disconnected }
 

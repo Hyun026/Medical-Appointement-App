@@ -20,6 +20,8 @@ class _EditDocFormState extends State<EditDocForm> {
     final _formKey = GlobalKey<FormState>();
     TextEditingController addressController = TextEditingController();
     TextEditingController phoneNumberController = TextEditingController();
+    TextEditingController cityController = TextEditingController();
+    TextEditingController regionController = TextEditingController();
 
 
 
@@ -27,6 +29,8 @@ class _EditDocFormState extends State<EditDocForm> {
   void dispose() {
    phoneNumberController.dispose();
     addressController.dispose();
+    cityController.dispose();
+    
    
     super.dispose();
   }
@@ -38,6 +42,7 @@ class _EditDocFormState extends State<EditDocForm> {
 
         'phone': phoneNumberController.text,
         'address': addressController.text,
+        'city':cityController.text,
        
 
       });
@@ -46,23 +51,27 @@ class _EditDocFormState extends State<EditDocForm> {
     }
   }
     return AlertDialog(
-      title: Text('Edit Your Data'),
+      title: Text('Edit Your Data :', style: TextStyle(fontWeight: FontWeight.w600),),
       content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-             Text('address:'),
-              SizedBox(height: 10.sp,),
-             _buildInputField(controller: addressController, hintText: 'Address',),
-              SizedBox(height: 20.sp,),
-              Text('Phone Number'),
-              SizedBox(height: 10.sp,),
-              _buildInputField(controller: phoneNumberController, hintText: 'Phone Number'),
-              
-            ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               Text('Address:', style: TextStyle(fontSize: 18),),
+                SizedBox(height: 10.sp,),
+               _buildInputField(controller: addressController, hintText: 'Address',),
+                SizedBox(height: 20.sp,),
+                Text('Phone Number',  style: TextStyle(fontSize: 18),),
+                SizedBox(height: 10.sp,),
+                _buildInputField(controller: phoneNumberController, hintText: 'Phone Number'),
+
+                
+              ],
+            ),
           ),
         ),
       ),

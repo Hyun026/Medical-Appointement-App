@@ -29,7 +29,7 @@ class _GetStartedState extends State<GetStarted> {
       backgroundColor: MyColors.backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/background/back.jpeg"), 
           fit: BoxFit.cover,
@@ -66,7 +66,7 @@ class _GetStartedState extends State<GetStarted> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  MySignup1(),
+                                builder: (context) =>  const MySignup1(),
                               ),
                             );
                       },
