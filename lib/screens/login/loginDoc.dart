@@ -31,7 +31,7 @@ class _MyLogindocState extends State<MyLogindoc> {
         child: Container(
              decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/background/back.jpeg"), 
+          image: AssetImage("assets/background/light.jpeg"), 
           fit: BoxFit.cover,
         ),
       ),
@@ -173,22 +173,7 @@ class _MyLogindocState extends State<MyLogindoc> {
                           ),
                         ),
                       ),
-                      Center(
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 16.sp),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DoctorCreate(),
-                                ),
-                              );
-                            },
-                            child: const Text("Don't you have an account?",
-                                style: TextStyle(color: MyColors.primaryColor))),
-                      ),
+                     
                     ],
                   ),
                 ),

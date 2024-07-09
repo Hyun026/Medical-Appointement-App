@@ -16,6 +16,7 @@ import 'starting.dart';
 Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
   ]);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -87,7 +88,7 @@ class MyMain extends StatelessWidget {
                         userSnapshot.data!.exists) {
                       return MyHome();
                     } else {
-                      return Container();
+                      return  MyHome();
                     }
                   },
                 );

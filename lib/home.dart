@@ -210,18 +210,18 @@ class HomeContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Search for doctors, clinics, etc.',
+                        'Search for doctors, clinics, etc...',
                         style: TextStyle(color: MyColors.primaryColor), 
                       ),
-                      Icon(Icons.search),
+                      Icon(Icons.search,color: MyColors.hintTextColor,),
                     ],
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 20.0),
-            const Text(
-              'Medical Categories',
+             Text(
+              'Medical Categories :',style: TextStyle(fontSize: 22.sp),
            
             ),
             const SizedBox(height: 20.0),
@@ -237,14 +237,9 @@ class HomeContent extends StatelessWidget {
             const SizedBox(height: 30.0),
             const MyWidget(),
             const SizedBox(height: 30.0),
-          /*   Text(
-              'Latest Appointment',style: TextStyle(fontSize: 20.sp),
-         
-            ),
-            const AppointmentCard(),
-            const SizedBox(height: 20.0),*/
+          
              Text(
-              'Suggested Doctors',style: TextStyle(fontSize: 20.sp),
+              'Suggested Doctors :',style: TextStyle(fontSize: 22.sp),
         
             ),
       
@@ -378,7 +373,44 @@ class MyWidget extends StatelessWidget {
         color: MyColors.primaryColor,
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Row(
+      child:Stack(children: [
+        ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              "assets/background/cover.jpeg",
+              height: size.height * 0.15,
+              width: size.width * 0.8,
+              fit: BoxFit.cover,
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Let's get Medical Service",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18.sp, 
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.h), 
+                  Text(
+                    "for a healthier life",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.sp, 
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+        ),
+      ],)
+      /* Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
@@ -413,7 +445,7 @@ class MyWidget extends StatelessWidget {
             width: size.width * 0.3,
           ),
         ],
-      ),
+      )*/,
     );
   }
 }
@@ -481,7 +513,6 @@ class _DoctorListState extends State<DoctorList> {
   Future<void> getDocId() async {
     await FirebaseFirestore.instance
         .collection('doctors')
-      
         .get()
         .then(
           (snapshot) => snapshot.docs.forEach((document) {
@@ -504,8 +535,9 @@ class _DoctorListState extends State<DoctorList> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: docIDs.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: MyRecomendation(documentId: docIDs[index]),
+              return Padding(
+                padding: EdgeInsets.all(5),
+                child: MyRecomendation(documentId: docIDs[index]),
               );
             },
           );

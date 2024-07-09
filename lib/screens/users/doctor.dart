@@ -500,7 +500,7 @@ Future<String> getCurrentUserImage() async {
                             child: const Icon(
                               Icons.add_a_photo,
                               color: Color.fromARGB(255, 71, 170, 179), 
-                              size: 30, 
+                              size: 20, 
                             ),
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/starting.dart';
 
 class DeleteAccountDialog extends StatefulWidget {
@@ -78,8 +79,14 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-               
-                labelText: 'Enter your email to confirm',
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: MyColors.borderSideColor),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: MyColors.borderSideColor),
+  ),
+              labelText: 'Please Enter Your Email',
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -93,13 +100,13 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Cancel'),
+          child: const Text('Cancel',style: TextStyle(color: Colors.black),),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text('Delete'),
+          child: const Text('Delete',style: TextStyle(color: Colors.black),),
           onPressed: () async {
             if (_formKey.currentState?.validate() ?? false) {
               await deleteAccount(context);

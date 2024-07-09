@@ -80,7 +80,7 @@ class _MySignup2State extends State<MySignup2> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background/back.jpeg"),
+              image: AssetImage("assets/background/light.jpeg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -188,7 +188,7 @@ class _MySignup2State extends State<MySignup2> {
       children: [
         Icon(
           Icons.location_pin, 
-          color: Colors.black,
+          color: MyColors.primaryColor,
         ),
         SizedBox(width: 10.0),
         Expanded(
@@ -260,7 +260,7 @@ class _MySignup2State extends State<MySignup2> {
       children: [
         Icon(
           Icons.location_pin, 
-          color: Colors.black,
+          color: MyColors.primaryColor,
         ),
         SizedBox(width: 10.0),
         Expanded(
@@ -343,7 +343,7 @@ class _MySignup2State extends State<MySignup2> {
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.calendar_month_outlined,
-                                    color: Colors.black,
+                                    color:  MyColors.primaryColor,
                                     size: 25.0,
                                   ),
                                   filled: true,
@@ -451,7 +451,7 @@ class _MySignup2State extends State<MySignup2> {
       children: [
         Icon(
           Icons.male, 
-          color: Colors.black,
+          color:  MyColors.primaryColor,
         ),
         SizedBox(width: 10.0),
         Expanded(
@@ -496,7 +496,7 @@ class _MySignup2State extends State<MySignup2> {
                               height: 20.h,
                             ),
                             Text(
-                              'Assurance :',
+                              'Insurance :',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -520,13 +520,13 @@ class _MySignup2State extends State<MySignup2> {
       children: [
         Icon(
           Icons.shield, 
-          color: Colors.black,
+          color:  MyColors.primaryColor,
         ),
         SizedBox(width: 10.0),
         Expanded(
           child: DropdownButton<String>(
             hint: Text(
-              'Assurance',
+              'Insurance',
               style: TextStyle(
                 color: MyColors.hintTextColor,
                 fontSize: 14,
@@ -585,7 +585,7 @@ class _MySignup2State extends State<MySignup2> {
                                   cinController.text.isEmpty ||
                                   assurance.text.isEmpty ||
                                   birthDateController.text.isEmpty ||
-                                  gender.text.isEmpty ||/* cityController.text.isEmpty||*/
+                                  gender.text.isEmpty || cityController.text.isEmpty||
                                   regionController.text.isEmpty) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(

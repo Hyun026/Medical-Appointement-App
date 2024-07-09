@@ -31,7 +31,7 @@ class _GetStartedState extends State<GetStarted> {
         child: Container(
           decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/background/back.jpeg"), 
+          image: AssetImage("assets/background/light.jpeg"), 
           fit: BoxFit.cover,
         ),
       ),

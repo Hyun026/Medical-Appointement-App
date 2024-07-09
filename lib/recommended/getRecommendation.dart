@@ -22,7 +22,7 @@ class MyRecomendation extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData && snapshot.data!.exists) {
           Map<String, dynamic> doctorData = snapshot.data!.data() as Map<String, dynamic>;
-          String doctorAddress = doctorData['address'];
+          String doctorAddress = doctorData['city'];
           String imageLink = doctorData['imageLink'];
 
           return FutureBuilder<DocumentSnapshot>(
@@ -34,7 +34,7 @@ class MyRecomendation extends StatelessWidget {
                 return Center(child: Text('Error: ${userSnapshot.error}'));
               } else if (userSnapshot.hasData && userSnapshot.data!.exists) {
                 Map<String, dynamic> userData = userSnapshot.data!.data() as Map<String, dynamic>;
-                String userAddress = userData['address'];
+                String userAddress = userData['city'];
 
                 if (doctorAddress == userAddress) {
                   return Column(
@@ -51,6 +51,7 @@ class MyRecomendation extends StatelessWidget {
                         },
                         child: Container(
                           width: size.width * 0.9,
+                        
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8.0),
@@ -76,14 +77,14 @@ class MyRecomendation extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      doctorData['name'],
+                                       '${doctorData['name']}   ${doctorData['lastname']}',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      '${doctorData['address']} ${doctorData['field']}',
+                                      '${doctorData['city']}   ${doctorData['field']}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey,

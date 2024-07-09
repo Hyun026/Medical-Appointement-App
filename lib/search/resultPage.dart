@@ -83,65 +83,125 @@ Future<String> getCurrentImage() async {
       appBar: AppBar(
        
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-        
-          children: [
-            Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage:
-                    NetworkImage(widget.doctorDetails['imageLink']),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage(widget.doctorDetails['imageLink']),
+                ),
               ),
-            ),
-            SizedBox(height: 20.sp),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: 20.sp),
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Dr. ${widget.doctorDetails['name']} ${widget.doctorDetails['lastname']}',
+                      style: TextStyle(
+                          fontSize: 26.sp, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10.sp),
+                    Text(
+                      widget.doctorDetails['field'],
+                      style: TextStyle(
+                          fontSize: 20.sp,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.sp),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_pin, color: Colors.redAccent),
+                    SizedBox(width: 5.sp),
+                    Text(
+                      widget.doctorDetails['city'] ?? "No address",
+                      style: TextStyle(fontSize: 18.sp),
+                    ),
+                    SizedBox(width: 10.sp),
+                    Text(
+                      widget.doctorDetails['address'] ?? "No address",
+                      style: TextStyle(fontSize: 18.sp),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30.sp),
+              Text(
+                'About Dr. ${widget.doctorDetails['name']} ${widget.doctorDetails['lastname']}',
+                style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+              SizedBox(height: 10.sp),
+              Text(
+                widget.doctorDetails['bio'] ?? "No biography available.",
+                style: TextStyle(fontSize: 16.sp, color: Colors.black54),
+              ),
+              SizedBox(height: 30.sp),
+
+              Text(
+                'Diploma',
+                style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+              
+              SizedBox(height: 10.sp),
+             Container(
+  width: 100, 
+  height: 100, 
+  child: Image.network(
+    widget.doctorDetails['diploma'] ?? "No Diploma uploaded",
+    fit: BoxFit.cover, 
+  ),
+),
+
+              SizedBox(height: 30.sp),
+              Text(
+                'Contact Information',
+                style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+              SizedBox(height: 10.sp),
+              Row(
                 children: [
-                  Text('Dr.',style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),),
-                  SizedBox(width: size.width*0.01,),
+                  Icon(Icons.email, color: Colors.blue),
+                  SizedBox(width: 10.sp),
                   Text(
-                    widget.doctorDetails['name'],
-                    style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: size.width*0.03,),
-                  Text(
-                    widget.doctorDetails['lastname'],
-                    style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-                  ),
-                  
-                ],
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Center(
-              child: Text(
-                widget.doctorDetails['field'],
-                style: TextStyle(fontSize: 18.sp),
-              ),
-            ),
-            SizedBox(height: 10.sp),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  
-                  const Icon(Icons.location_pin,color: MyColors.primaryColor,),
-                  Text(
-                    widget.doctorDetails['address'] ?? "No address",
+                    widget.doctorDetails['email'] ?? "No email available",
                     style: TextStyle(fontSize: 16.sp),
                   ),
                 ],
               ),
-            ),
-            
-           
-          ],
+              SizedBox(height: 10.sp),
+              Row(
+                children: [
+                  Icon(Icons.phone, color: Colors.green),
+                  SizedBox(width: 10.sp),
+                  Text(
+                    widget.doctorDetails['phone'] ?? "No phone number available",
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
+    
    bottomNavigationBar:BottomAppBar(
     color: Colors.white,
     child: 

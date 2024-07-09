@@ -75,7 +75,7 @@ class _MySearchBarState extends State<MySearchBar> {
 
     if (selectedAddress != null && selectedAddress!.isNotEmpty) {
       filteredList = filteredList.where((doctor) {
-        String address = doctor['address'].toLowerCase();
+        String address = doctor['city'].toLowerCase();
         return address.contains(selectedAddress!.toLowerCase());
       }).toList();
     }
@@ -150,7 +150,7 @@ class _MySearchBarState extends State<MySearchBar> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   DropdownButton<String>(
-                    hint: const Text('Select Address'),
+                    hint: const Text('Select City'),
                     value: selectedAddress,
                     onChanged: (String? newValue) {
                       setState(() {
@@ -159,7 +159,7 @@ class _MySearchBarState extends State<MySearchBar> {
                       filterResults();
                       Navigator.pop(context);
                     },
-                    items: <String>['Tanger', 'Tetouan']
+                    items: <String>['Tanger', 'Tetouan', "Casablanca","Rabat","Hoceima","Oujda","Agadir","Fes","Marrakech"]
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -177,7 +177,7 @@ class _MySearchBarState extends State<MySearchBar> {
                       filterResults();
                       Navigator.pop(context);
                     },
-                    items: <String>['Pediatrician', 'Dermatologist']
+                    items: <String>['Pediatrician', 'Dermatologist','General','Cardiologist','Dentist','Endocrinologist','Nephrologist','Neurology','Ophthalmology','Orthopedics','Pathology','Pulmonology']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,

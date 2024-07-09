@@ -40,7 +40,7 @@ class _MySignup1State extends State<MySignup1> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                  "assets/background/back.jpeg"),
+                  "assets/background/light.jpeg"),
               fit: BoxFit.cover,
             ),
           ),

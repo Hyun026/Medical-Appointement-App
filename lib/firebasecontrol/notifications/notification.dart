@@ -9,13 +9,12 @@ class MyNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve any arguments passed to this route
+ 
     final args = ModalRoute.of(context)!.settings.arguments;
 
-    // Example of showing a notification dialog based on some condition
-    // Replace this logic with your own notification logic
+   
     if (args != null && args is String && args == 'show_notification') {
-      // Show a dialog when the page is navigated to with specific arguments
+    
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         showDialog(
           context: context,

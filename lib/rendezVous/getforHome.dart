@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/screens/users/patientScreen.dart';
 
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -158,10 +159,7 @@ class _MyAppointHomState extends State<MyAppointHom> {
   }
   return 'Unknown User';
 }
-/*
-Future<String> getCurrentPatient()async{
 
-}*/
 
 //for update
   String? valueChoose;
@@ -297,313 +295,322 @@ Future<String> getCurrentPatient()async{
         FirebaseFirestore.instance.collection('appointments');
     Size size = MediaQuery.of(context).size;
     return FutureBuilder<DocumentSnapshot>(
-        future: appoint.doc(widget.documentId).get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData && snapshot.data!.exists) {
-              Map<String, dynamic> data =
-                  snapshot.data!.data() as Map<String, dynamic>;
-              String imageLink = data['userImage'];
-              
+      future: appoint.doc(widget.documentId).get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData && snapshot.data!.exists) {
+            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            String imageLink = data['userImage'];
+            String userId = data['user'];
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(imageLink),
-                            radius: 30,
+                  GestureDetector(
+                    onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PatientProfileScreen(patientId: userId),
+                  ),
+                );
+              },
+                    child: Container(
+                      width: size.width * 0.9,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
                           ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data['name'],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(imageLink),
+                              radius: 30,
+                            ),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data['name'],
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                data['date'] + ' || ' + data['time'],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
+                                Text(
+                                  data['date'] + '||' + data['time'],
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            StateSetter setModalState) {
-                                          return SingleChildScrollView(
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              padding: const EdgeInsets.all(
-                                                  16.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                children: [
-                                                  const Text(
-                                                    'Select Date',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight
-                                                                .bold),
-                                                  ),
-                                                  SizedBox(height: 20.sp),
-                                                  TableCalendar(
-                                                    calendarStyle: CalendarStyle(
-                                                        selectedDecoration:
-                                                            BoxDecoration(
-                                                                color:
-                                                                    MyColors
-                                                                        .primaryColor,
-                                                                shape:
-                                                                    BoxShape
-                                                                        .circle),
-                                                        todayDecoration: BoxDecoration(
-                                                            color: MyColors
-                                                                .primaryColor
-                                                                .withOpacity(
-                                                                    0.5),
-                                                            shape: BoxShape
-                                                                .circle)),
-                                                    locale: 'en_US',
-                                                    headerStyle:
-                                                        const HeaderStyle(
-                                                      formatButtonVisible:
-                                                          false,
-                                                      titleCentered: true,
+                                ElevatedButton(
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return StatefulBuilder(
+                                          builder: (BuildContext context,
+                                              StateSetter setModalState) {
+                                            return SingleChildScrollView(
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                padding: const EdgeInsets.all(
+                                                    16.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    const Text(
+                                                      'Select Date',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .bold),
                                                     ),
-                                                    focusedDay: _focusedDay,
-                                                    onDaySelected:
-                                                        (selectedDay,
-                                                            focusedDay) {
-                                                      setModalState(() {
-                                                        _selectedDay =
-                                                            selectedDay;
-                                                        _focusedDay =
-                                                            focusedDay;
-                                                        _dateController
-                                                            .text = DateFormat(
-                                                                'yyyy-MM-dd')
-                                                            .format(
-                                                                selectedDay);
-                                                      });
-                                                    },
-                                                    availableGestures:
-                                                        AvailableGestures
-                                                            .all,
-                                                    selectedDayPredicate:
-                                                        (day) => isSameDay(
-                                                            _selectedDay,
-                                                            day),
-                                                    firstDay:
-                                                        DateTime.now(),
-                                                    lastDay: DateTime(
-                                                      DateTime.now().year +
-                                                          1,
-                                                      DateTime.now().month,
-                                                      DateTime.now().day,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 20.sp),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    height: 70.sp,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets
-                                                              .all(8.0),
-                                                      child: TextField(
-                                                        controller:
-                                                            _dateController,
-                                                        readOnly: true,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                          labelText:
-                                                              'Selected Date',
-                                                          border:
-                                                              OutlineInputBorder(),
-                                                        ),
+                                                    SizedBox(height: 20.sp),
+                                                    TableCalendar(
+                                                      calendarStyle: CalendarStyle(
+                                                          selectedDecoration:
+                                                              BoxDecoration(
+                                                                  color:
+                                                                      MyColors
+                                                                          .primaryColor,
+                                                                  shape:
+                                                                      BoxShape
+                                                                          .circle),
+                                                          todayDecoration: BoxDecoration(
+                                                              color: MyColors
+                                                                  .primaryColor
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              shape: BoxShape
+                                                                  .circle)),
+                                                      locale: 'en_US',
+                                                      headerStyle:
+                                                          const HeaderStyle(
+                                                        formatButtonVisible:
+                                                            false,
+                                                        titleCentered: true,
+                                                      ),
+                                                      focusedDay: _focusedDay,
+                                                      onDaySelected:
+                                                          (selectedDay,
+                                                              focusedDay) {
+                                                        setModalState(() {
+                                                          _selectedDay =
+                                                              selectedDay;
+                                                          _focusedDay =
+                                                              focusedDay;
+                                                          _dateController
+                                                              .text = DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .format(
+                                                                  selectedDay);
+                                                        });
+                                                      },
+                                                      availableGestures:
+                                                          AvailableGestures
+                                                              .all,
+                                                      selectedDayPredicate:
+                                                          (day) => isSameDay(
+                                                              _selectedDay,
+                                                              day),
+                                                      firstDay:
+                                                          DateTime.now(),
+                                                      lastDay: DateTime(
+                                                        DateTime.now().year +
+                                                            1,
+                                                        DateTime.now().month,
+                                                        DateTime.now().day,
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 20.sp),
-                                                  const Text(
-                                                    'Select Time',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight
-                                                                .bold),
-                                                  ),
-                                                  SizedBox(height: 10.sp),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    height: 60.sp,
-                                                    child: DecoratedBox(
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors
-                                                                .grey),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    10.0),
-                                                      ),
+                                                    SizedBox(height: 20.sp),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      height: 70.sp,
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    16.0),
-                                                        child:
-                                                            DropdownButton<
-                                                                String>(
-                                                          hint: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              'Time',
-                                                              style:
-                                                                  TextStyle(
-                                                                color: Colors
-                                                                    .grey,
-                                                                fontSize:
-                                                                    14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
+                                                                .all(8.0),
+                                                        child: TextField(
+                                                          controller:
+                                                              _dateController,
+                                                          readOnly: true,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            labelText:
+                                                                'Selected Date',
+                                                            border:
+                                                                OutlineInputBorder(),
                                                           ),
-                                                          isExpanded: true,
-                                                          underline:
-                                                              const SizedBox(),
-                                                          icon: const Icon(
-                                                            Icons
-                                                                .arrow_drop_down,
-                                                            color: MyColors
-                                                                .primaryColor,
-                                                          ),
-                                                          value:
-                                                              valueChoose,
-                                                          onChanged:
-                                                              (newValue) {
-                                                            setModalState(
-                                                                () {
-                                                              valueChoose =
-                                                                  newValue!;
-                                                              _timeController
-                                                                      .text =
-                                                                  newValue;
-                                                            });
-                                                          },
-                                                          items: listItem.map(
-                                                              (valueItem) {
-                                                            return DropdownMenuItem<
-                                                                String>(
-                                                              value:
-                                                                  valueItem,
-                                                              child: Text(
-                                                                  valueItem),
-                                                            );
-                                                          }).toList(),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                      height: 20),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Text(
-                                                            'Close'),
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed:
-                                                            () async {
-                                                          if (_timeController
-                                                                  .text
-                                                                  .isEmpty ||
-                                                              _dateController
-                                                                  .text
-                                                                  .isEmpty) {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                    'All fields are required'),
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .red,
+                                                    SizedBox(height: 20.sp),
+                                                    const Text(
+                                                      'Select Time',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .bold),
+                                                    ),
+                                                    SizedBox(height: 10.sp),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      height: 60.sp,
+                                                      child: DecoratedBox(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .grey),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      16.0),
+                                                          child:
+                                                              DropdownButton<
+                                                                  String>(
+                                                            hint: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                'Time',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                               ),
-                                                            );
-                                                          } else {
-                                                            await updateAppointment();
-                                                            //send new notification to user
-                                                            triggerNotification();
-                              
+                                                            ),
+                                                            isExpanded: true,
+                                                            underline:
+                                                                const SizedBox(),
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color: MyColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            value:
+                                                                valueChoose,
+                                                            onChanged:
+                                                                (newValue) {
+                                                              setModalState(
+                                                                  () {
+                                                                valueChoose =
+                                                                    newValue!;
+                                                                _timeController
+                                                                        .text =
+                                                                    newValue;
+                                                              });
+                                                            },
+                                                            items: listItem.map(
+                                                                (valueItem) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value:
+                                                                    valueItem,
+                                                                child: Text(
+                                                                    valueItem),
+                                                              );
+                                                            }).toList(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                        height: 20),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
                                                             Navigator.pop(
                                                                 context);
-                                                          }
-                                                        },
-                                                        child: const Text(
-                                                            'Book'),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                          },
+                                                          child: const Text(
+                                                              'Close'),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed:
+                                                              () async {
+                                                            if (_timeController
+                                                                    .text
+                                                                    .isEmpty ||
+                                                                _dateController
+                                                                    .text
+                                                                    .isEmpty) {
+                                                              ScaffoldMessenger.of(
+                                                                      context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                      'All fields are required'),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              await updateAppointment();
+                                                              //send new notification to user
+                                                              triggerNotification();
+                                
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                          child: const Text(
+                                                              'Book'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                                child: const Text('Update'),
-                              )
-                            ],
-                          ),
-                        ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const Text('Update'),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -34,7 +34,7 @@ class _MyLoginState extends State<MyLogin> {
         child: Container(
              decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/background/back.jpeg"), 
+          image: AssetImage("assets/background/light.jpeg"), 
           fit: BoxFit.cover,
         ),
       ),
@@ -161,7 +161,7 @@ class _MyLoginState extends State<MyLogin> {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Access denied: Not a User'),
+                        content: Text('Access denied: Not a Patient'),
                         backgroundColor: Colors.red,
                       ));
                     }

@@ -147,7 +147,7 @@ class _MyPatientState extends State<MyPatient> {
                    
                     GestureDetector(
                       onTap: selectImage,
-                      child: Icon(
+                      child: const Icon(
                         Icons.add_a_photo, 
                         size: 30, 
                         color: Colors.white,
@@ -522,7 +522,7 @@ class _MyPatientState extends State<MyPatient> {
                                                     ),
                                                     
                                                     Text(
-                                                      'Assurance:',
+                                                      'Insurance :',
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 22.sp,

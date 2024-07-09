@@ -108,6 +108,7 @@ class _MyPediatricyState extends State<MyPediatricy> {
             children: [
               IntrinsicHeight(
                 child: Container(
+                  height: 100,
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(20),
