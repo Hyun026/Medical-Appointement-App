@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/docView/general2.dart';
 import 'package:healthy/screens/medecins/Pathology.dart';
 import 'package:healthy/screens/medecins/cardiology.dart';
 import 'package:healthy/screens/medecins/dentist.dart';
@@ -20,6 +21,7 @@ class PatientProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     CollectionReference users = FirebaseFirestore.instance.collection('users');
  Size size = MediaQuery.of(context).size;
     return FutureBuilder<DocumentSnapshot>(
@@ -36,7 +38,7 @@ class PatientProfileScreen extends StatelessWidget {
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: CircleAvatar(
@@ -44,25 +46,36 @@ class PatientProfileScreen extends StatelessWidget {
                         radius: 50,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 20.sp),
                     
                     buildProfileField('Name', '${data['name'] ?? 'Unknown'} ${data['lastname'] ?? ''}'),
-                    buildProfileField('Email', data['email'] ?? 'No email provided'),
+                    SizedBox(height: 10.sp),
+                   
                     buildProfileField('Address', data['address'] ?? 'No address provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('Assurance', data['assurance'] ?? 'No assurance provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('Birthday', data['birthday'] ?? 'No birthday provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('CIN', data['cin'] ?? 'No CIN provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('City', data['city'] ?? 'No city provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('Gender', data['gender'] ?? 'No gender provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('Phone', data['phone'] ?? 'No phone number provided'),
+                    SizedBox(height: 10.sp),
                     buildProfileField('Region', data['region'] ?? 'No region provided'),
                  
+                  SizedBox(height: 20.sp),
+
+                  Text("Patient's Medicale File :",style:TextStyle(fontWeight: FontWeight.bold)),
                  //container
                     Container(
                                   width: size.width,
                                   height: size.height * 0.5,
                                   decoration: const BoxDecoration(
-                                    color: Colors.white,
+                                  
                                     borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(30.0),
                                     ),
@@ -77,6 +90,7 @@ class PatientProfileScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
+                                            SizedBox(height: 10.sp,),
                                             //row1
                                             Row(
                                               mainAxisAlignment:
@@ -84,7 +98,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -96,7 +110,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyGeneral(),
+                                                              PatientFilesScreen(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -113,7 +127,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -150,7 +164,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -179,7 +193,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -217,7 +231,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -246,7 +260,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -283,7 +297,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -313,7 +327,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -351,7 +365,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -380,7 +394,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -417,7 +431,7 @@ class PatientProfileScreen extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -446,7 +460,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: size.height * 0.1,
-                                                  width: size.width * 0.45,
+                                                  width: size.width * 0.40,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(20),
@@ -488,6 +502,7 @@ class PatientProfileScreen extends StatelessWidget {
             );
           } else {
             return Scaffold(
+              backgroundColor: Colors.white,
               body: Center(child: Text('Document does not exist')),
             );
           }
@@ -500,26 +515,45 @@ class PatientProfileScreen extends StatelessWidget {
   }
 
   Widget buildProfileField(String label, String value) {
+     
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label: ',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 16),
-              softWrap: true,
-            ),
+      padding: const EdgeInsets.symmetric( horizontal: 20.0),
+      child: Container(
+        height: 60.h,
+         width: 350.w,
+        decoration: BoxDecoration(
+            color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, 1),
+            blurRadius: 3,
           ),
         ],
+      ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+               
+            children: [
+              Text(
+                '$label: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: 16),
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

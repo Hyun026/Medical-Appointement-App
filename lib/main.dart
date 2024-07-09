@@ -13,6 +13,7 @@ import 'package:healthy/home.dart';
 
 import 'starting.dart';
 
+
 Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
