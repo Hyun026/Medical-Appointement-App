@@ -25,7 +25,7 @@ class _CardioloState extends State<Cardiolo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pediatricians'),
+        title: Text('Cardiologists'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _getPediatricians(),

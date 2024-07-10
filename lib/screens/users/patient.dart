@@ -990,12 +990,12 @@ class _MyPatientState extends State<MyPatient> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const Dentist(),
+                                                              const MyEndocrinology(),
                                                         ),
                                                       );
                                                     },
                                                     child: Center(
-                                                        child: Text('Dentists',
+                                                        child: Text('Endocrinology',
                                                             style: TextStyle(
                                                                 color: MyColors
                                                                     .primaryColor,

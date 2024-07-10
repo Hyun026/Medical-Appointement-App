@@ -10,16 +10,16 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class PatientFilesScreen extends StatefulWidget {
+class PatientFilesScreenNeu extends StatefulWidget {
   final String patientId;
 
-  PatientFilesScreen({required this.patientId});
+  PatientFilesScreenNeu({required this.patientId});
 
   @override
-  _PatientFilesScreenState createState() => _PatientFilesScreenState();
+  _PatientFilesScreenNeuState createState() => _PatientFilesScreenNeuState();
 }
 
-class _PatientFilesScreenState extends State<PatientFilesScreen> {
+class _PatientFilesScreenNeuState extends State<PatientFilesScreenNeu> {
   List<Reference> uploadedFiles = [];
 
   @override
@@ -36,14 +36,14 @@ class _PatientFilesScreenState extends State<PatientFilesScreen> {
   }
 
   Future<List<Reference>> listPatientFiles(String userId) async {
-    final storageRef = FirebaseStorage.instance.ref().child("$userId/medFiles/general");
+    final storageRef = FirebaseStorage.instance.ref().child("$userId/medFiles/neurology");
     final listResult = await storageRef.listAll();
     return listResult.items;
   }
 
   Future<bool> uploadFileCar(File file) async {
     try {
-      final storageRef = FirebaseStorage.instance.ref().child("${widget.patientId}/medFiles/general/${file.path.split('/').last}");
+      final storageRef = FirebaseStorage.instance.ref().child("${widget.patientId}/medFiles/neurology/${file.path.split('/').last}");
       await storageRef.putFile(file);
       return true;
     } catch (e) {

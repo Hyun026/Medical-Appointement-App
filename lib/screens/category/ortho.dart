@@ -25,7 +25,7 @@ class _OrthopeState extends State<Orthope> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orthipedy'),
+        title: const Text('Orthopedy'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _getPediatricians(),

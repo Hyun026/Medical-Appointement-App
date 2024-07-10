@@ -453,60 +453,63 @@ Future<String> getCurrentUserImage() async {
         ),
       ),
       
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  
-                  children: [
-                    Stack(
-                      
-                      children: [
-                        Container(
-                          height: 150.h,
-                          width: 150.h,
-                          child: FutureBuilder<String>(
-                            future: getCurrentUserImage(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const CircleAvatar(
-                                  radius: 60,
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                String userImage = snapshot.data ?? '';
-                                              
-                                if (userImage.isEmpty) {
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical:100),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    
+                    children: [
+                      Stack(
+                        
+                        children: [
+                          Container(
+                            height: 150.h,
+                            width: 150.h,
+                            child: FutureBuilder<String>(
+                              future: getCurrentUserImage(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
                                   return const CircleAvatar(
-                                    radius: 80,
-                                    child: Icon(Icons.person, size: 50),
+                                    radius: 60,
+                                    child: CircularProgressIndicator(),
                                   );
                                 } else {
-                                  return CircleAvatar(
-                                    radius: 80,
-                                    backgroundImage: NetworkImage(userImage),
-                                  );
+                                  String userImage = snapshot.data ?? '';
+                                                
+                                  if (userImage.isEmpty) {
+                                    return const CircleAvatar(
+                                      radius: 80,
+                                      child: Icon(Icons.person, size: 50),
+                                    );
+                                  } else {
+                                    return CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: NetworkImage(userImage),
+                                    );
+                                  }
                                 }
-                              }
-                            },
-                          ),
-                        ),
-                       
-                        GestureDetector(
-                          onTap: selectImage,
-                          child: Container(
-                            height: 30.h,
-                            width: 30.h,
-                            decoration: BoxDecoration(color: Colors.white,
-                            borderRadius: BorderRadius.circular(50.0)),
-                            child: const Icon(
-                              Icons.add_a_photo,
-                              color: Color.fromARGB(255, 71, 170, 179), 
-                              size: 20, 
+                              },
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                         
+                          GestureDetector(
+                            onTap: selectImage,
+                            child: Container(
+                              height: 30.h,
+                              width: 30.h,
+                              decoration: BoxDecoration(color: Colors.white,
+                              borderRadius: BorderRadius.circular(50.0)),
+                              child: const Icon(
+                                Icons.add_a_photo,
+                                color: Color.fromARGB(255, 71, 170, 179), 
+                                size: 20, 
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
              ],
            ),

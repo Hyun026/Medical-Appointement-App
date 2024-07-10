@@ -2,7 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
+import 'package:healthy/docView/cardiolog2.dart';
+import 'package:healthy/docView/dentist2.dart';
+import 'package:healthy/docView/dermatology2.dart';
 import 'package:healthy/docView/general2.dart';
+import 'package:healthy/docView/nephrology.dart';
+import 'package:healthy/docView/neurology2.dart';
+import 'package:healthy/docView/ophtal2.dart';
+import 'package:healthy/docView/orthopedy2.dart';
+import 'package:healthy/docView/pediatry2.dart';
+import 'package:healthy/docView/pneumology2.dart';
 import 'package:healthy/screens/medecins/Pathology.dart';
 import 'package:healthy/screens/medecins/cardiology.dart';
 import 'package:healthy/screens/medecins/dentist.dart';
@@ -139,7 +148,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyPediatricy(),
+                                                           PatientFilesScreenPe(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -176,7 +185,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyCardiology(),
+                                                             PatientFilesScreenCar(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -205,7 +214,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const Dentist(),
+                                                              PatientFilesScreenDe(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -243,7 +252,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyNeurology(),
+                                                            PatientFilesScreenNeph(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -272,7 +281,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyNeurology(),
+                                                           PatientFilesScreenNeu(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -309,7 +318,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyDermatology(),
+                                                               PatientFilesScreenDer(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -339,7 +348,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyOphtal(),
+                                                             PatientFilesScreenOpht(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -377,7 +386,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyPneu(),
+                                                            PatientFilesScreenPneu(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -406,7 +415,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyOrthopedy(),
+                                                             PatientFilesScreenOrth(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -443,7 +452,7 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MyPathology(),
+                                                            PatientFilesScreenOrth(patientId: patientId),
                                                         ),
                                                       );
                                                     },
@@ -472,12 +481,12 @@ class PatientProfileScreen extends StatelessWidget {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const Dentist(),
+                                                            PatientFilesScreenOpht(patientId: patientId),
                                                         ),
                                                       );
                                                     },
                                                     child: Center(
-                                                        child: Text('Dentists',
+                                                        child: Text('Endocrinology',
                                                             style: TextStyle(
                                                                 color: MyColors
                                                                     .primaryColor,
