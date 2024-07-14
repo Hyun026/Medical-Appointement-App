@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthy/constants/colors/colors.dart';
-import 'package:healthy/constants/validators/validator.dart';
+
 import 'package:healthy/firebasecontrol/notifications/messaging.dart';
 import 'package:healthy/home.dart';
 import 'package:intl/intl.dart';
@@ -186,16 +186,16 @@ class _MySignup2State extends State<MySignup2> {
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
-        Icon(
+        const Icon(
           Icons.location_pin, 
           color: MyColors.primaryColor,
         ),
-        SizedBox(width: 10.0),
+        const SizedBox(width: 10.0),
         Expanded(
           child: SizedBox( 
             width: double.infinity, 
             child: DropdownButton<String>(
-              hint: Text(
+              hint: const Text(
                 'City',
                 style: TextStyle(
                   color: MyColors.hintTextColor,
@@ -204,8 +204,8 @@ class _MySignup2State extends State<MySignup2> {
                 ),
               ),
               isExpanded: true,
-              underline: SizedBox(),
-              icon: Icon(
+              underline: const SizedBox(),
+              icon: const Icon(
                 Icons.arrow_drop_down,
                 color: MyColors.primaryColor,
               ),
@@ -258,14 +258,14 @@ class _MySignup2State extends State<MySignup2> {
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
-        Icon(
+        const Icon(
           Icons.location_pin, 
           color: MyColors.primaryColor,
         ),
-        SizedBox(width: 10.0),
+        const SizedBox(width: 10.0),
         Expanded(
           child: DropdownButton<String>(
-            hint: Text(
+            hint: const Text(
               'Region',
               style: TextStyle(
                 color: MyColors.hintTextColor,
@@ -274,8 +274,8 @@ class _MySignup2State extends State<MySignup2> {
               ),
             ),
             isExpanded: true,
-            underline: SizedBox(),
-            icon: Icon(
+            underline: const SizedBox(),
+            icon: const Icon(
               Icons.arrow_drop_down,
               color: MyColors.primaryColor,
             ),
@@ -449,14 +449,14 @@ class _MySignup2State extends State<MySignup2> {
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
-        Icon(
+        const Icon(
           Icons.male, 
           color:  MyColors.primaryColor,
         ),
-        SizedBox(width: 10.0),
+        const SizedBox(width: 10.0),
         Expanded(
           child: DropdownButton<String>(
-            hint: Text(
+            hint: const Text(
               'Gender',
               style: TextStyle(
                 color: MyColors.hintTextColor,
@@ -465,8 +465,8 @@ class _MySignup2State extends State<MySignup2> {
               ),
             ),
             isExpanded: true,
-            underline: SizedBox(),
-            icon: Icon(
+            underline: const SizedBox(),
+            icon: const Icon(
               Icons.arrow_drop_down,
               color: MyColors.primaryColor,
             ),
@@ -518,14 +518,14 @@ class _MySignup2State extends State<MySignup2> {
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
-        Icon(
+        const Icon(
           Icons.shield, 
           color:  MyColors.primaryColor,
         ),
-        SizedBox(width: 10.0),
+        const SizedBox(width: 10.0),
         Expanded(
           child: DropdownButton<String>(
-            hint: Text(
+            hint: const Text(
               'Insurance',
               style: TextStyle(
                 color: MyColors.hintTextColor,
@@ -534,8 +534,8 @@ class _MySignup2State extends State<MySignup2> {
               ),
             ),
             isExpanded: true,
-            underline: SizedBox(),
-            icon: Icon(
+            underline: const SizedBox(),
+            icon: const Icon(
               Icons.arrow_drop_down,
               color: MyColors.primaryColor,
             ),
@@ -623,7 +623,7 @@ class _MySignup2State extends State<MySignup2> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MyHome(),
+                                    builder: (context) => const MyHome(),
                                   ),
                                 );
                               }
@@ -716,15 +716,15 @@ Widget buildDropdownWidget(
       child: DropdownButton<String>(
         hint: Text(
           hintText,
-          style: TextStyle(
+          style: const TextStyle(
             color: MyColors.hintTextColor,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
         ),
         isExpanded: true,
-        underline: SizedBox(),
-        icon: Icon(
+        underline: const SizedBox(),
+        icon: const Icon(
           Icons.arrow_drop_down,
           color: MyColors.primaryColor,
         ),

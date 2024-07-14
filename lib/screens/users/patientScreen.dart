@@ -12,16 +12,7 @@ import 'package:healthy/docView/ophtal2.dart';
 import 'package:healthy/docView/orthopedy2.dart';
 import 'package:healthy/docView/pediatry2.dart';
 import 'package:healthy/docView/pneumology2.dart';
-import 'package:healthy/screens/medecins/Pathology.dart';
-import 'package:healthy/screens/medecins/cardiology.dart';
-import 'package:healthy/screens/medecins/dentist.dart';
-import 'package:healthy/screens/medecins/dermatology.dart';
-import 'package:healthy/screens/medecins/general.dart';
-import 'package:healthy/screens/medecins/neurology.dart';
-import 'package:healthy/screens/medecins/ophtalmology.dart';
-import 'package:healthy/screens/medecins/orthopedy.dart';
-import 'package:healthy/screens/medecins/pediatrics.dart';
-import 'package:healthy/screens/medecins/pneumology.dart';
+
 
 class PatientProfileScreen extends StatelessWidget {
   final String patientId;
@@ -78,7 +69,7 @@ class PatientProfileScreen extends StatelessWidget {
                  
                   SizedBox(height: 20.sp),
 
-                  Text("Patient's Medicale File :",style:TextStyle(fontWeight: FontWeight.bold)),
+                  const Text("Patient's Medicale File :",style:TextStyle(fontWeight: FontWeight.bold)),
                  //container
                     Container(
                                   width: size.width,
@@ -504,19 +495,19 @@ class PatientProfileScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                  //  ElevatedButton(onPressed: (), child: ),  
+                  
                   ],
                 ),
               ),
             );
           } else {
-            return Scaffold(
+            return const Scaffold(
               backgroundColor: Colors.white,
               body: Center(child: Text('Document does not exist')),
             );
           }
         }
-        return Scaffold(
+        return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
       },
@@ -534,7 +525,7 @@ class PatientProfileScreen extends StatelessWidget {
             color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black12,
             offset: Offset(0, 1),
             blurRadius: 3,
@@ -548,7 +539,7 @@ class PatientProfileScreen extends StatelessWidget {
             children: [
               Text(
                 '$label: ',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -556,7 +547,7 @@ class PatientProfileScreen extends StatelessWidget {
               Expanded(
                 child: Text(
                   value,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                   softWrap: true,
                 ),
               ),

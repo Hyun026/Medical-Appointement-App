@@ -5,7 +5,7 @@ import 'package:healthy/constants/colors/colors.dart';
 import 'package:healthy/docHome.dart';
 import 'package:healthy/firebasecontrol/authentication/authenticate.dart';
 import 'package:healthy/screens/login/login.dart';
-import 'package:healthy/screens/signup/doctor/dsignup.dart';
+
 import 'package:healthy/screens/verification/email.dart';
 
 class MyLogindoc extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:healthy/screens/login/login.dart';
-import 'package:healthy/screens/verification/newpass.dart';
+
 
 class MyEmail extends StatefulWidget {
   const MyEmail({super.key});
@@ -25,8 +25,8 @@ TextEditingController emailController = TextEditingController();
          try {
            await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
           showDialog(context: context, builder: (context){
-            return AlertDialog(
-              content: Text("Password reset link sent! Check"),
+            return const AlertDialog(
+              content: const Text("Password reset link sent! Check"),
             );
           });
          } on FirebaseAuthException catch (e) {

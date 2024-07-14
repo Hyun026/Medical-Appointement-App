@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:healthy/connectivity/refreshing.dart';
 
 import 'package:healthy/constants/colors/colors.dart';
@@ -266,67 +266,67 @@ class CategoryCard extends StatelessWidget {
           case 'General':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => General()),
+              MaterialPageRoute(builder: (context) => const General()),
             );
             break;
           case 'Cardiology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Cardiolo()),
+              MaterialPageRoute(builder: (context) => const Cardiolo()),
             );
             break;
           case 'Dermatology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Dermato()),
+              MaterialPageRoute(builder: (context) => const Dermato()),
             );
             break;
           case 'Neurology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Neurolo()),
+              MaterialPageRoute(builder: (context) => const Neurolo()),
             );
             break;
           case 'Pediatrics':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Pediatri()),
+              MaterialPageRoute(builder: (context) => const Pediatri()),
             );
             break;
           case 'Dentist':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Dentiste()),
+              MaterialPageRoute(builder: (context) => const Dentiste()),
             );
             break;
           case 'Endocrinology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Endocrino()),
+              MaterialPageRoute(builder: (context) => const Endocrino()),
             );
             break;
           case 'Nephrology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Nephrolo()),
+              MaterialPageRoute(builder: (context) => const Nephrolo()),
             );
             break;
           case 'Orthopedy':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Orthope()),
+              MaterialPageRoute(builder: (context) => const Orthope()),
             );
             break;
           case 'Pneumology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Pneumo()),
+              MaterialPageRoute(builder: (context) => const Pneumo()),
             );
             break;
           case 'Ophthalmology':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Ophtalmo()),
+              MaterialPageRoute(builder: (context) => const Ophtalmo()),
             );
             break;
           default:
@@ -410,42 +410,7 @@ class MyWidget extends StatelessWidget {
               ),
         ),
       ],)
-      /* Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Let's get Medical Service",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.sp, 
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8.h), 
-                Text(
-                  "for a healthier life",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp, 
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SvgPicture.asset(
-            'assets/images/home/doctor.svg',
-            height: size.height * 0.15,
-            width: size.width * 0.3,
-          ),
-        ],
-      )*/,
+      ,
     );
   }
 }
@@ -536,7 +501,7 @@ class _DoctorListState extends State<DoctorList> {
             itemCount: docIDs.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: MyRecomendation(documentId: docIDs[index]),
               );
             },

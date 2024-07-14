@@ -123,7 +123,7 @@ class _MyPatientState extends State<MyPatient> {
                       future: getCurrentUserImage(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircleAvatar(
+                          return const CircleAvatar(
                             radius: 50,
                             child: CircularProgressIndicator(),
                           );
@@ -131,9 +131,9 @@ class _MyPatientState extends State<MyPatient> {
                           String userImage = snapshot.data ?? '';
                 
                           if (userImage.isEmpty) {
-                            return CircleAvatar(
+                            return const CircleAvatar(
                               radius: 50,
-                              child: const Icon(Icons.person, size: 50),
+                              child: Icon(Icons.person, size: 50),
                             );
                           } else {
                             return CircleAvatar(
@@ -261,7 +261,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -301,7 +301,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -341,7 +341,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -381,7 +381,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -421,7 +421,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -460,7 +460,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -501,7 +501,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -541,7 +541,7 @@ class _MyPatientState extends State<MyPatient> {
                                                             return Container(
                                                               height: size.height * 0.07,
                                                               width: size.width * 0.8,
-                                                              decoration: BoxDecoration(
+                                                              decoration: const BoxDecoration(
                                                                 color: MyColors.Container,
                                                               ),
                                                               child: Padding(
@@ -581,7 +581,7 @@ class _MyPatientState extends State<MyPatient> {
                         children: [
                           Text('Edit', style: TextStyle(color: Colors.white, fontSize: 17.sp, fontWeight: FontWeight.bold)),
                           SizedBox(width: size.width * 0.01),
-                          Icon(Icons.edit, color: Colors.white),
+                          const Icon(Icons.edit, color: Colors.white),
                         ],
                       ),
                     ),

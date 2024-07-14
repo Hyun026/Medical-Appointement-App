@@ -52,7 +52,7 @@ class _MyHomeDocState extends State<MyHomeDoc> {
 
   @override
   Widget build(BuildContext context) {
-     Size size = MediaQuery.of(context).size;
+  
     return Scaffold(
       appBar: _selectedIndex == 0 ? AppBar(
         toolbarHeight: 90.0, 

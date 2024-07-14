@@ -78,7 +78,7 @@ Future<String> getCurrentImage() async {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
        
@@ -120,7 +120,7 @@ Future<String> getCurrentImage() async {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.location_pin, color: Colors.redAccent),
+                    const Icon(Icons.location_pin, color: Colors.redAccent),
                     SizedBox(width: 5.sp),
                     Text(
                       widget.doctorDetails['city'] ?? "No address",
@@ -178,7 +178,7 @@ Future<String> getCurrentImage() async {
               SizedBox(height: 10.sp),
               Row(
                 children: [
-                  Icon(Icons.email, color: Colors.blue),
+                  const Icon(Icons.email, color: Colors.blue),
                   SizedBox(width: 10.sp),
                   Text(
                     widget.doctorDetails['email'] ?? "No email available",
@@ -189,7 +189,7 @@ Future<String> getCurrentImage() async {
               SizedBox(height: 10.sp),
               Row(
                 children: [
-                  Icon(Icons.phone, color: Colors.green),
+                  const Icon(Icons.phone, color: Colors.green),
                   SizedBox(width: 10.sp),
                   Text(
                     widget.doctorDetails['phone'] ?? "No phone number available",
