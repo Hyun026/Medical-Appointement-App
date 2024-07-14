@@ -1,6 +1,6 @@
 # healthy
 
-A new Flutter project.
+A new Appointenment Booking Flutter project.
 
 ## Getting Started
 
