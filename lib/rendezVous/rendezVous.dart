@@ -34,7 +34,7 @@ class _MyRendezVousState extends State<MyRendezVous> {
       onRefresh:   () => Refreshing(context).refreshPageHomeDoc(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Your Rendez-vous'),
+          title: const Text('Your Rendez-vous'),
         ),
         body: Expanded(
           child: FutureBuilder(

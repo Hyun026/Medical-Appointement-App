@@ -75,7 +75,7 @@ class _QuickActionButtonState extends State<QuickActionButton> {
                     widget.action.onTap();
                   },
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(

@@ -16,7 +16,7 @@ class _MyNotiPatientState extends State<MyNotiPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
       body: Column(
         children: [
@@ -28,7 +28,7 @@ class _MyNotiPatientState extends State<MyNotiPatient> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 var notifications = snapshot.data!.docs;
                 return ListView.builder(
@@ -49,7 +49,7 @@ class _MyNotiPatientState extends State<MyNotiPatient> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 var notifications = snapshot.data!.docs;
                 return ListView.builder(
@@ -76,12 +76,12 @@ class NotificationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      padding: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 4.0,
@@ -96,19 +96,19 @@ class NotificationTile extends StatelessWidget {
             Image.network(notification['ImageD']),
           Text(
             notification['nameD'] ?? 'No Title',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           Text(notification['lastNameD'] ?? ''),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           Text(notification['message'] ?? 'No Message'),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           Text(
             'Created at: ${notification['created_at'] != null ? (notification['created_at'] as Timestamp).toDate() : 'No Date'}',
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),

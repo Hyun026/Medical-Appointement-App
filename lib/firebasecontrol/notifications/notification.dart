@@ -20,14 +20,14 @@ class MyNotifications extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Notification'),
-              content: Text('This is a small notification dialog.'),
+              title: const Text('Notification'),
+              content: const Text('This is a small notification dialog.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             );
@@ -38,9 +38,9 @@ class MyNotifications extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Notification Screen'),
       ),
     );

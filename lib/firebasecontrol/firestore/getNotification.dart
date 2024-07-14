@@ -30,7 +30,7 @@ class Getnotification extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3), 
+                    offset: const Offset(0, 3), 
                   ),
                 ],
               ),
@@ -42,20 +42,20 @@ class Getnotification extends StatelessWidget {
                       backgroundImage: NetworkImage(imageLink), 
                       radius: 30,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           data['Dname'], 
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           data['date'] + ' ' + data['time'], 
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
@@ -70,10 +70,10 @@ class Getnotification extends StatelessWidget {
             ],
                         );
            }else {
-            return Text('Document does not exist');
+            return const Text('Document does not exist');
            }
         }
-        return Text('loading..');
+        return const Text('loading..');
   }
       
     );

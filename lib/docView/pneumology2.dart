@@ -73,12 +73,12 @@ class _PatientFilesScreenPneuState extends State<PatientFilesScreenPneu> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete File'),
-        content: Text('Are you sure you want to delete this file?'),
+        title: const Text('Delete File'),
+        content: const Text('Are you sure you want to delete this file?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
@@ -86,7 +86,7 @@ class _PatientFilesScreenPneuState extends State<PatientFilesScreenPneu> {
               await getUploadedFiles();
               Navigator.of(context).pop();
             },
-            child: Text('Delete'),
+            child: const Text('Delete'),
           ),
         ],
       ),
@@ -207,7 +207,7 @@ class FullScreenImage extends StatelessWidget {
         minScale: PhotoViewComputedScale.contained,
         maxScale: PhotoViewComputedScale.covered * 2.0,
         enableRotation: true,
-        backgroundDecoration: BoxDecoration(
+        backgroundDecoration: const BoxDecoration(
           color: Colors.white,
         ),
         loadingBuilder: (context, event) => Center(
@@ -215,7 +215,7 @@ class FullScreenImage extends StatelessWidget {
             value: event == null ? 0 : event.cumulativeBytesLoaded / (event.expectedTotalBytes ?? 1),
           ),
         ),
-        errorBuilder: (context, error, stackTrace) => Center(child: Text('Error loading image')),
+        errorBuilder: (context, error, stackTrace) => const Center(child: Text('Error loading image')),
       ),
     );
   }

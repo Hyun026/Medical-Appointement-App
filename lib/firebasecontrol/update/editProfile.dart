@@ -69,22 +69,22 @@ String? valueChoose3;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Edit Personal Info'),
+      title: const Text('Edit Personal Info'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Phone Number :'),
+              const Text('Phone Number :'),
               SizedBox(height: 12.h,),
               _buildInputField(controller: _phoneController, hintText: 'Phone Number'),
               SizedBox(height: 12.h,),
-              Text('Address :'),
+              const Text('Address :'),
               SizedBox(height: 12.h,),
               _buildInputField(controller: _addressController, hintText: 'Address'),
               SizedBox(height: 12.h,),
-              Text('Region :'),
+              const Text('Region :'),
               SizedBox(height: 12.h,),
                Container(
                 decoration: BoxDecoration(
@@ -108,7 +108,7 @@ String? valueChoose3;
                      ),
                    ),
                    isExpanded: true,
-                   underline: SizedBox(),
+                   underline: const SizedBox(),
                    
                    icon: const Icon(
                      Icons.arrow_drop_down,
@@ -131,7 +131,7 @@ String? valueChoose3;
                  ),
                ),
                SizedBox(height: 12.h,),
-              Text('City :'),
+              const Text('City :'),
                SizedBox(height: 12.h,),
                Container(
                 decoration: BoxDecoration(
@@ -155,7 +155,7 @@ String? valueChoose3;
                      ),
                    ),
                    isExpanded: true,
-                   underline: SizedBox(),
+                   underline: const SizedBox(),
                    
                    icon: const Icon(
                      Icons.arrow_drop_down,
@@ -187,14 +187,14 @@ String? valueChoose3;
             backgroundColor: MyColors.button1
           ),
           onPressed: _updateUser,
-          child: Text('Save'),
+          child: const Text('Save'),
         ),
         ElevatedButton(
           
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
       ],
     );

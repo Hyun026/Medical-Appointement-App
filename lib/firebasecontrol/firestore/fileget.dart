@@ -15,7 +15,7 @@ class GetUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    Size size = MediaQuery.of(context).size;
+    
 
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(documentId).get(),
@@ -64,32 +64,7 @@ class GetUser extends StatelessWidget {
                   _costumField(text: '${data['assurance']}'),
                   
                   SizedBox(height: 20.h),
-               /*   ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => EditUserForm(userData: data, documentId: documentId),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(100.w, 50.h),
-                      backgroundColor: MyColors.button1,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Edit', style: TextStyle(color: Colors.white, fontSize: 17.sp, fontWeight: FontWeight.bold)),
-                          SizedBox(width: size.width * 0.01),
-                          Icon(Icons.edit, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),*/
+               
                 ],
               ),
             );

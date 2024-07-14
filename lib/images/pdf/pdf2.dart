@@ -12,13 +12,13 @@ class PdfViewerPage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PDF Viewer'),
+        title: const Text('PDF Viewer'),
       ),
       body: FutureBuilder<PDFDocument>(
         future: _loadPdf(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Failed to load PDF: ${snapshot.error}'));
           } else if (snapshot.hasData) {
@@ -28,7 +28,7 @@ class PdfViewerPage2 extends StatelessWidget {
              
             );
           } else {
-            return Center(child: Text('Unknown error occurred'));
+            return const Center(child: Text('Unknown error occurred'));
           }
         },
       ),

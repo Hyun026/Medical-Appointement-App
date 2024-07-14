@@ -29,7 +29,7 @@ class MyRecomendation extends StatelessWidget {
             future: usersRef.doc(FirebaseAuth.instance.currentUser!.uid).get(),
             builder: (context, userSnapshot) {
               if (userSnapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (userSnapshot.hasError) {
                 return Center(child: Text('Error: ${userSnapshot.error}'));
               } else if (userSnapshot.hasData && userSnapshot.data!.exists) {
@@ -60,7 +60,7 @@ class MyRecomendation extends StatelessWidget {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
@@ -72,20 +72,20 @@ class MyRecomendation extends StatelessWidget {
                                   backgroundImage: NetworkImage(imageLink),
                                   radius: 30,
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                        '${doctorData['name']}   ${doctorData['lastname']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
                                       '${doctorData['city']}   ${doctorData['field']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey,
                                       ),
@@ -103,12 +103,12 @@ class MyRecomendation extends StatelessWidget {
                   return Container();
                 }
               } else {
-                return Center(child: Text('User document does not exist'));
+                return const Center(child: Text('User document does not exist'));
               }
             },
           );
         } else {
-          return Center(child: Text('Doctor document does not exist'));
+          return const Center(child: Text('Doctor document does not exist'));
         }
       },
     );
