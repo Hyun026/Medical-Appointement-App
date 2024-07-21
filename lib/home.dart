@@ -350,7 +350,7 @@ class CategoryCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(
               categoryName,
-              // Add styling or other configurations as needed
+              
             ),
           ],
         ),
